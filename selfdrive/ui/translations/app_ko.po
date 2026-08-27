@@ -1188,3 +1188,74 @@ msgstr "✓ 구독됨"
 #, python-format
 msgid "🔥 Firehose Mode 🔥"
 msgstr "🔥 파이어호스 모드 🔥"
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "ALL TIME"
+msgstr "전체 기록"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "PAST WEEK"
+msgstr "지난 7일"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "PERSONAL RECORDS"
+msgstr "개인 기록"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "DISTANCE THIS WEEK"
+msgstr "이번 주 주행거리"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "drives"
+msgstr "주행"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "hours"
+msgstr "시간"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "km"
+msgstr "km"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "Longest drive"
+msgstr "최장 주행"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "Highest streak"
+msgstr "최장 연속 기록"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "Clean-drive streak"
+msgstr "안전 주행 연속 기록"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "Consecutive drive days"
+msgstr "연속 주행 일수"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "Longest undistracted drive"
+msgstr "최장 집중 주행"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "mi"
+msgstr "mi"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "miles"
+msgstr "마일"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "Most engaged day"
+msgstr "가장 많이 사용한 날"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "No clean drives"
+msgstr "안전 주행 기록 없음"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "No drives"
+msgstr "주행 기록 없음"
+
+#: selfdrive/ui/widgets/drive_stats.py
+msgid "Best week"
+msgstr "최고 주간 기록"
