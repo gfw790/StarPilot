@@ -1259,3 +1259,1377 @@ msgstr "주행 기록 없음"
 #: selfdrive/ui/widgets/drive_stats.py
 msgid "Best week"
 msgstr "최고 주간 기록"
+
+msgid "CONDITIONAL EXPERIMENTAL"
+msgstr "조건부 실험 모드"
+
+msgid "CONDITIONAL CHILL"
+msgstr "조건부 안정 모드"
+
+msgid "START NAVIGATION"
+msgstr "내비게이션 시작"
+
+msgid "Add favorites in Navigation"
+msgstr "내비게이션에서 즐겨찾기 추가"
+
+msgid "Favorite destination"
+msgstr "즐겨찾는 목적지"
+
+msgid "Selected for next drive"
+msgstr "다음 주행에 선택됨"
+
+msgid "Home"
+msgstr "집"
+
+msgid "Work"
+msgstr "직장"
+
+msgid "LIMIT"
+msgstr "제한속도"
+
+msgid "PENDING"
+msgstr "대기 중"
+
+msgid "SOURCES"
+msgstr "소스"
+
+msgid "AVAILABLE"
+msgstr "사용 가능"
+
+msgid "no alerts"
+msgstr "알림 없음"
+
+msgid "SPEED"
+msgstr "속도"
+
+msgid "NEW SPEED LIMIT"
+msgstr "새 제한속도"
+
+msgid "SET/+ TO CONFIRM  RES/- TO DENY"
+msgstr "SET/+로 확인  RES/-로 거부"
+
+msgid "Please connect to Wi-Fi to complete initial pairing."
+msgstr "초기 페어링을 완료하려면 Wi‑Fi에 연결하세요."
+
+msgid "Please connect to Wi-Fi to update."
+msgstr "업데이트하려면 Wi‑Fi에 연결하세요."
+
+msgid "Use Prebuilt Binaries"
+msgstr "사전 빌드 바이너리 사용"
+
+msgid "UI Debug Mode"
+msgstr "UI 디버그 모드"
+
+msgid "Scan to open Galaxy"
+msgstr "스캔해 Galaxy 열기"
+
+msgid "Tap anywhere to dismiss"
+msgstr "아무 곳이나 눌러 닫기"
+
+msgid "Pair with Galaxy"
+msgstr "Galaxy와 페어링"
+
+msgid "Reset Driver Monitoring"
+msgstr "운전자 모니터링 재설정"
+
+msgid "Disengage to Reset Driver Monitoring"
+msgstr "해제 후 운전자 모니터링 재설정"
+
+msgid "Are you sure you want to reset driver monitoring calibration?"
+msgstr "운전자 모니터링 보정을 재설정하시겠습니까?"
+
+msgid "MANAGE"
+msgstr "관리"
+
+msgid "Galaxy is not paired yet."
+msgstr "Galaxy가 아직 페어링되지 않았습니다."
+
+msgid "Show QR"
+msgstr "QR 표시"
+
+msgid "Unpair"
+msgstr "페어링 해제"
+
+msgid "Are you sure you want to unpair from Galaxy?"
+msgstr "Galaxy와의 페어링을 해제하시겠습니까?"
+
+msgid "Galaxy"
+msgstr "Galaxy"
+
+msgid "Set Galaxy Password"
+msgstr "Galaxy 비밀번호 설정"
+
+msgid "Set a password to secure your Galaxy access. Min 6 characters."
+msgstr "Galaxy 접근을 보호할 비밀번호를 설정하세요. 최소 6자입니다."
+
+msgid "Password must be at least 6 characters."
+msgstr "비밀번호는 최소 6자여야 합니다."
+
+msgid "Failed to pair with Galaxy."
+msgstr "Galaxy 페어링에 실패했습니다."
+
+msgid "checking..."
+msgstr "확인 중..."
+
+msgid "downloading..."
+msgstr "다운로드 중..."
+
+msgid "finalizing update..."
+msgstr "업데이트 마무리 중..."
+
+msgid "Automatically Install Updates"
+msgstr "업데이트 자동 설치"
+
+msgid "Automatically install updates when parked with an active internet connection."
+msgstr "주차 중 인터넷이 연결되어 있으면 업데이트를 자동으로 설치합니다."
+
+msgid "Error Log"
+msgstr "오류 로그"
+
+msgid "REBOOTING"
+msgstr "재부팅 중"
+
+msgid "Update applied, rebooting..."
+msgstr "업데이트 적용 완료, 재부팅 중..."
+
+msgid "RETRY"
+msgstr "다시 시도"
+
+msgid "Failed: {}"
+msgstr "실패: {}"
+
+msgid "FAST UPDATE"
+msgstr "빠른 업데이트"
+
+msgid "Starting..."
+msgstr "시작 중..."
+
+msgid "Fast update will replace the current installation without backup and reboot the device. Continue?"
+msgstr "빠른 업데이트는 백업 없이 현재 설치를 교체하고 장치를 재부팅합니다. 계속할까요?"
+
+msgid "Fast Update"
+msgstr "빠른 업데이트"
+
+msgid "Cannot update while driving"
+msgstr "주행 중에는 업데이트할 수 없습니다"
+
+msgid "Starting fast update..."
+msgstr "빠른 업데이트 시작 중..."
+
+msgid "Fetching latest commit..."
+msgstr "최신 커밋 가져오는 중..."
+
+msgid "Applying update..."
+msgstr "업데이트 적용 중..."
+
+msgid "Updating submodules..."
+msgstr "서브모듈 업데이트 중..."
+
+msgid "This is a complete factory reset and cannot be undone. Are you absolutely sure?"
+msgstr "이 작업은 전체 초기화이며 되돌릴 수 없습니다. 정말 진행하시겠습니까?"
+
+msgid "Do you want to perform a full factory reset? All saved assets and settings will be permanently deleted!"
+msgstr "전체 초기화를 진행할까요? 저장된 자료와 설정이 모두 영구 삭제됩니다!"
+
+msgid "Factory Reset"
+msgstr "공장 초기화"
+
+msgid "Skip"
+msgstr "건너뛰기"
+
+msgid "No error log found."
+msgstr "오류 로그가 없습니다."
+
+msgid "Safe Mode"
+msgstr "안전 모드"
+
+msgid "Temporarily force driving-affecting StarPilot settings back to safe defaults, stock tuning, and the branch default model until disabled."
+msgstr "해제할 때까지 주행에 영향을 주는 StarPilot 설정을 안전 기본값, 순정 튜닝, 브랜치 기본 모델로 임시 고정합니다."
+
+msgid "Right Hand Driving"
+msgstr "우측 운전석"
+
+msgid "StarPilot"
+msgstr "StarPilot"
+
+msgid "Enable {} to configure settings."
+msgstr "{}을(를) 켜서 설정하세요."
+
+msgid "No settings to display"
+msgstr "표시할 설정이 없습니다"
+
+msgid "All options in this panel are hidden or unavailable."
+msgstr "이 패널의 모든 옵션이 숨겨졌거나 사용할 수 없습니다."
+
+msgid "LOCKED"
+msgstr "잠김"
+
+msgid "Enabled"
+msgstr "켜짐"
+
+msgid "Disabled"
+msgstr "꺼짐"
+
+msgid "CANCEL"
+msgstr "취소"
+
+msgid "Model & Path Visualization"
+msgstr "모델 및 경로 시각화"
+
+msgid "Customize dynamic lane paths, road edges, and colors."
+msgstr "동적 차선 경로, 도로 가장자리, 색상을 설정합니다."
+
+msgid "Driving Widgets & HUD"
+msgstr "주행 위젯 및 HUD"
+
+msgid "Configure compass, dynamic pedals, signals, and screen borders."
+msgstr "나침반, 동적 페달, 신호, 화면 테두리를 설정합니다."
+
+msgid "Screen Declutter & Visibility"
+msgstr "화면 정리 및 가시성"
+
+msgid "Toggle speed limits, alert banners, and driver monitoring icon."
+msgstr "제한속도, 알림 배너, 운전자 모니터링 아이콘 표시를 설정합니다."
+
+msgid "Navigation & Mapping"
+msgstr "내비게이션 및 지도"
+
+msgid "Configure road names, Vienna signs, and offroad routes."
+msgstr "도로명, Vienna 표지판, 오프로드 경로를 설정합니다."
+
+msgid "Camera & System Startup"
+msgstr "카메라 및 시스템 시작"
+
+msgid "Manage driver monitoring cameras, boot logos, and startup sounds."
+msgstr "운전자 모니터링 카메라, 부팅 로고, 시작음을 관리합니다."
+
+msgid "Advanced Metrics"
+msgstr "고급 지표"
+
+msgid "Adjust radar plots, lead vehicle info, and stop sign metrics."
+msgstr "레이더 플롯, 선행 차량 정보, 정지 표지 지표를 조정합니다."
+
+msgid "Lead Detection Threshold"
+msgstr "선행 차량 감지 기준"
+
+msgid "Manage"
+msgstr "관리"
+
+msgid "Camera View"
+msgstr "카메라 보기"
+
+msgid "Startup Alert"
+msgstr "시작 알림"
+
+msgid "None"
+msgstr "없음"
+
+msgid "Boot Logo"
+msgstr "부팅 로고"
+
+msgid "Current"
+msgstr "현재"
+
+msgid "Blacklist"
+msgstr "제외 목록"
+
+msgid "Ratings"
+msgstr "평가"
+
+msgid "Date (Oldest)"
+msgstr "날짜(오래된 순)"
+
+msgid "Date (Newest)"
+msgstr "날짜(최신 순)"
+
+msgid "Favorites"
+msgstr "즐겨찾기"
+
+msgid "Downloaded"
+msgstr "다운로드됨"
+
+msgid "Community Picks"
+msgstr "커뮤니티 추천"
+
+msgid "On Device"
+msgstr "기기 내"
+
+msgid "Available to Download"
+msgstr "다운로드 가능"
+
+msgid "In Pool"
+msgstr "풀에 포함"
+
+msgid "Active"
+msgstr "활성"
+
+msgid "Built-in"
+msgstr "내장"
+
+msgid "Incomplete"
+msgstr "불완전"
+
+msgid "GPU required"
+msgstr "GPU 필요"
+
+msgid "Saved"
+msgstr "저장됨"
+
+msgid "Popular"
+msgstr "인기"
+
+msgid "Downloading"
+msgstr "다운로드 중"
+
+msgid "Options"
+msgstr "옵션"
+
+msgid "Delete"
+msgstr "삭제"
+
+msgid "Unfavorite"
+msgstr "즐겨찾기 해제"
+
+msgid "Favorite"
+msgstr "즐겨찾기"
+
+msgid "Protected"
+msgstr "보호됨"
+
+msgid "Automation and Tuning"
+msgstr "자동화 및 튜닝"
+
+msgid "Custom Series"
+msgstr "사용자 지정 시리즈"
+
+msgid "No options available."
+msgstr "사용 가능한 옵션이 없습니다."
+
+msgid "Cancel Download"
+msgstr "다운로드 취소"
+
+msgid "All Models On Device"
+msgstr "기기 내 모든 모델"
+
+msgid "Downloads Pause Onroad"
+msgstr "주행 중 다운로드 일시중지"
+
+msgid "Refreshing..."
+msgstr "새로고침 중..."
+
+msgid "Refresh Catalog"
+msgstr "목록 새로고침"
+
+msgid "Downloading model files..."
+msgstr "모델 파일 다운로드 중..."
+
+msgid "Refreshing the driving model catalog in the background."
+msgstr "백그라운드에서 주행 모델 목록을 새로고침하는 중입니다."
+
+msgid "Downloads and removals pause while driving."
+msgstr "주행 중에는 다운로드와 삭제가 일시중지됩니다."
+
+msgid "Tap a downloaded model to set it as active."
+msgstr "다운로드된 모델을 눌러 활성 모델로 설정하세요."
+
+msgid "Model Randomizer Active"
+msgstr "모델 무작위 선택 활성"
+
+msgid "Refreshing model catalog"
+msgstr "모델 목록 새로고침 중"
+
+msgid "No models available"
+msgstr "사용 가능한 모델이 없습니다"
+
+msgid "Models are selected automatically each drive. Disable Randomizer to choose manually."
+msgstr "모델은 매 주행마다 자동으로 선택됩니다. 수동으로 고르려면 무작위 선택을 끄세요."
+
+msgid "StarPilot is pulling the latest driving model list. This panel will populate automatically when the refresh completes."
+msgstr "StarPilot이 최신 주행 모델 목록을 가져오는 중입니다. 새로고침이 끝나면 이 패널이 자동으로 채워집니다."
+
+msgid "Try refreshing the catalog once the device is offroad and connected."
+msgstr "기기가 오프로드 상태이고 연결된 뒤에 목록을 다시 새로고침해 보세요."
+
+msgid "Keep specific installed models out of the rotation."
+msgstr "설치된 특정 모델을 순환 대상에서 제외합니다."
+
+msgid "Review recorded drives and model score history."
+msgstr "기록된 주행과 모델 점수 이력을 검토합니다."
+
+msgid "View"
+msgstr "보기"
+
+msgid "Model is not available on this device."
+msgstr "이 기기에서 사용할 수 없는 모델입니다."
+
+msgid "This model requires a detected external GPU."
+msgstr "이 모델은 감지된 외장 GPU가 필요합니다."
+
+msgid "Turn off Model Randomizer to choose a model manually."
+msgstr "모델을 수동으로 고르려면 모델 무작위 선택을 끄세요."
+
+msgid "Drive-cycle requested for immediate apply."
+msgstr "즉시 적용하려면 시동을 껐다 켜세요."
+
+msgid "Cannot download models while driving."
+msgstr "주행 중에는 모델을 다운로드할 수 없습니다."
+
+msgid "A model download is already in progress."
+msgstr "모델 다운로드가 이미 진행 중입니다."
+
+msgid "Unknown model."
+msgstr "알 수 없는 모델입니다."
+
+msgid "Model is already on this device."
+msgstr "이 모델은 이미 기기에 있습니다."
+
+msgid "Cannot refresh the model catalog while driving."
+msgstr "주행 중에는 모델 목록을 새로고침할 수 없습니다."
+
+msgid "Cannot refresh the model catalog during an active download."
+msgstr "다운로드 중에는 모델 목록을 새로고침할 수 없습니다."
+
+msgid "Cannot delete model files while driving."
+msgstr "주행 중에는 모델 파일을 삭제할 수 없습니다."
+
+msgid "Cannot delete model files while a download is in progress."
+msgstr "다운로드 진행 중에는 모델 파일을 삭제할 수 없습니다."
+
+msgid "This model is protected and cannot be removed."
+msgstr "이 모델은 보호되어 삭제할 수 없습니다."
+
+msgid "Add"
+msgstr "추가"
+
+msgid "Add to Blacklist"
+msgstr "제외 목록에 추가"
+
+msgid "Remove"
+msgstr "제거"
+
+msgid "Remove from Blacklist"
+msgstr "제외 목록에서 제거"
+
+msgid "Reset All"
+msgstr "모두 재설정"
+
+msgid "Manage Blacklist"
+msgstr "제외 목록 관리"
+
+msgid "No model ratings found."
+msgstr "모델 평가가 없습니다."
+
+msgid "Unable to read model ratings."
+msgstr "모델 평가를 읽을 수 없습니다."
+
+msgid "Model Randomizer will change your driving model each drive."
+msgstr "모델 무작위 선택은 매 주행마다 주행 모델을 변경합니다."
+
+msgid "Model Randomizer"
+msgstr "모델 무작위 선택"
+
+msgid "Reboot required. Reboot now?"
+msgstr "재부팅이 필요합니다. 지금 재부팅할까요?"
+
+msgid "Steering Behavior"
+msgstr "조향 동작"
+
+msgid "Configure Always On Lateral (AOL), pause speed thresholds, and turn signal behaviors."
+msgstr "Always On Lateral(AOL), 일시중지 속도 기준, 방향지시등 동작을 설정합니다."
+
+msgid "Lane Changes"
+msgstr "차선 변경"
+
+msgid "Configure automatic lane changes, speed/width thresholds, and smoothing parameters."
+msgstr "자동 차선 변경, 속도/폭 기준, 완화 파라미터를 설정합니다."
+
+msgid "Advanced Lateral Tuning"
+msgstr "고급 횡방향 튜닝"
+
+msgid "Adjust actuator delay, steer ratio, Kp, friction, and neural network feedforward controllers."
+msgstr "액추에이터 지연, 조향비, Kp, 마찰, 신경망 피드포워드 컨트롤러를 조정합니다."
+
+msgid "Ford Lateral Tuning"
+msgstr "Ford 횡방향 튜닝"
+
+msgid "Select the Ford steering strategy and tune prediction, lane-change, and speed response."
+msgstr "Ford 조향 전략을 선택하고 예측, 차선 변경, 속도 반응을 조정합니다."
+
+msgid "Pause Lateral Below"
+msgstr "이 속도 이하 횡제어 일시중지"
+
+msgid "Off"
+msgstr "끔"
+
+msgid "Instant"
+msgstr "즉시"
+
+msgid "Stock"
+msgstr "순정"
+
+msgid "Lane Change Smoothing"
+msgstr "차선 변경 완화"
+
+msgid "Native"
+msgstr "기본"
+
+msgid "Curvature"
+msgstr "곡률"
+
+msgid "Angle"
+msgstr "각도"
+
+msgid "Ford Steering Strategy"
+msgstr "Ford 조향 전략"
+
+msgid "Conditional Drive Mode"
+msgstr "조건부 주행 모드"
+
+msgid "Configure automated switching between Experimental and Chill Modes based on set conditions."
+msgstr "설정한 조건에 따라 Experimental과 Chill 모드가 자동 전환되도록 설정합니다."
+
+msgid "Curve Speed Controller"
+msgstr "곡선 속도 제어"
+
+msgid "Configure speed control on curves and reset collected calibration data."
+msgstr "곡선에서의 속도 제어를 설정하고 수집된 보정 데이터를 재설정합니다."
+
+msgid "Longitudinal Tuning"
+msgstr "롱컨 튜닝"
+
+msgid "Configure acceleration profiles, lane changes, and route speed control."
+msgstr "가속 프로필, 차선 변경, 경로 속도 제어를 설정합니다."
+
+msgid "Advanced Actuators"
+msgstr "고급 액추에이터"
+
+msgid "Adjust actuator delay, EV/Truck tuning, and launch/stop speeds/rates."
+msgstr "액추에이터 지연, EV/트럭 튜닝, 출발/정지 속도·비율을 조정합니다."
+
+msgid "Speed Limit Controller"
+msgstr "제한속도 제어"
+
+msgid "Manage auto speed matching, confirmation, offsets, and source priority."
+msgstr "자동 속도 맞춤, 확인, 오프셋, 소스 우선순위를 관리합니다."
+
+msgid "Vision Speed Limits"
+msgstr "비전 제한속도"
+
+msgid "Detect and display speed-limit signs without enabling Speed Limit Controller."
+msgstr "제한속도 제어를 켜지 않고도 제한속도 표지판을 감지하고 표시합니다."
+
+msgid "Adaptive Speed Controls"
+msgstr "적응형 속도 제어"
+
+msgid "Configure Curve Speed Controller and Conditional Experimental Mode triggers."
+msgstr "곡선 속도 제어와 조건부 실험 모드 트리거를 설정합니다."
+
+msgid "Driving Personalities"
+msgstr "주행 성향"
+
+msgid "Customize follow distance and jerk/response metrics for each personality profile."
+msgstr "각 성향 프로필의 차간거리와 저크/응답 지표를 사용자 지정합니다."
+
+msgid "Quality of Life"
+msgstr "편의 기능"
+
+msgid "Configure cruise intervals, standstill behaviors, gear mapping, and weather presets."
+msgstr "크루즈 간격, 정차 동작, 기어 매핑, 날씨 프리셋을 설정합니다."
+
+msgid "OFF"
+msgstr "끔"
+
+msgid "Experimental"
+msgstr "실험"
+
+msgid "Chill"
+msgstr "안정"
+
+msgid "Curves"
+msgstr "곡선"
+
+msgid "Switch to Experimental Mode on open-road curves."
+msgstr "개방 도로의 곡선에서 실험 모드로 전환합니다."
+
+msgid "Curves w/ Lead"
+msgstr "선행차 포함 곡선"
+
+msgid "Switch on curves even when following a lead."
+msgstr "선행차를 따라가는 중에도 곡선에서 전환합니다."
+
+msgid "Turn on Curves first"
+msgstr "먼저 곡선을 켜세요"
+
+msgid "Stop Lights/Signs"
+msgstr "신호등/정지 표지"
+
+msgid "Switch when openpilot detects a stop."
+msgstr "openpilot이 정지를 감지하면 전환합니다."
+
+msgid "Lead Ahead"
+msgstr "앞차 있음"
+
+msgid "Switch when a slower/stopped vehicle is ahead."
+msgstr "앞에 더 느리거나 정차한 차량이 있으면 전환합니다."
+
+msgid "Slower Lead"
+msgstr "느린 앞차"
+
+msgid "Switch specifically for slower leads."
+msgstr "느린 앞차에만 전환합니다."
+
+msgid "Turn on Lead first"
+msgstr "먼저 앞차 감지를 켜세요"
+
+msgid "Stopped Lead"
+msgstr "정차한 앞차"
+
+msgid "Switch specifically for stopped leads."
+msgstr "정차한 앞차에만 전환합니다."
+
+msgid "Signal Lane Detect"
+msgstr "방향지시등 차선 감지"
+
+msgid "Don't trigger on turn signal if lines are clear."
+msgstr "차선이 명확하면 방향지시등으로는 트리거하지 않습니다."
+
+msgid "Needs Turn Signal speed > 0"
+msgstr "방향지시등 필요 속도 > 0"
+
+msgid "Status Widget"
+msgstr "상태 위젯"
+
+msgid "Show condition trigger on the drive screen."
+msgstr "주행 화면에 조건 트리거를 표시합니다."
+
+msgid "Persist Exp State"
+msgstr "실험 상태 유지"
+
+msgid "Keep manual Experimental override through reboots."
+msgstr "수동 Experimental 강제 상태를 재부팅 후에도 유지합니다."
+
+msgid "Stable Lead Ahead"
+msgstr "안정된 앞차"
+
+msgid "Switch to Chill Mode when following a steady lead."
+msgstr "안정적으로 주행하는 앞차를 따라갈 때 Chill 모드로 전환합니다."
+
+msgid "Launch Assist"
+msgstr "출발 보조"
+
+msgid "Temporarily switch to Chill from a stop."
+msgstr "정차 후 출발 시 일시적으로 Chill로 전환합니다."
+
+msgid "Persist Chill State"
+msgstr "안정 상태 유지"
+
+msgid "Keep manual Chill override through reboots."
+msgstr "수동 Chill 강제 상태를 재부팅 후에도 유지합니다."
+
+msgid "Below Speed"
+msgstr "이 속도 이하"
+
+msgid "Speed w/ Lead"
+msgstr "앞차 있을 때 속도"
+
+msgid "Turn Signal Below"
+msgstr "이 속도 이하 방향지시등"
+
+msgid "Predicted Stop In"
+msgstr "예상 정지까지"
+
+msgid "Above Speed"
+msgstr "이 속도 이상"
+
+msgid "Set Speed Margin"
+msgstr "설정 속도 여유"
+
+msgid "Pulse and Glide Delta"
+msgstr "펄스 앤 글라이드 편차"
+
+msgid "Switch to Experimental Mode"
+msgstr "실험 모드로 전환"
+
+msgid "Switch to Chill Mode"
+msgstr "안정 모드로 전환"
+
+msgid "When"
+msgstr "조건"
+
+msgid "For"
+msgstr "대상"
+
+msgid "SLC Secondary Priority"
+msgstr "SLC 보조 우선순위"
+
+msgid "SLC Primary Priority"
+msgstr "SLC 기본 우선순위"
+
+msgid "Conditional Experimental"
+msgstr "조건부 Experimental"
+
+msgid "Conditional Chill"
+msgstr "조건부 Chill"
+
+msgid "Calculating..."
+msgstr "계산 중..."
+
+msgid "Almost done"
+msgstr "거의 완료됨"
+
+msgid "U.S. States & Regions"
+msgstr "미국 주 및 지역"
+
+msgid "Other Countries"
+msgstr "기타 국가"
+
+msgid "Map Packages & Regions"
+msgstr "지도 패키지 및 지역"
+
+msgid "Downloaded on device"
+msgstr "기기에 다운로드됨"
+
+msgid "Available for Download"
+msgstr "다운로드 가능"
+
+msgid "{} available"
+msgstr "{}개 사용 가능"
+
+msgid "Storage"
+msgstr "저장 공간"
+
+msgid "Last Updated"
+msgstr "마지막 업데이트"
+
+msgid "Update: {}"
+msgstr "업데이트: {}"
+
+msgid "{} / {} ({}%)"
+msgstr "{} / {} ({}%)"
+
+msgid "No regions selected"
+msgstr "선택된 지역 없음"
+
+msgid "Whole U.S. (56 states)"
+msgstr "미국 전체(56개 주/지역)"
+
+msgid "Whole U.S."
+msgstr "미국 전체"
+
+msgid "No regions selected yet"
+msgstr "아직 선택된 지역이 없습니다"
+
+msgid "Whole U.S. package"
+msgstr "미국 전체 패키지"
+
+msgid "{} + {} more"
+msgstr "{} + 추가 {}개"
+
+msgid "Whole U.S. (All 50 States & Territories)"
+msgstr "미국 전체(50개 주 및 자치령)"
+
+msgid "Whole U.S. Selected"
+msgstr "미국 전체 선택됨"
+
+msgid "{} available - Tap to select"
+msgstr "{}개 사용 가능 - 눌러서 선택"
+
+msgid "{} selected | {} available"
+msgstr "{}개 선택됨 | {}개 사용 가능"
+
+msgid "Master Package - Full country map data"
+msgstr "마스터 패키지 - 국가 전체 지도 데이터"
+
+msgid "Selected for download"
+msgstr "다운로드 대상으로 선택됨"
+
+msgid "Tap to select state"
+msgstr "눌러서 주 선택"
+
+msgid "Selected"
+msgstr "선택됨"
+
+msgid "No regions available"
+msgstr "사용 가능한 지역이 없습니다"
+
+msgid "Switch sources to keep browsing maps."
+msgstr "지도를 계속 보려면 소스를 전환하세요."
+
+msgid "Download in progress"
+msgstr "다운로드 진행 중"
+
+msgid "Connect to the internet"
+msgstr "인터넷에 연결하세요"
+
+msgid "Park the vehicle to download"
+msgstr "다운로드하려면 차량을 주차하세요"
+
+msgid "Cancelling..."
+msgstr "취소 중..."
+
+msgid "Select Regions Below"
+msgstr "아래에서 지역 선택"
+
+msgid "Download Offline Maps"
+msgstr "오프라인 지도 다운로드"
+
+msgid "Please select 'Whole U.S.' or pick individual states from the list below."
+msgstr "'미국 전체'를 선택하거나 아래 목록에서 개별 주를 고르세요."
+
+msgid "Auto Update Schedule"
+msgstr "자동 업데이트 일정"
+
+msgid "Start downloading offline maps for the selected regions?"
+msgstr "선택한 지역의 오프라인 지도를 다운로드할까요?"
+
+msgid "Cancel the current map download?"
+msgstr "현재 지도 다운로드를 취소할까요?"
+
+msgid "Park to remove downloaded maps."
+msgstr "다운로드한 지도를 삭제하려면 차량을 주차하세요."
+
+msgid "Removing offline maps..."
+msgstr "오프라인 지도 삭제 중..."
+
+msgid "Delete all downloaded offline map data?"
+msgstr "다운로드한 오프라인 지도 데이터를 모두 삭제할까요?"
+
+msgid "Remove Maps"
+msgstr "지도 삭제"
+
+msgid "Never"
+msgstr "안 함"
+
+msgid "Cancelling Download"
+msgstr "다운로드 취소 중"
+
+msgid "Downloading Maps"
+msgstr "지도 다운로드 중"
+
+msgid "Starting Download"
+msgstr "다운로드 시작 중"
+
+msgid "Offline Maps"
+msgstr "오프라인 지도"
+
+msgid "Select Map Data"
+msgstr "지도 데이터 선택"
+
+msgid "Download Readiness"
+msgstr "다운로드 준비 상태"
+
+msgid "{}\nElapsed {} | ETA {}"
+msgstr "{}\n경과 {} | 남은 시간 {}"
+
+msgid "{} / {} ({}%)\nElapsed {} | ETA {}"
+msgstr "{} / {} ({}%)\n경과 {} | 남은 시간 {}"
+
+msgid "Stop request sent. The current transfer will wind down safely."
+msgstr "중지 요청을 보냈습니다. 현재 전송은 안전하게 마무리됩니다."
+
+msgid "Preparing the selected regions for download."
+msgstr "선택한 지역을 다운로드할 준비 중입니다."
+
+msgid "No regions selected yet. Tap 'Whole U.S.' or pick specific states below to get started."
+msgstr "아직 선택된 지역이 없습니다. 시작하려면 '미국 전체'를 누르거나 아래에서 원하는 주를 고르세요."
+
+msgid "Ready to download {}."
+msgstr "{} 다운로드 준비 완료."
+
+msgid "Search is unavailable. Check your connection and try again."
+msgstr "검색을 사용할 수 없습니다. 연결을 확인한 뒤 다시 시도하세요."
+
+msgid "Could not determine that location. Try another result."
+msgstr "해당 위치를 확인할 수 없습니다. 다른 결과를 시도하세요."
+
+msgid "Search destination"
+msgstr "목적지 검색"
+
+msgid "Enter a place or address"
+msgstr "장소나 주소 입력"
+
+msgid "Enter at least 3 characters to search."
+msgstr "검색하려면 3자 이상 입력하세요."
+
+msgid "Mapbox search is not configured on this device."
+msgstr "이 기기에는 Mapbox 검색이 설정되어 있지 않습니다."
+
+msgid "That result did not include a usable location."
+msgstr "해당 결과에는 사용할 수 있는 위치 정보가 없습니다."
+
+msgid "That destination is missing a valid location."
+msgstr "해당 목적지에 유효한 위치 정보가 없습니다."
+
+msgid "Rename favorite"
+msgstr "즐겨찾기 이름 변경"
+
+msgid "Choose a short name"
+msgstr "짧은 이름을 입력하세요"
+
+msgid "Remove {} from favorites?"
+msgstr "즐겨찾기에서 {}을(를) 삭제할까요?"
+
+msgid "this destination"
+msgstr "이 목적지"
+
+msgid "That destination is not valid."
+msgstr "해당 목적지가 올바르지 않습니다."
+
+msgid "Rename"
+msgstr "이름 변경"
+
+msgid "Ready to navigate"
+msgstr "안내 시작 준비 완료"
+
+msgid "Start"
+msgstr "시작"
+
+msgid "Unavailable"
+msgstr "사용 불가"
+
+msgid "Navigation active"
+msgstr "내비게이션 실행 중"
+
+msgid "Search for a destination"
+msgstr "목적지 검색"
+
+msgid "Use the on-device keyboard to search Mapbox locations"
+msgstr "기기 키보드로 Mapbox 위치를 검색하세요"
+
+msgid "Search"
+msgstr "검색"
+
+msgid "Searching…"
+msgstr "검색 중…"
+
+msgid "Looking up destinations"
+msgstr "목적지 찾는 중"
+
+msgid "Search unavailable"
+msgstr "검색 불가"
+
+msgid "Search results"
+msgstr "검색 결과"
+
+msgid "Destination"
+msgstr "목적지"
+
+msgid "Favorite destinations"
+msgstr "즐겨찾는 목적지"
+
+msgid "Unnamed favorite"
+msgstr "이름 없는 즐겨찾기"
+
+msgid "Recent destinations"
+msgstr "최근 목적지"
+
+msgid "Recent destination"
+msgstr "최근 목적지"
+
+msgid "No matching destinations"
+msgstr "일치하는 목적지가 없습니다"
+
+msgid "No destinations yet"
+msgstr "아직 목적지가 없습니다"
+
+msgid "Try a different place or address."
+msgstr "다른 장소나 주소를 시도하세요."
+
+msgid "Search for a place or address to begin."
+msgstr "시작하려면 장소나 주소를 검색하세요."
+
+msgid "Delete \"{name}\"?"
+msgstr "\"{name}\"을(를) 삭제할까요?"
+
+msgid "DELETE"
+msgstr "삭제"
+
+msgid "No {name}s"
+msgstr "{name} 없음"
+
+msgid "Download {name}s to see them here."
+msgstr "여기에서 보려면 {name}을(를) 다운로드하세요."
+
+msgid "Nothing to Delete"
+msgstr "삭제할 항목 없음"
+
+msgid "No {name}s are currently downloaded."
+msgstr "현재 다운로드된 {name}이(가) 없습니다."
+
+msgid "All Available"
+msgstr "전체 사용 가능"
+
+msgid "You have all available {name}s."
+msgstr "사용 가능한 모든 {name}이(가) 있습니다."
+
+msgid "Muted"
+msgstr "음소거"
+
+msgid "Auto"
+msgstr "자동"
+
+msgid "min"
+msgstr "분"
+
+msgid "1 min"
+msgstr "1분"
+
+msgid "Alerts"
+msgstr "알림"
+
+msgid "hour"
+msgstr "시간"
+
+msgid "Offroad Brightness"
+msgstr "오프로드 밝기"
+
+msgid "Onroad Brightness"
+msgstr "온로드 밝기"
+
+msgid "Offroad Screen Timeout"
+msgstr "오프로드 화면 꺼짐 시간"
+
+msgid "Onroad Screen Timeout"
+msgstr "온로드 화면 꺼짐 시간"
+
+msgid "Shutdown Delay"
+msgstr "종료 지연"
+
+msgid "Low Voltage Shutdown"
+msgstr "저전압 종료"
+
+msgid "Standby Mode"
+msgstr "대기 모드"
+
+msgid "Use Konik Server"
+msgstr "Konik 서버 사용"
+
+msgid "Debug Mode"
+msgstr "디버그 모드"
+
+msgid "Show FPS"
+msgstr "FPS 표시"
+
+msgid "Disable Uploads"
+msgstr "업로드 끄기"
+
+msgid "Disable Onroad Uploads"
+msgstr "주행 중 업로드 끄기"
+
+msgid "Turn off Disable Uploads first"
+msgstr "먼저 업로드 끄기를 해제하세요"
+
+msgid "Disable Logging"
+msgstr "로깅 끄기"
+
+msgid "High Bitrate Recording"
+msgstr "고비트레이트 녹화"
+
+msgid "Uploads must stay enabled"
+msgstr "업로드는 켜져 있어야 합니다"
+
+msgid "Onroad"
+msgstr "온로드"
+
+msgid "Offroad"
+msgstr "오프로드"
+
+msgid "{} controls + {} toggles"
+msgstr "컨트롤 {}개 + 토글 {}개"
+
+msgid "Default"
+msgstr "기본"
+
+msgid "Display"
+msgstr "표시"
+
+msgid "Power"
+msgstr "전원"
+
+msgid "System Backups"
+msgstr "시스템 백업"
+
+msgid "Toggle Snapshots"
+msgstr "토글 스냅샷"
+
+msgid "Report Issue"
+msgstr "문제 신고"
+
+msgid "Flash Panda"
+msgstr "Panda 플래시"
+
+msgid "Clear Driving Data"
+msgstr "주행 데이터 삭제"
+
+msgid "Clear Error Logs"
+msgstr "오류 로그 삭제"
+
+msgid "Reset Toggles"
+msgstr "토글 재설정"
+
+msgid "Reset To Stock"
+msgstr "순정값으로 재설정"
+
+msgid "Maintenance"
+msgstr "유지보수"
+
+msgid "System Status"
+msgstr "시스템 상태"
+
+msgid "Storage: {}"
+msgstr "저장 공간: {}"
+
+msgid "Backups: {}  •  Snapshots: {}"
+msgstr "백업: {}  •  스냅샷: {}"
+
+msgid "{} saved"
+msgstr "{} 저장됨"
+
+msgid "No full-system backups saved yet."
+msgstr "아직 전체 시스템 백업이 없습니다."
+
+msgid "No toggle snapshots saved yet."
+msgstr "아직 저장된 토글 스냅샷이 없습니다."
+
+msgid "{} full | {} toggle"
+msgstr "전체 {}개 | 토글 {}개"
+
+msgid "Create Backup"
+msgstr "백업 만들기"
+
+msgid "Restore Backup"
+msgstr "백업 복원"
+
+msgid "Delete Backup"
+msgstr "백업 삭제"
+
+msgid "Save Toggle Snapshot"
+msgstr "토글 스냅샷 저장"
+
+msgid "Restore Toggle Snapshot"
+msgstr "토글 스냅샷 복원"
+
+msgid "Delete Toggle Snapshot"
+msgstr "토글 스냅샷 삭제"
+
+msgid "Konik"
+msgstr "Konik"
+
+msgid "Comma"
+msgstr "Comma"
+
+msgid "Switch Connect endpoint to {}?"
+msgstr "Connect 엔드포인트를 {}(으)로 변경할까요?"
+
+msgid "Switch"
+msgstr "변경"
+
+msgid "This will prevent your drives from being uploaded to comma connect which may impact receiving support. Are you sure?"
+msgstr "주행 기록이 comma connect로 업로드되지 않아 지원 수신에 영향이 있을 수 있습니다. 계속할까요?"
+
+msgid "Disable"
+msgstr "사용 안 함"
+
+msgid "This will prevent your drives from being logged. Are you sure?"
+msgstr "주행 기록이 저장되지 않게 됩니다. 계속할까요?"
+
+msgid "Driving data deletion started."
+msgstr "주행 데이터 삭제를 시작했습니다."
+
+msgid "Delete all driving data and footage?"
+msgstr "모든 주행 데이터와 영상 파일을 삭제할까요?"
+
+msgid "Error logs deleted."
+msgstr "오류 로그를 삭제했습니다."
+
+msgid "Delete all error logs?"
+msgstr "모든 오류 로그를 삭제할까요?"
+
+msgid "A backup with this name already exists."
+msgstr "같은 이름의 백업이 이미 있습니다."
+
+msgid "Backup creation started."
+msgstr "백업 생성을 시작했습니다."
+
+msgid "Name your backup"
+msgstr "백업 이름 입력"
+
+msgid "No backups found."
+msgstr "백업이 없습니다."
+
+msgid "Restoring... device will reboot."
+msgstr "복원 중... 장치가 재부팅됩니다."
+
+msgid "Select Backup"
+msgstr "백업 선택"
+
+msgid "Backup deleted."
+msgstr "백업을 삭제했습니다."
+
+msgid "Delete backup '{}'?"
+msgstr "백업 '{}'을(를) 삭제할까요?"
+
+msgid "A toggle backup with this name already exists."
+msgstr "같은 이름의 토글 백업이 이미 있습니다."
+
+msgid "Toggle backup created."
+msgstr "토글 백업을 만들었습니다."
+
+msgid "Name your toggle backup"
+msgstr "토글 백업 이름 입력"
+
+msgid "No toggle backups found."
+msgstr "토글 백업이 없습니다."
+
+msgid "Toggles restored."
+msgstr "토글을 복원했습니다."
+
+msgid "This will overwrite your current toggles."
+msgstr "현재 토글이 덮어써집니다."
+
+msgid "Restore"
+msgstr "복원"
+
+msgid "Select Toggle Backup"
+msgstr "토글 백업 선택"
+
+msgid "Toggle backup deleted."
+msgstr "토글 백업을 삭제했습니다."
+
+msgid "Delete toggle backup '{}'?"
+msgstr "토글 백업 '{}'을(를) 삭제할까요?"
+
+msgid "Delete Toggle Backup"
+msgstr "토글 백업 삭제"
+
+msgid "Panda flashing started. Device will reboot when finished."
+msgstr "Panda 플래시를 시작했습니다. 완료되면 장치가 재부팅됩니다."
+
+msgid "Flash Panda firmware?"
+msgstr "Panda 펌웨어를 플래시할까요?"
+
+msgid "Flash"
+msgstr "플래시"
+
+msgid "Issue reported. Thank you!"
+msgstr "문제가 신고되었습니다. 감사합니다!"
+
+msgid "Discord Username"
+msgstr "Discord 사용자 이름"
+
+msgid "Select Issue"
+msgstr "문제 선택"
+
+msgid "Toggles reset to defaults."
+msgstr "토글을 기본값으로 재설정했습니다."
+
+msgid "Reset all toggles to defaults?"
+msgstr "모든 토글을 기본값으로 재설정할까요?"
+
+msgid "Toggles reset to stock openpilot."
+msgstr "토글을 순정 openpilot 값으로 재설정했습니다."
+
+msgid "Reset all toggles to stock openpilot?"
+msgstr "모든 토글을 순정 openpilot 값으로 재설정할까요?"
+
+msgid "Vehicle Identity"
+msgstr "차량 정보"
+
+msgid "Steering Controls"
+msgstr "조향 제어"
+
+msgid "Features"
+msgstr "기능"
+
+msgid "Disable openpilot Long"
+msgstr "openpilot 롱컨 끄기"
+
+msgid "Revert to stock longitudinal control."
+msgstr "순정 롱컨 제어로 되돌립니다."
+
+msgid "Pedal for Long"
+msgstr "롱컨용 페달"
+
+msgid "Offsets on Dash Spoof"
+msgstr "계기판 스푸핑 오프셋"
+
+msgid "CAN Ignition Only"
+msgstr "CAN 시동만 사용"
+
+msgid "Use Panda firmware that ignores the physical ignition line and starts only from CAN ignition."
+msgstr "물리 시동선을 무시하고 CAN 시동으로만 시작하는 Panda 펌웨어를 사용합니다."
+
+msgid "CAN Ignition Only requires a Panda firmware update."
+msgstr "CAN 시동만 사용하려면 Panda 펌웨어 업데이트가 필요합니다."
+
+msgid "Remote Start Panda"
+msgstr "원격 시동 Panda"
+
+msgid "Remote Start requires a Panda firmware update."
+msgstr "원격 시동을 사용하려면 Panda 펌웨어 업데이트가 필요합니다."
+
+msgid "Volt SNG Hack"
+msgstr "Volt SNG Hack"
+
+msgid "Jeep Brake Hold"
+msgstr "Jeep 브레이크 홀드"
+
+msgid "Hold after ACC times out at a stop and resume when traffic moves."
+msgstr "정차 중 ACC가 타임아웃된 뒤에도 유지하고, 차량 흐름이 움직이면 다시 출발합니다."
+
+msgid "Stop and Go"
+msgstr "정지 후 재출발"
+
+msgid "Manual Parking Brake SNG"
+msgstr "수동 주차 브레이크 SNG"
+
+msgid "Auto Lock Doors"
+msgstr "자동 문 잠금"
+
+msgid "Auto Unlock Doors"
+msgstr "자동 문 잠금 해제"
+
+msgid "Stop-and-Go Hack"
+msgstr "정지 후 재출발 Hack"
+
+msgid "Remap Cancel Button"
+msgstr "취소 버튼 재매핑"
+
+msgid "Treat the Cancel button as an extra mappable steering-wheel button."
+msgstr "취소 버튼을 추가로 매핑 가능한 스티어링 휠 버튼으로 취급합니다."
+
+msgid "EV Remote Climate"
+msgstr "EV 원격 공조"
+
+msgid "EV Remote Climate requires a Panda firmware update."
+msgstr "EV 원격 공조를 사용하려면 Panda 펌웨어 업데이트가 필요합니다."
+
+msgid "Nostalgia Mode"
+msgstr "노스탤지어 모드"
+
+msgid "Use the left paddle to pause openpilot acceleration and braking."
+msgstr "왼쪽 패들로 openpilot의 가속과 제동을 일시중지합니다."
+
+msgid "Disable openpilot longitudinal control?"
+msgstr "openpilot 롱컨 제어를 끌까요?"
+
+msgid "No fingerprint list available."
+msgstr "사용 가능한 핑거프린트 목록이 없습니다."
+
+msgid "Select Make"
+msgstr "제조사 선택"
+
+msgid "Please select a Car Make first!"
+msgstr "먼저 차량 제조사를 선택하세요!"
+
+msgid "No models available for this make."
+msgstr "이 제조사에 사용할 수 있는 모델이 없습니다."
+
+msgid "Select Model"
+msgstr "모델 선택"
+
+msgid "Lock Doors Timer"
+msgstr "문 잠금 타이머"
+
+msgid "Dashboard Speed Offset"
+msgstr "계기판 속도 오프셋"
