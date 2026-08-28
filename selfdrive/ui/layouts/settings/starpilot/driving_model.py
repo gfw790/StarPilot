@@ -27,7 +27,7 @@ from openpilot.starpilot.assets.model_manager import (
 )
 from openpilot.starpilot.common.starpilot_variables import MODELS_PATH, update_starpilot_toggles
 from openpilot.system.ui.lib.application import FontWeight, MouseEvent, MousePos, gui_app
-from openpilot.system.ui.lib.multilang import tr
+from openpilot.system.ui.lib.multilang import tr, tr_noop
 from openpilot.system.ui.lib.scroll_panel2 import GuiScrollPanel2
 from openpilot.system.ui.widgets import DialogResult, Widget
 from openpilot.system.ui.widgets.confirm_dialog import ConfirmDialog, alert_dialog
@@ -85,10 +85,10 @@ HEADER_BAR_HEIGHT = 107.0
 MANAGEMENT_STRIP_HEIGHT = 56.0
 _SORT_MODES = ("alphabetical", "date", "date_oldest", "favorites", "community_picks")
 _SORT_LABELS = {
-  "alphabetical":     "Alphabetical",
+  "alphabetical":     tr_noop("Alphabetical"),
   "date":             "Date (Newest)",
   "date_oldest":      "Date (Oldest)",
-  "favorites":        "Favorites + Downloaded",
+  "favorites":        tr_noop("Favorites + Downloaded"),
   "community_picks":  "Community Picks",
 }
 _SORT_PILLS = ("alphabetical", "date", "favorites", "community_picks")

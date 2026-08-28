@@ -1225,7 +1225,7 @@ class BreadcrumbController:
 
     for i, widget in enumerate(pushed_widgets):
       if hasattr(widget, '_header_title') and widget._header_title:
-        path.append((widget._header_title, f"action:nav_stack:{i+1}"))
+        path.append((tr(widget._header_title), f"action:nav_stack:{i+1}"))
 
     for i, (panel_type, sub_panel_name) in enumerate(layout._panel_stack):
       panel = layout._panels[panel_type].instance
@@ -1233,7 +1233,7 @@ class BreadcrumbController:
         continue
       sub = panel._sub_panels[sub_panel_name]
       label = sub._header_title if hasattr(sub, '_header_title') and sub._header_title else sub_panel_name
-      path.append((label, f"action:panel_stack:{i}"))
+      path.append((tr(label), f"action:panel_stack:{i}"))
 
     return path
 
@@ -5475,4 +5475,3 @@ class TileGrid(Widget):
           tile.set_parent_rect(parent_rect)
         tile.render(snap_rect(rl.Rectangle(row_x + c * (row_tile_w + self._gap), rect.y + y_offset + r * (tile_h + self._gap), row_tile_w, tile_h)))
         tile_idx += 1
-
