@@ -39,6 +39,8 @@ SOURCE_DEFS = [
   ("Upcoming",  "NEXT",  "next_sl",      "Next",        "next"),
 ]
 
+_SOURCE_DISPLAY_LABELS = {source_name: bubble_label for source_name, _, _, bubble_label, _ in SOURCE_DEFS}
+
 # Fonts
 FONT_LABEL = 30
 FONT_SOURCE = 40  # Set Speed MAX label size.
@@ -215,14 +217,11 @@ def _get_semi_bold():
   return _font_semi_bold
 
 
-_ACTIVE_SOURCE_LABELS = {title: abbrev.upper() for title, abbrev, *_ in SOURCE_DEFS}
-
-
 def _active_source_label(state: dict) -> str:
   source = state.get("speed_limit_source")
   if not source or source == "None":
     return tr("LIMIT")
-  return _ACTIVE_SOURCE_LABELS.get(source, source.upper())
+  return tr(_SOURCE_DISPLAY_LABELS.get(source, source))
 
 
 def _source_label_color(alpha: int, is_overridden: bool = False) -> rl.Color:

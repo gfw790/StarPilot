@@ -5,6 +5,7 @@ import json
 from cereal import car
 from openpilot.selfdrive.ui.ui_state import ui_state
 from openpilot.system.ui.lib.application import gui_app, FontWeight, FONT_SCALE
+from openpilot.system.ui.lib.multilang import tr
 from openpilot.system.ui.lib.text_measure import measure_text_cached
 from openpilot.selfdrive.ui.layouts.settings.starpilot.aethergrid import draw_text_fit_common, wrap_text
 
@@ -348,22 +349,22 @@ class DeveloperSidebar:
     model_name = re.sub(r'[^a-zA-Z0-9 \-\.:]', '', model_name).strip()
 
     self._metrics = {
-      1: ("ACCEL", f"{accel_val:.2f}{accel_unit}"),
-      2: ("MAX ACCEL", f"{self.max_acceleration:.2f}{accel_unit}"),
-      3: ("STEER DELAY", f"{lat_delay:.5f}"),
-      4: ("FRICTION", f"{friction_coeff:.5f}"),
-      5: ("LAT ACCEL", f"{lat_factor:.5f}"),
-      6: ("STEER RATIO", f"{steer_ratio:.5f}"),
-      7: ("STEER STIFF", f"{stiff_factor:.5f}"),
-      8: ("LATERAL %", f"{lat_pct:.2f}%"),
-      9: ("LONG %", f"{long_pct:.2f}%"),
-      10: ("STEER ANGLE", steer_label),
-      11: ("TORQUE %", torque_label),
-      12: ("ACT ACCEL", f"{act_accel:.2f}{accel_unit}"),
-      13: ("DANGER %", f"{danger_factor:.2f}%"),
-      14: ("ACCEL JERK", f"{accel_jerk}"),
-      15: ("DANGER JERK", f"{danger_jerk}"),
-      16: ("SPEED JERK", f"{speed_jerk}"),
+      1: (tr("ACCEL"), f"{accel_val:.2f}{accel_unit}"),
+      2: (tr("MAX ACCEL"), f"{self.max_acceleration:.2f}{accel_unit}"),
+      3: (tr("STEER DELAY"), f"{lat_delay:.5f}"),
+      4: (tr("FRICTION"), f"{friction_coeff:.5f}"),
+      5: (tr("LAT ACCEL"), f"{lat_factor:.5f}"),
+      6: (tr("STEER RATIO"), f"{steer_ratio:.5f}"),
+      7: (tr("STEER STIFF"), f"{stiff_factor:.5f}"),
+      8: (tr("LATERAL %"), f"{lat_pct:.2f}%"),
+      9: (tr("LONG %"), f"{long_pct:.2f}%"),
+      10: (tr("STEER ANGLE"), steer_label),
+      11: (tr("TORQUE %"), torque_label),
+      12: (tr("ACT ACCEL"), f"{act_accel:.2f}{accel_unit}"),
+      13: (tr("DANGER %"), f"{danger_factor:.2f}%"),
+      14: (tr("ACCEL JERK"), f"{accel_jerk}"),
+      15: (tr("DANGER JERK"), f"{danger_jerk}"),
+      16: (tr("SPEED JERK"), f"{speed_jerk}"),
       17: (model_name, "")
     }
 

@@ -5189,3 +5189,131 @@ msgstr "(사용자 생성)"
 msgid "{} region selected"
 msgid_plural "{} regions selected"
 msgstr[0] "{}개 지역 선택됨"
+
+#: selfdrive/ui/onroad/starpilot/navigation_card.py:357
+msgid "Then"
+msgstr "다음"
+
+#: selfdrive/ui/onroad/starpilot/slc_speed_limit.py:225
+msgid "Dashboard"
+msgstr "계기판"
+
+#: selfdrive/ui/onroad/starpilot/slc_speed_limit.py:631
+msgid "Dash"
+msgstr "계기판"
+
+#: selfdrive/ui/onroad/starpilot/slc_speed_limit.py:225 selfdrive/ui/onroad/starpilot/slc_speed_limit.py:639
+msgid "Vision"
+msgstr "비전"
+
+#: selfdrive/ui/onroad/starpilot/slc_speed_limit.py:225 selfdrive/ui/onroad/starpilot/slc_speed_limit.py:639
+msgid "Mapbox"
+msgstr "맵박스"
+
+#: selfdrive/ui/onroad/starpilot/slc_speed_limit.py:225 selfdrive/ui/onroad/starpilot/slc_speed_limit.py:639
+msgid "Next"
+msgstr "다음"
+
+#: selfdrive/ui/onroad/starpilot/aethergauge.py:288 selfdrive/ui/onroad/starpilot/aethergauge.py:333 selfdrive/ui/onroad/starpilot/aethergauge.py:368
+msgid "STOPPED"
+msgstr "정지"
+
+#: selfdrive/ui/onroad/starpilot/aethergauge.py:288 selfdrive/ui/onroad/starpilot/aethergauge.py:333 selfdrive/ui/onroad/starpilot/aethergauge.py:368
+msgid "SLOW"
+msgstr "감속"
+
+#: selfdrive/ui/onroad/starpilot/aethergauge.py:761
+msgid "STOP"
+msgstr "정지"
+
+#: selfdrive/ui/onroad/starpilot/pulse_glide.py:12
+msgid "GLIDE"
+msgstr "타력"
+
+#: selfdrive/ui/onroad/starpilot/pulse_glide.py:12
+msgid "PULSE"
+msgstr "가속"
+
+#: selfdrive/ui/onroad/starpilot/widgets/stopped_timer.py:86
+#, python-format
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{}분"
+
+#: selfdrive/ui/onroad/starpilot/widgets/stopped_timer.py:87
+#, python-format
+msgid "{} second"
+msgid_plural "{} seconds"
+msgstr[0] "{}초"
+
+#: selfdrive/ui/onroad/model_renderer.py:552
+msgid "Desired:"
+msgstr "목표:"
+
+#: selfdrive/ui/onroad/model_renderer.py:560
+msgid "seconds"
+msgstr "초"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:368
+msgid "ACCEL"
+msgstr "가속"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:369
+msgid "MAX ACCEL"
+msgstr "최대 가속"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:370
+msgid "STEER DELAY"
+msgstr "조향 지연"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:371
+msgid "FRICTION"
+msgstr "마찰"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:372
+msgid "LAT ACCEL"
+msgstr "횡가속"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:373
+msgid "STEER RATIO"
+msgstr "조향비"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:374
+msgid "STEER STIFF"
+msgstr "조향 강성"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:375
+msgid "LATERAL %"
+msgstr "횡제어 %"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:376
+msgid "LONG %"
+msgstr "종제어 %"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:377
+msgid "STEER ANGLE"
+msgstr "조향각"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:378
+msgid "TORQUE %"
+msgstr "토크 %"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:379
+msgid "ACT ACCEL"
+msgstr "실제 가속"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:380
+msgid "DANGER %"
+msgstr "위험도 %"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:381
+msgid "ACCEL JERK"
+msgstr "가속 저크"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:382
+msgid "DANGER JERK"
+msgstr "위험 저크"
+
+#: selfdrive/ui/onroad/starpilot/developer_sidebar.py:383
+msgid "SPEED JERK"
+msgstr "속도 저크"

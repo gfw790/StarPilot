@@ -8,6 +8,7 @@ from openpilot.common.filter_simple import FirstOrderFilter
 from openpilot.selfdrive.ui.ui_state import ui_state
 from openpilot.starpilot.common.experimental_state import CEStatus
 from openpilot.system.ui.lib.application import gui_app
+from openpilot.system.ui.lib.multilang import tr
 from openpilot.system.ui.lib.text_measure import measure_text_cached
 from openpilot.selfdrive.ui.onroad.starpilot.starpilot_border import _csc_state, _intensity, _glow_color
 from openpilot.selfdrive.ui.lib.starpilot_status import get_border_color
@@ -285,7 +286,7 @@ def _lead_data() -> AetherGaugeData:
   lead = ui_state.sm["radarState"].leadOne
   _lead_is_stopped = lead.vLead < (1.2 if _lead_is_stopped else 0.8)
   return AetherGaugeData(
-    text="STOPPED" if _lead_is_stopped else "SLOW",
+    text=tr("STOPPED") if _lead_is_stopped else tr("SLOW"),
     color=COLOR_LEAD_STOPPED if _lead_is_stopped else COLOR_LEAD_SLOWER,
     indicator_type=IndicatorType.LEAD, indicator_value=lead.dRel,
     indicator_extra="stopped" if _lead_is_stopped else "slower",
@@ -330,7 +331,7 @@ def _test_cycle_data() -> AetherGaugeData:
   if ind_type == IndicatorType.LEAD:
     ind_val = max(3.0, 60.0 - anim_t * 57.0)
     is_stopped = extra == "stopped"
-    text = "STOPPED" if is_stopped else "SLOW"
+    text = tr("STOPPED") if is_stopped else tr("SLOW")
     color = COLOR_LEAD_STOPPED if is_stopped else COLOR_LEAD_SLOWER
     return AetherGaugeData(text=text, color=color,
       indicator_type=ind_type, indicator_value=ind_val,
@@ -365,7 +366,7 @@ def _cem_demo_data() -> AetherGaugeData:
       return _lead_data()
     is_stopped = int(rl.get_time() / 1.0) % 2 == 0
     return AetherGaugeData(
-      text="STOPPED" if is_stopped else "SLOW",
+      text=tr("STOPPED") if is_stopped else tr("SLOW"),
       color=COLOR_LEAD_STOPPED if is_stopped else COLOR_LEAD_SLOWER,
       indicator_type=IndicatorType.LEAD,
       indicator_value=12.0 if is_stopped else 24.0,
@@ -758,8 +759,9 @@ class AetherGauge:
     if r_sign < 10.0 * SCALE:
       return
     stop_font_size = max(14, int(r_sign * 0.7))
-    stop_txt_size = measure_text_cached(font_bold, "STOP", stop_font_size)
-    rl.draw_text_ex(font_bold, "STOP", rl.Vector2(cx_stop - stop_txt_size.x / 2, y_sign - stop_txt_size.y / 2), stop_font_size, 0, _fade(rl.WHITE, alpha))
+    stop_label = tr("STOP")
+    stop_txt_size = measure_text_cached(font_bold, stop_label, stop_font_size)
+    rl.draw_text_ex(font_bold, stop_label, rl.Vector2(cx_stop - stop_txt_size.x / 2, y_sign - stop_txt_size.y / 2), stop_font_size, 0, _fade(rl.WHITE, alpha))
 
   def _draw_mini_cradle(self, cx, bottom, data, font_bold, font_medium, alpha=1.0):
     if not data.text:

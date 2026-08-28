@@ -8,6 +8,7 @@ from openpilot.selfdrive.ui.lib.starpilot_status import (
   ENGAGED_COLOR, EXPERIMENTAL_COLOR, TRAFFIC_COLOR,
 )
 from openpilot.system.ui.lib.application import gui_app, FontWeight
+from openpilot.system.ui.lib.multilang import trn
 from openpilot.system.ui.lib.text_measure import measure_text_cached
 from openpilot.system.ui.widgets import Widget
 
@@ -82,8 +83,8 @@ class StoppedTimerWidget(Widget):
     minutes = duration // 60
     seconds = duration % 60
     return (
-      f"{minutes} minute{'s' if minutes != 1 else ''}",
-      f"{seconds} second{'s' if seconds != 1 else ''}",
+      trn("{} minute", "{} minutes", minutes).format(minutes),
+      trn("{} second", "{} seconds", seconds).format(seconds),
     )
 
   def _render(self, rect: rl.Rectangle) -> None:

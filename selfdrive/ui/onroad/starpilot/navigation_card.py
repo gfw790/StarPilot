@@ -9,6 +9,7 @@ import pyray as rl
 from openpilot.common.params import UnknownKeyName
 from openpilot.selfdrive.ui.ui_state import ui_state
 from openpilot.system.ui.lib.application import FontWeight, gui_app
+from openpilot.system.ui.lib.multilang import tr
 from openpilot.system.ui.lib.text_measure import measure_text_cached
 from openpilot.system.ui.widgets import Widget
 
@@ -352,7 +353,7 @@ class NavigationCardRenderer(Widget):
     )
 
     then_x = divider_x + 15
-    then_label = "Then"
+    then_label = tr("Then")
     then_font_size = 36
     then_size = measure_text_cached(self._font_medium, then_label, then_font_size)
     then_label_x = then_x + (then_section_width - 23 - then_size.x) / 2

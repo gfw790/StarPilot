@@ -12,6 +12,7 @@ from openpilot.selfdrive.ui.onroad.starpilot.rainbow_path import RainbowPath
 from openpilot.selfdrive.ui.lib.starpilot_visuals import lead_indicator_enabled
 from openpilot.selfdrive.ui.ui_state import ui_state, UIStatus
 from openpilot.system.ui.lib.application import gui_app
+from openpilot.system.ui.lib.multilang import tr
 from openpilot.system.ui.lib.shader_polygon import draw_polygon, Gradient
 from openpilot.system.ui.lib.text_measure import measure_text_cached
 from openpilot.system.ui.widgets import Widget
@@ -549,7 +550,7 @@ class ModelRenderer(Widget):
         plan = ui_state.sm["starpilotPlan"]
         desired_follow_distance = float(plan.desiredFollowDistance) if plan and plan.desiredFollowDistance > 0 else 0.0
         desired_distance = max(0, round(desired_follow_distance * distance_conversion))
-        text_lines.append(f"{distance_string} {lead_distance_unit} (Desired: {desired_distance})")
+        text_lines.append(f"{distance_string} {lead_distance_unit} ({tr('Desired:')} {desired_distance})")
       else:
         text_lines.append(f"{distance_string} {lead_distance_unit}")
       
@@ -557,7 +558,7 @@ class ModelRenderer(Widget):
 
       v_ego = max(ui_state.sm["carState"].vEgo, 0.0)
       time_gap = lead_distance / max(v_ego, 1.0)
-      text_lines.append(f"{time_gap:.2f} seconds")
+      text_lines.append(f"{time_gap:.2f} {tr('seconds')}")
 
     from openpilot.system.ui.lib.application import gui_app, FontWeight
     from openpilot.selfdrive.ui.onroad.starpilot.path import _draw_text_with_outline
