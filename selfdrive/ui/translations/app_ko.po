@@ -2998,6 +2998,10 @@ msgstr "차간거리 버튼"
 msgid "Distracted Driver"
 msgstr "운전자 주의 산만"
 
+#: selfdrive/ui/layouts/settings/starpilot/main_panel.py:35
+msgid "Driving Controls"
+msgstr "주행 제어"
+
 #: selfdrive/ui/layouts/settings/starpilot/main_panel.py:101
 msgid "Driving Model"
 msgstr "주행 모델"
@@ -3662,6 +3666,10 @@ msgstr "기타(내용을 설명해 주세요)"
 msgid "Sounds"
 msgstr "소리"
 
+#: selfdrive/ui/layouts/settings/starpilot/main_panel.py:25
+msgid "Sounds & Alerts"
+msgstr "소리 및 알림"
+
 #: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:607
 msgid "Source Priority"
 msgstr "소스 우선순위"
@@ -3749,6 +3757,10 @@ msgstr "openpilot이 명령할 수 있는 최대 가속도입니다."
 #: selfdrive/ui/layouts/settings/starpilot/sounds.py:284
 msgid "Switchback Cooldown"
 msgstr "전환 대기 시간"
+
+#: selfdrive/ui/layouts/settings/starpilot/main_panel.py:51
+msgid "System"
+msgstr "시스템"
 
 #: selfdrive/ui/layouts/settings/starpilot/main_panel.py:100
 msgid "System Settings"
@@ -4019,3 +4031,59 @@ msgstr "직장 위치 설정"
 
 msgid "Unset Work"
 msgstr "직장 위치 해제"
+
+#: selfdrive/ui/layouts/settings/device.py:36
+msgid "Clears the saved driver monitoring wheel-side calibration and any manual right-hand-driving override."
+msgstr "저장된 운전자 모니터링 핸들 위치 보정값과 수동 우핸들 설정을 초기화합니다."
+
+#: selfdrive/ui/layouts/settings/device.py:34
+msgid "Pair your device with Galaxy for remote access to The Galaxy."
+msgstr "Galaxy와 기기를 페어링하여 The Galaxy에 원격으로 접속할 수 있습니다."
+
+#: selfdrive/ui/mici/layouts/offroad_alerts.py:285
+msgid "Tap to acknowledge."
+msgstr "확인하려면 누르세요."
+
+#: selfdrive/ui/layouts/settings/toggles.py:32
+msgid "Use right-hand-drive driver monitoring. This follows the auto-detected side until changed manually."
+msgstr "우핸들 차량용 운전자 모니터링을 사용합니다. 수동으로 변경하기 전까지 자동 감지된 방향을 따릅니다."
+
+#: selfdrive/ui/widgets/drive_stats.py:397 selfdrive/ui/widgets/drive_stats.py:493
+msgid "Week of"
+msgstr "주간"
+
+#: selfdrive/ui/widgets/drive_stats.py:401 selfdrive/ui/widgets/drive_stats.py:494
+msgid "days"
+msgstr "일"
+
+#: selfdrive/ui/widgets/drive_stats.py:21
+msgid "Monday"
+msgstr "월"
+
+#: selfdrive/ui/widgets/drive_stats.py:22
+msgid "Tuesday"
+msgstr "화"
+
+#: selfdrive/ui/widgets/drive_stats.py:23
+msgid "Wednesday"
+msgstr "수"
+
+#: selfdrive/ui/widgets/drive_stats.py:24
+msgid "Thursday"
+msgstr "목"
+
+#: selfdrive/ui/widgets/drive_stats.py:25
+msgid "Friday"
+msgstr "금"
+
+#: selfdrive/ui/widgets/drive_stats.py:26
+msgid "Saturday"
+msgstr "토"
+
+#: selfdrive/ui/widgets/drive_stats.py:27
+msgid "Sunday"
+msgstr "일"
+
+#: selfdrive/ui/widgets/drive_stats.py:414
+msgid "day"
+msgstr "일"

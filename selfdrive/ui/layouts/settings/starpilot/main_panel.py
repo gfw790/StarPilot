@@ -22,7 +22,7 @@ from openpilot.selfdrive.ui.layouts.settings.starpilot.aethergrid import TileGri
 class StarPilotLayout(Widget):
   CATEGORIES = [
     {
-      "title": "Sounds & Alerts",
+      "title": tr_noop("Sounds & Alerts"),
       "icon": "sound",
       "panel": "SOUNDS",
     },
@@ -32,7 +32,7 @@ class StarPilotLayout(Widget):
       "panel": "DRIVING_MODEL",
     },
     {
-      "title": "Driving Controls",
+      "title": tr_noop("Driving Controls"),
       "icon": "steering",
       "children": [
         {
@@ -48,7 +48,7 @@ class StarPilotLayout(Widget):
       ],
     },
     {
-      "title": "System",
+      "title": tr_noop("System"),
       "icon": "system",
       "panel": "SYSTEM",
     },

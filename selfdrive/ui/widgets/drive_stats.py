@@ -11,13 +11,21 @@ import pyray as rl
 from openpilot.common.constants import CV
 from openpilot.common.params import Params
 from openpilot.system.ui.lib.application import FontWeight, gui_app
-from openpilot.system.ui.lib.multilang import tr
+from openpilot.system.ui.lib.multilang import multilang, tr, tr_noop
 from openpilot.system.ui.lib.text_measure import measure_text_cached
 
 
 METER_TO_MILE = 1.0 / 1609.344
 METER_TO_KILOMETER = 0.001
-WEEKDAY_LABELS = ("M", "T", "W", "T", "F", "S", "S")
+WEEKDAY_LABELS = (
+  tr_noop("Monday"),
+  tr_noop("Tuesday"),
+  tr_noop("Wednesday"),
+  tr_noop("Thursday"),
+  tr_noop("Friday"),
+  tr_noop("Saturday"),
+  tr_noop("Sunday"),
+)
 
 CARD_COLOR = rl.Color(18, 20, 29, 255)
 CARD_BORDER = rl.Color(67, 57, 86, 255)
@@ -236,8 +244,15 @@ def _date_label(date_value: Any) -> str:
   parsed = date_value if isinstance(date_value, datetime) else _parse_date(date_value)
   if parsed is None:
     return tr("No drives")
+  if multilang.language == "ko":
+    return f"{parsed.month}월 {parsed.day}일" if parsed.year == datetime.now().year else f"{parsed.year}년 {parsed.month}월 {parsed.day}일"
   date_format = "%b %d" if parsed.year == datetime.now().year else "%b %d, %Y"
   return parsed.strftime(date_format).replace(" 0", " ")
+
+
+def _weekday_label(day_index: int) -> str:
+  label = WEEKDAY_LABELS[day_index]
+  return tr(label) if multilang.language == "ko" else label[0]
 
 
 def _distance_record(distance_meters: float, is_metric: bool) -> str:
@@ -450,7 +465,7 @@ def load_drive_stats_data(params: Params, now: datetime | None = None) -> DriveS
     day = week_start + timedelta(days=day_index)
     distance_meters = sum(route.distance_meters for route in this_week_routes if route.date.date() == day)
     daily.append(DailyDistance(
-      label=WEEKDAY_LABELS[day_index],
+      label=_weekday_label(day_index),
       distance=_distance_from_meters(distance_meters, is_metric),
       is_today=day == now.date(),
       is_future=day > now.date(),
@@ -473,7 +488,7 @@ def demo_drive_stats_data(is_metric: bool, now: datetime | None = None) -> Drive
 
   daily = [
     DailyDistance(
-      label=WEEKDAY_LABELS[index],
+      label=_weekday_label(index),
       distance=distance * distance_scale,
       is_today=index == now.weekday(),
     )
