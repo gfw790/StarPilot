@@ -30,29 +30,29 @@ THEME_KEY_CONFIG = {
 }
 
 COLOR_PRESETS = ["Stock", "#FFFFFF", "#178644", "#3B82F6", "#E63956", "#8B5CF6", "#F59E0B"]
-CAMERA_VIEWS = ["Auto", "Driver", "Standard", "Wide"]
+CAMERA_VIEWS = [tr_noop("Auto"), tr_noop("Driver"), tr_noop("Standard"), tr_noop("Wide")]
 
 # Keys are the int values stored in DeveloperSidebarMetric{1..7}; values are the
 # human-readable labels shown in both the row value and the picker dialog.
 DEVELOPER_SIDEBAR_METRIC_OPTIONS: dict[int, str] = {
-  0:  "None",
-  1:  "Acceleration: Current",
-  2:  "Acceleration: Max",
-  3:  "Auto Tune: Actuator Delay",
-  4:  "Auto Tune: Friction",
-  5:  "Auto Tune: Lateral Acceleration",
-  6:  "Auto Tune: Steer Ratio",
-  7:  "Auto Tune: Stiffness Factor",
-  8:  "Engagement %: Lateral",
-  9:  "Engagement %: Longitudinal",
-  10: "Lateral Control: Steering Angle",
-  11: "Lateral Control: Torque % Used",
-  12: "Longitudinal Control: Actuator Acceleration Output",
-  13: "Longitudinal MPC: Danger Factor",
-  14: "Longitudinal MPC Jerk: Acceleration",
-  15: "Longitudinal MPC Jerk: Danger Zone",
-  16: "Longitudinal MPC Jerk: Speed Control",
-  17: "Model Name",
+  0:  tr_noop("None"),
+  1:  tr_noop("Acceleration: Current"),
+  2:  tr_noop("Acceleration: Max"),
+  3:  tr_noop("Auto Tune: Actuator Delay"),
+  4:  tr_noop("Auto Tune: Friction"),
+  5:  tr_noop("Auto Tune: Lateral Acceleration"),
+  6:  tr_noop("Auto Tune: Steer Ratio"),
+  7:  tr_noop("Auto Tune: Stiffness Factor"),
+  8:  tr_noop("Engagement %: Lateral"),
+  9:  tr_noop("Engagement %: Longitudinal"),
+  10: tr_noop("Lateral Control: Steering Angle"),
+  11: tr_noop("Lateral Control: Torque % Used"),
+  12: tr_noop("Longitudinal Control: Actuator Acceleration Output"),
+  13: tr_noop("Longitudinal MPC: Danger Factor"),
+  14: tr_noop("Longitudinal MPC Jerk: Acceleration"),
+  15: tr_noop("Longitudinal MPC Jerk: Danger Zone"),
+  16: tr_noop("Longitudinal MPC Jerk: Speed Control"),
+  17: tr_noop("Model Name"),
 }
 
 def _theme_display_name(value: str) -> str:
@@ -73,9 +73,9 @@ def _theme_display_name(value: str) -> str:
     parts = [part for part in re.split(r"[-_]+", base) if part]
     display = " ".join(part[:1].upper() + part[1:] for part in parts) if parts else value
     if user_created:
-        display += " (User Created)"
+        display += f" {tr('(User Created)')}"
     if creator:
-        display += f" - by: {creator}"
+        display += f" - {tr('by')}: {creator}"
     return display
 
 # ═══════════════════════════════════════════════════════════════
@@ -605,13 +605,16 @@ class StarPilotAppearanceLayout(_SettingsPage):
 
     def _show_camera_view_selector(self):
         current = self._params.get_int("CameraView", return_default=True, default=2)
+        localized_options = [(value, tr(value)) for value in CAMERA_VIEWS]
+        value_by_label = {label: value for value, label in localized_options}
 
         def on_select(res):
             if res == DialogResult.CONFIRM and dialog.selection:
-                idx = CAMERA_VIEWS.index(dialog.selection)
-                self._params.put_int("CameraView", idx)
+                selected_value = value_by_label.get(dialog.selection)
+                if selected_value is not None:
+                    self._params.put_int("CameraView", CAMERA_VIEWS.index(selected_value))
 
-        dialog = MultiOptionDialog(tr("Camera View"), CAMERA_VIEWS, CAMERA_VIEWS[current], callback=on_select)
+        dialog = MultiOptionDialog(tr("Camera View"), [label for _, label in localized_options], tr(CAMERA_VIEWS[current]), callback=on_select)
         gui_app.push_widget(dialog)
 
     # ── Color selectors ──
@@ -699,28 +702,31 @@ class StarPilotAppearanceLayout(_SettingsPage):
     def _get_startup_alert_display(self):
         current_top = self._params.get("StartupMessageTop", encoding='utf-8') or ""
         if current_top == "Be ready to take over at any time":
-            return "Stock"
+            return tr("Stock")
         if current_top == "Hop in and buckle up!":
             return "StarPilot"
-        return "Clear"
+        return tr("Clear")
 
     def _show_startup_alert_selector(self):
-        options = ["Stock", "StarPilot", "Clear"]
+        option_values = [tr_noop("Stock"), "StarPilot", tr_noop("Clear")]
+        localized_options = [(value, tr(value)) for value in option_values]
+        value_by_label = {label: value for value, label in localized_options}
         current = self._get_startup_alert_display()
 
         def on_select(res):
             if res == DialogResult.CONFIRM and dialog.selection:
-                if dialog.selection == "Stock":
+                selected_value = value_by_label.get(dialog.selection)
+                if selected_value == "Stock":
                     self._params.put("StartupMessageTop", "Be ready to take over at any time")
                     self._params.put("StartupMessageBottom", "Always keep hands on wheel and eyes on road")
-                elif dialog.selection == "StarPilot":
+                elif selected_value == "StarPilot":
                     self._params.put("StartupMessageTop", "Hop in and buckle up!")
                     self._params.put("StartupMessageBottom", "Human-tested, frog-approved")
                 else:
                     self._params.remove("StartupMessageTop")
                     self._params.remove("StartupMessageBottom")
 
-        dialog = MultiOptionDialog(tr("Startup Alert"), options, current, callback=on_select)
+        dialog = MultiOptionDialog(tr("Startup Alert"), [label for _, label in localized_options], current, callback=on_select)
         gui_app.push_widget(dialog)
 
     # ── Developer sidebar metric selectors ──
@@ -728,18 +734,19 @@ class StarPilotAppearanceLayout(_SettingsPage):
     def _show_developer_sidebar_metric_selector(self, idx: int):
         key = f"DeveloperSidebarMetric{idx}"
         current_int = self._params.get_int(key)
-        options = list(DEVELOPER_SIDEBAR_METRIC_OPTIONS.values())
-        current_display = DEVELOPER_SIDEBAR_METRIC_OPTIONS.get(current_int, tr("None"))
+        localized_options = [(value, tr(value)) for value in DEVELOPER_SIDEBAR_METRIC_OPTIONS.values()]
+        value_by_label = {label: value for value, label in localized_options}
+        current_display = tr(DEVELOPER_SIDEBAR_METRIC_OPTIONS.get(current_int, "None"))
 
         def on_select(res):
             if res == DialogResult.CONFIRM and dialog.selection:
                 selected_int = next(
-                    (k for k, v in DEVELOPER_SIDEBAR_METRIC_OPTIONS.items() if v == dialog.selection),
+                    (k for k, v in DEVELOPER_SIDEBAR_METRIC_OPTIONS.items() if v == value_by_label.get(dialog.selection)),
                     0,
                 )
                 self._params.put_int(key, selected_int)
 
-        dialog = MultiOptionDialog(f"{tr('Metric')} #{idx}", options, current_display, callback=on_select)
+        dialog = MultiOptionDialog(f"{tr('Metric')} #{idx}", [label for _, label in localized_options], current_display, callback=on_select)
         gui_app.push_widget(dialog)
 
     def _get_developer_sidebar_metric_display(self, idx: int) -> str:

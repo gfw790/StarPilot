@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import datetime
+import re
 import shutil
 import threading
 from dataclasses import dataclass, replace
@@ -11,7 +13,7 @@ import pyray as rl
 from openpilot.common.params import Params
 from openpilot.selfdrive.ui.ui_state import device, ui_state
 from openpilot.system.ui.lib.application import FontWeight, gui_app
-from openpilot.system.ui.lib.multilang import tr, tr_noop, trn
+from openpilot.system.ui.lib.multilang import multilang, tr, tr_noop, trn
 from openpilot.system.ui.lib.text_measure import measure_text_cached
 from openpilot.system.ui.widgets import DialogResult
 from openpilot.system.ui.widgets.confirm_dialog import ConfirmDialog, alert_dialog
@@ -53,6 +55,8 @@ OFFLINE_MAPS_PATH = Path("/data/media/0/osm/offline")
 CANCEL_REQUEST_TIMEOUT = 3.0
 PANEL_STYLE = DEFAULT_PANEL_STYLE
 MAPS_METRICS = replace(AETHER_LIST_METRICS, header_height=0)
+
+ENGLISH_MAP_DATE_RE = re.compile(r"^(January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2})(?:st|nd|rd|th), (\d{4})$")
 
 COUNTRIES_SECTION = next(section for section in MAPS_CATALOG if section["key"] == "countries")
 STATES_SECTION = next(section for section in MAPS_CATALOG if section["key"] == "states")
@@ -138,6 +142,19 @@ def _format_eta_ms(elapsed_ms: int, downloaded_files: int, total_files: int) -> 
 
 def _localized_schedule_label(value) -> str:
   return tr(schedule_label(value))
+
+
+def _localized_last_maps_update(value: str) -> str:
+  if multilang.language != "ko":
+    return value
+  match = ENGLISH_MAP_DATE_RE.fullmatch(value)
+  if match is None:
+    return value
+  try:
+    parsed = datetime.strptime(f"{match.group(1)} {match.group(2)} {match.group(3)}", "%B %d %Y")
+  except ValueError:
+    return value
+  return f"{parsed.year}년 {parsed.month}월 {parsed.day}일"
 
 
 def _selected_token_set(selected_raw: str | bytes | None) -> set[str]:
@@ -921,7 +938,7 @@ class StarPilotMapsLayout(_SettingsPage):
 
   def _last_updated_text(self) -> str:
     last_update = self._worker_params.get("LastMapsUpdate", encoding="utf-8")
-    return last_update or tr("Never")
+    return _localized_last_maps_update(last_update) if last_update else tr("Never")
 
   def _progress_title(self) -> str:
     if self._is_visually_cancelling():

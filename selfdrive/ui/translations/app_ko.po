@@ -4087,3 +4087,1105 @@ msgstr "일"
 #: selfdrive/ui/widgets/drive_stats.py:414
 msgid "day"
 msgstr "일"
+
+#: StarPilot device UI dynamic display value
+msgid "Countries"
+msgstr "국가"
+
+#: StarPilot device UI dynamic display value
+msgid "Africa"
+msgstr "아프리카"
+
+#: StarPilot device UI dynamic display value
+msgid "Antarctica"
+msgstr "남극"
+
+#: StarPilot device UI dynamic display value
+msgid "Asia"
+msgstr "아시아"
+
+#: StarPilot device UI dynamic display value
+msgid "Europe"
+msgstr "유럽"
+
+#: StarPilot device UI dynamic display value
+msgid "North America"
+msgstr "북아메리카"
+
+#: StarPilot device UI dynamic display value
+msgid "Oceania"
+msgstr "오세아니아"
+
+#: StarPilot device UI dynamic display value
+msgid "South America"
+msgstr "남아메리카"
+
+#: StarPilot device UI dynamic display value
+msgid "U.S. States"
+msgstr "미국 주"
+
+#: StarPilot device UI dynamic display value
+msgid "Midwest"
+msgstr "중서부"
+
+#: StarPilot device UI dynamic display value
+msgid "Northeast"
+msgstr "북동부"
+
+#: StarPilot device UI dynamic display value
+msgid "South"
+msgstr "남부"
+
+#: StarPilot device UI dynamic display value
+msgid "West"
+msgstr "서부"
+
+#: StarPilot device UI dynamic display value
+msgid "Territories"
+msgstr "미국령"
+
+#: StarPilot device UI dynamic display value
+msgid "Algeria"
+msgstr "알제리"
+
+#: StarPilot device UI dynamic display value
+msgid "Angola"
+msgstr "앙골라"
+
+#: StarPilot device UI dynamic display value
+msgid "Benin"
+msgstr "베냉"
+
+#: StarPilot device UI dynamic display value
+msgid "Botswana"
+msgstr "보츠와나"
+
+#: StarPilot device UI dynamic display value
+msgid "Burkina Faso"
+msgstr "부르키나파소"
+
+#: StarPilot device UI dynamic display value
+msgid "Burundi"
+msgstr "부룬디"
+
+#: StarPilot device UI dynamic display value
+msgid "Cameroon"
+msgstr "카메룬"
+
+#: StarPilot device UI dynamic display value
+msgid "Central African Republic"
+msgstr "중앙아프리카 공화국"
+
+#: StarPilot device UI dynamic display value
+msgid "Chad"
+msgstr "차드"
+
+#: StarPilot device UI dynamic display value
+msgid "Comoros"
+msgstr "코모로"
+
+#: StarPilot device UI dynamic display value
+msgid "Congo (Brazzaville)"
+msgstr "콩고 공화국"
+
+#: StarPilot device UI dynamic display value
+msgid "Congo (Kinshasa)"
+msgstr "콩고 민주 공화국"
+
+#: StarPilot device UI dynamic display value
+msgid "Djibouti"
+msgstr "지부티"
+
+#: StarPilot device UI dynamic display value
+msgid "Egypt"
+msgstr "이집트"
+
+#: StarPilot device UI dynamic display value
+msgid "Equatorial Guinea"
+msgstr "적도 기니"
+
+#: StarPilot device UI dynamic display value
+msgid "Eritrea"
+msgstr "에리트레아"
+
+#: StarPilot device UI dynamic display value
+msgid "Ethiopia"
+msgstr "에티오피아"
+
+#: StarPilot device UI dynamic display value
+msgid "Gabon"
+msgstr "가봉"
+
+#: StarPilot device UI dynamic display value
+msgid "Gambia"
+msgstr "감비아"
+
+#: StarPilot device UI dynamic display value
+msgid "Ghana"
+msgstr "가나"
+
+#: StarPilot device UI dynamic display value
+msgid "Guinea"
+msgstr "기니"
+
+#: StarPilot device UI dynamic display value
+msgid "Guinea-Bissau"
+msgstr "기니비사우"
+
+#: StarPilot device UI dynamic display value
+msgid "Ivory Coast"
+msgstr "코트디부아르"
+
+#: StarPilot device UI dynamic display value
+msgid "Kenya"
+msgstr "케냐"
+
+#: StarPilot device UI dynamic display value
+msgid "Lesotho"
+msgstr "레소토"
+
+#: StarPilot device UI dynamic display value
+msgid "Liberia"
+msgstr "라이베리아"
+
+#: StarPilot device UI dynamic display value
+msgid "Libya"
+msgstr "리비아"
+
+#: StarPilot device UI dynamic display value
+msgid "Madagascar"
+msgstr "마다가스카르"
+
+#: StarPilot device UI dynamic display value
+msgid "Malawi"
+msgstr "말라위"
+
+#: StarPilot device UI dynamic display value
+msgid "Mali"
+msgstr "말리"
+
+#: StarPilot device UI dynamic display value
+msgid "Mauritania"
+msgstr "모리타니"
+
+#: StarPilot device UI dynamic display value
+msgid "Morocco"
+msgstr "모로코"
+
+#: StarPilot device UI dynamic display value
+msgid "Mozambique"
+msgstr "모잠비크"
+
+#: StarPilot device UI dynamic display value
+msgid "Namibia"
+msgstr "나미비아"
+
+#: StarPilot device UI dynamic display value
+msgid "Niger"
+msgstr "니제르"
+
+#: StarPilot device UI dynamic display value
+msgid "Nigeria"
+msgstr "나이지리아"
+
+#: StarPilot device UI dynamic display value
+msgid "Rwanda"
+msgstr "르완다"
+
+#: StarPilot device UI dynamic display value
+msgid "Senegal"
+msgstr "세네갈"
+
+#: StarPilot device UI dynamic display value
+msgid "Sierra Leone"
+msgstr "시에라리온"
+
+#: StarPilot device UI dynamic display value
+msgid "Somalia"
+msgstr "소말리아"
+
+#: StarPilot device UI dynamic display value
+msgid "South Africa"
+msgstr "남아프리카 공화국"
+
+#: StarPilot device UI dynamic display value
+msgid "South Sudan"
+msgstr "남수단"
+
+#: StarPilot device UI dynamic display value
+msgid "Sudan"
+msgstr "수단"
+
+#: StarPilot device UI dynamic display value
+msgid "Swaziland"
+msgstr "에스와티니"
+
+#: StarPilot device UI dynamic display value
+msgid "Tanzania"
+msgstr "탄자니아"
+
+#: StarPilot device UI dynamic display value
+msgid "Togo"
+msgstr "토고"
+
+#: StarPilot device UI dynamic display value
+msgid "Tunisia"
+msgstr "튀니지"
+
+#: StarPilot device UI dynamic display value
+msgid "Uganda"
+msgstr "우간다"
+
+#: StarPilot device UI dynamic display value
+msgid "Zambia"
+msgstr "잠비아"
+
+#: StarPilot device UI dynamic display value
+msgid "Zimbabwe"
+msgstr "짐바브웨"
+
+#: StarPilot device UI dynamic display value
+msgid "Afghanistan"
+msgstr "아프가니스탄"
+
+#: StarPilot device UI dynamic display value
+msgid "Armenia"
+msgstr "아르메니아"
+
+#: StarPilot device UI dynamic display value
+msgid "Azerbaijan"
+msgstr "아제르바이잔"
+
+#: StarPilot device UI dynamic display value
+msgid "Bahrain"
+msgstr "바레인"
+
+#: StarPilot device UI dynamic display value
+msgid "Bangladesh"
+msgstr "방글라데시"
+
+#: StarPilot device UI dynamic display value
+msgid "Bhutan"
+msgstr "부탄"
+
+#: StarPilot device UI dynamic display value
+msgid "Brunei"
+msgstr "브루나이"
+
+#: StarPilot device UI dynamic display value
+msgid "Cambodia"
+msgstr "캄보디아"
+
+#: StarPilot device UI dynamic display value
+msgid "China"
+msgstr "중국"
+
+#: StarPilot device UI dynamic display value
+msgid "Cyprus"
+msgstr "키프로스"
+
+#: StarPilot device UI dynamic display value
+msgid "East Timor"
+msgstr "동티모르"
+
+#: StarPilot device UI dynamic display value
+msgid "Hong Kong"
+msgstr "홍콩"
+
+#: StarPilot device UI dynamic display value
+msgid "India"
+msgstr "인도"
+
+#: StarPilot device UI dynamic display value
+msgid "Indonesia"
+msgstr "인도네시아"
+
+#: StarPilot device UI dynamic display value
+msgid "Iran"
+msgstr "이란"
+
+#: StarPilot device UI dynamic display value
+msgid "Iraq"
+msgstr "이라크"
+
+#: StarPilot device UI dynamic display value
+msgid "Israel"
+msgstr "이스라엘"
+
+#: StarPilot device UI dynamic display value
+msgid "Japan"
+msgstr "일본"
+
+#: StarPilot device UI dynamic display value
+msgid "Jordan"
+msgstr "요르단"
+
+#: StarPilot device UI dynamic display value
+msgid "Kazakhstan"
+msgstr "카자흐스탄"
+
+#: StarPilot device UI dynamic display value
+msgid "Kuwait"
+msgstr "쿠웨이트"
+
+#: StarPilot device UI dynamic display value
+msgid "Kyrgyzstan"
+msgstr "키르기스스탄"
+
+#: StarPilot device UI dynamic display value
+msgid "Laos"
+msgstr "라오스"
+
+#: StarPilot device UI dynamic display value
+msgid "Lebanon"
+msgstr "레바논"
+
+#: StarPilot device UI dynamic display value
+msgid "Macao"
+msgstr "마카오"
+
+#: StarPilot device UI dynamic display value
+msgid "Malaysia"
+msgstr "말레이시아"
+
+#: StarPilot device UI dynamic display value
+msgid "Maldives"
+msgstr "몰디브"
+
+#: StarPilot device UI dynamic display value
+msgid "Mongolia"
+msgstr "몽골"
+
+#: StarPilot device UI dynamic display value
+msgid "Myanmar"
+msgstr "미얀마"
+
+#: StarPilot device UI dynamic display value
+msgid "Nepal"
+msgstr "네팔"
+
+#: StarPilot device UI dynamic display value
+msgid "North Korea"
+msgstr "북한"
+
+#: StarPilot device UI dynamic display value
+msgid "Oman"
+msgstr "오만"
+
+#: StarPilot device UI dynamic display value
+msgid "Pakistan"
+msgstr "파키스탄"
+
+#: StarPilot device UI dynamic display value
+msgid "Palestine"
+msgstr "팔레스타인"
+
+#: StarPilot device UI dynamic display value
+msgid "Philippines"
+msgstr "필리핀"
+
+#: StarPilot device UI dynamic display value
+msgid "Qatar"
+msgstr "카타르"
+
+#: StarPilot device UI dynamic display value
+msgid "Russia"
+msgstr "러시아"
+
+#: StarPilot device UI dynamic display value
+msgid "Saudi Arabia"
+msgstr "사우디아라비아"
+
+#: StarPilot device UI dynamic display value
+msgid "Singapore"
+msgstr "싱가포르"
+
+#: StarPilot device UI dynamic display value
+msgid "South Korea"
+msgstr "대한민국"
+
+#: StarPilot device UI dynamic display value
+msgid "Sri Lanka"
+msgstr "스리랑카"
+
+#: StarPilot device UI dynamic display value
+msgid "Syria"
+msgstr "시리아"
+
+#: StarPilot device UI dynamic display value
+msgid "Taiwan"
+msgstr "대만"
+
+#: StarPilot device UI dynamic display value
+msgid "Tajikistan"
+msgstr "타지키스탄"
+
+#: StarPilot device UI dynamic display value
+msgid "Thailand"
+msgstr "태국"
+
+#: StarPilot device UI dynamic display value
+msgid "Turkey"
+msgstr "튀르키예"
+
+#: StarPilot device UI dynamic display value
+msgid "Turkmenistan"
+msgstr "투르크메니스탄"
+
+#: StarPilot device UI dynamic display value
+msgid "United Arab Emirates"
+msgstr "아랍에미리트"
+
+#: StarPilot device UI dynamic display value
+msgid "Uzbekistan"
+msgstr "우즈베키스탄"
+
+#: StarPilot device UI dynamic display value
+msgid "Vietnam"
+msgstr "베트남"
+
+#: StarPilot device UI dynamic display value
+msgid "Yemen"
+msgstr "예멘"
+
+#: StarPilot device UI dynamic display value
+msgid "Albania"
+msgstr "알바니아"
+
+#: StarPilot device UI dynamic display value
+msgid "Austria"
+msgstr "오스트리아"
+
+#: StarPilot device UI dynamic display value
+msgid "Belarus"
+msgstr "벨라루스"
+
+#: StarPilot device UI dynamic display value
+msgid "Belgium"
+msgstr "벨기에"
+
+#: StarPilot device UI dynamic display value
+msgid "Bosnia and Herzegovina"
+msgstr "보스니아 헤르체고비나"
+
+#: StarPilot device UI dynamic display value
+msgid "Bulgaria"
+msgstr "불가리아"
+
+#: StarPilot device UI dynamic display value
+msgid "Croatia"
+msgstr "크로아티아"
+
+#: StarPilot device UI dynamic display value
+msgid "Czech Republic"
+msgstr "체코"
+
+#: StarPilot device UI dynamic display value
+msgid "Denmark"
+msgstr "덴마크"
+
+#: StarPilot device UI dynamic display value
+msgid "Estonia"
+msgstr "에스토니아"
+
+#: StarPilot device UI dynamic display value
+msgid "Finland"
+msgstr "핀란드"
+
+#: StarPilot device UI dynamic display value
+msgid "France"
+msgstr "프랑스"
+
+#: StarPilot device UI dynamic display value
+msgid "Georgia"
+msgstr "조지아"
+
+#: StarPilot device UI dynamic display value
+msgid "Germany"
+msgstr "독일"
+
+#: StarPilot device UI dynamic display value
+msgid "Greece"
+msgstr "그리스"
+
+#: StarPilot device UI dynamic display value
+msgid "Hungary"
+msgstr "헝가리"
+
+#: StarPilot device UI dynamic display value
+msgid "Iceland"
+msgstr "아이슬란드"
+
+#: StarPilot device UI dynamic display value
+msgid "Ireland"
+msgstr "아일랜드"
+
+#: StarPilot device UI dynamic display value
+msgid "Italy"
+msgstr "이탈리아"
+
+#: StarPilot device UI dynamic display value
+msgid "Latvia"
+msgstr "라트비아"
+
+#: StarPilot device UI dynamic display value
+msgid "Lithuania"
+msgstr "리투아니아"
+
+#: StarPilot device UI dynamic display value
+msgid "Luxembourg"
+msgstr "룩셈부르크"
+
+#: StarPilot device UI dynamic display value
+msgid "Macedonia"
+msgstr "북마케도니아"
+
+#: StarPilot device UI dynamic display value
+msgid "Moldova"
+msgstr "몰도바"
+
+#: StarPilot device UI dynamic display value
+msgid "Montenegro"
+msgstr "몬테네그로"
+
+#: StarPilot device UI dynamic display value
+msgid "Netherlands"
+msgstr "네덜란드"
+
+#: StarPilot device UI dynamic display value
+msgid "Norway"
+msgstr "노르웨이"
+
+#: StarPilot device UI dynamic display value
+msgid "Poland"
+msgstr "폴란드"
+
+#: StarPilot device UI dynamic display value
+msgid "Portugal"
+msgstr "포르투갈"
+
+#: StarPilot device UI dynamic display value
+msgid "Romania"
+msgstr "루마니아"
+
+#: StarPilot device UI dynamic display value
+msgid "Serbia"
+msgstr "세르비아"
+
+#: StarPilot device UI dynamic display value
+msgid "Slovakia"
+msgstr "슬로바키아"
+
+#: StarPilot device UI dynamic display value
+msgid "Slovenia"
+msgstr "슬로베니아"
+
+#: StarPilot device UI dynamic display value
+msgid "Spain"
+msgstr "스페인"
+
+#: StarPilot device UI dynamic display value
+msgid "Sweden"
+msgstr "스웨덴"
+
+#: StarPilot device UI dynamic display value
+msgid "Switzerland"
+msgstr "스위스"
+
+#: StarPilot device UI dynamic display value
+msgid "Ukraine"
+msgstr "우크라이나"
+
+#: StarPilot device UI dynamic display value
+msgid "United Kingdom"
+msgstr "영국"
+
+#: StarPilot device UI dynamic display value
+msgid "Bahamas"
+msgstr "바하마"
+
+#: StarPilot device UI dynamic display value
+msgid "Belize"
+msgstr "벨리즈"
+
+#: StarPilot device UI dynamic display value
+msgid "Canada"
+msgstr "캐나다"
+
+#: StarPilot device UI dynamic display value
+msgid "Costa Rica"
+msgstr "코스타리카"
+
+#: StarPilot device UI dynamic display value
+msgid "Cuba"
+msgstr "쿠바"
+
+#: StarPilot device UI dynamic display value
+msgid "Dominican Republic"
+msgstr "도미니카 공화국"
+
+#: StarPilot device UI dynamic display value
+msgid "El Salvador"
+msgstr "엘살바도르"
+
+#: StarPilot device UI dynamic display value
+msgid "Greenland"
+msgstr "그린란드"
+
+#: StarPilot device UI dynamic display value
+msgid "Grenada"
+msgstr "그레나다"
+
+#: StarPilot device UI dynamic display value
+msgid "Guatemala"
+msgstr "과테말라"
+
+#: StarPilot device UI dynamic display value
+msgid "Haiti"
+msgstr "아이티"
+
+#: StarPilot device UI dynamic display value
+msgid "Honduras"
+msgstr "온두라스"
+
+#: StarPilot device UI dynamic display value
+msgid "Jamaica"
+msgstr "자메이카"
+
+#: StarPilot device UI dynamic display value
+msgid "Mexico"
+msgstr "멕시코"
+
+#: StarPilot device UI dynamic display value
+msgid "Nicaragua"
+msgstr "니카라과"
+
+#: StarPilot device UI dynamic display value
+msgid "Panama"
+msgstr "파나마"
+
+#: StarPilot device UI dynamic display value
+msgid "Trinidad and Tobago"
+msgstr "트리니다드 토바고"
+
+#: StarPilot device UI dynamic display value
+msgid "United States"
+msgstr "미국"
+
+#: StarPilot device UI dynamic display value
+msgid "Australia"
+msgstr "호주"
+
+#: StarPilot device UI dynamic display value
+msgid "Fiji"
+msgstr "피지"
+
+#: StarPilot device UI dynamic display value
+msgid "French Southern Territories"
+msgstr "프랑스령 남방 지역"
+
+#: StarPilot device UI dynamic display value
+msgid "New Caledonia"
+msgstr "뉴칼레도니아"
+
+#: StarPilot device UI dynamic display value
+msgid "New Zealand"
+msgstr "뉴질랜드"
+
+#: StarPilot device UI dynamic display value
+msgid "Papua New Guinea"
+msgstr "파푸아뉴기니"
+
+#: StarPilot device UI dynamic display value
+msgid "Solomon Islands"
+msgstr "솔로몬 제도"
+
+#: StarPilot device UI dynamic display value
+msgid "Vanuatu"
+msgstr "바누아투"
+
+#: StarPilot device UI dynamic display value
+msgid "Argentina"
+msgstr "아르헨티나"
+
+#: StarPilot device UI dynamic display value
+msgid "Bolivia"
+msgstr "볼리비아"
+
+#: StarPilot device UI dynamic display value
+msgid "Brazil"
+msgstr "브라질"
+
+#: StarPilot device UI dynamic display value
+msgid "Chile"
+msgstr "칠레"
+
+#: StarPilot device UI dynamic display value
+msgid "Colombia"
+msgstr "콜롬비아"
+
+#: StarPilot device UI dynamic display value
+msgid "Ecuador"
+msgstr "에콰도르"
+
+#: StarPilot device UI dynamic display value
+msgid "Falkland Islands"
+msgstr "포클랜드 제도"
+
+#: StarPilot device UI dynamic display value
+msgid "Guyana"
+msgstr "가이아나"
+
+#: StarPilot device UI dynamic display value
+msgid "Paraguay"
+msgstr "파라과이"
+
+#: StarPilot device UI dynamic display value
+msgid "Peru"
+msgstr "페루"
+
+#: StarPilot device UI dynamic display value
+msgid "Suriname"
+msgstr "수리남"
+
+#: StarPilot device UI dynamic display value
+msgid "Uruguay"
+msgstr "우루과이"
+
+#: StarPilot device UI dynamic display value
+msgid "Venezuela"
+msgstr "베네수엘라"
+
+#: StarPilot device UI dynamic display value
+msgid "Illinois"
+msgstr "일리노이"
+
+#: StarPilot device UI dynamic display value
+msgid "Indiana"
+msgstr "인디애나"
+
+#: StarPilot device UI dynamic display value
+msgid "Iowa"
+msgstr "아이오와"
+
+#: StarPilot device UI dynamic display value
+msgid "Kansas"
+msgstr "캔자스"
+
+#: StarPilot device UI dynamic display value
+msgid "Michigan"
+msgstr "미시간"
+
+#: StarPilot device UI dynamic display value
+msgid "Minnesota"
+msgstr "미네소타"
+
+#: StarPilot device UI dynamic display value
+msgid "Missouri"
+msgstr "미주리"
+
+#: StarPilot device UI dynamic display value
+msgid "Nebraska"
+msgstr "네브래스카"
+
+#: StarPilot device UI dynamic display value
+msgid "North Dakota"
+msgstr "노스다코타"
+
+#: StarPilot device UI dynamic display value
+msgid "Ohio"
+msgstr "오하이오"
+
+#: StarPilot device UI dynamic display value
+msgid "South Dakota"
+msgstr "사우스다코타"
+
+#: StarPilot device UI dynamic display value
+msgid "Wisconsin"
+msgstr "위스콘신"
+
+#: StarPilot device UI dynamic display value
+msgid "Connecticut"
+msgstr "코네티컷"
+
+#: StarPilot device UI dynamic display value
+msgid "Maine"
+msgstr "메인"
+
+#: StarPilot device UI dynamic display value
+msgid "Massachusetts"
+msgstr "매사추세츠"
+
+#: StarPilot device UI dynamic display value
+msgid "New Hampshire"
+msgstr "뉴햄프셔"
+
+#: StarPilot device UI dynamic display value
+msgid "New Jersey"
+msgstr "뉴저지"
+
+#: StarPilot device UI dynamic display value
+msgid "New York"
+msgstr "뉴욕"
+
+#: StarPilot device UI dynamic display value
+msgid "Pennsylvania"
+msgstr "펜실베이니아"
+
+#: StarPilot device UI dynamic display value
+msgid "Rhode Island"
+msgstr "로드아일랜드"
+
+#: StarPilot device UI dynamic display value
+msgid "Vermont"
+msgstr "버몬트"
+
+#: StarPilot device UI dynamic display value
+msgid "Alabama"
+msgstr "앨라배마"
+
+#: StarPilot device UI dynamic display value
+msgid "Arkansas"
+msgstr "아칸소"
+
+#: StarPilot device UI dynamic display value
+msgid "Delaware"
+msgstr "델라웨어"
+
+#: StarPilot device UI dynamic display value
+msgid "District of Columbia"
+msgstr "워싱턴 D.C."
+
+#: StarPilot device UI dynamic display value
+msgid "Florida"
+msgstr "플로리다"
+
+#: StarPilot device UI dynamic display value
+msgid "Kentucky"
+msgstr "켄터키"
+
+#: StarPilot device UI dynamic display value
+msgid "Louisiana"
+msgstr "루이지애나"
+
+#: StarPilot device UI dynamic display value
+msgid "Maryland"
+msgstr "메릴랜드"
+
+#: StarPilot device UI dynamic display value
+msgid "Mississippi"
+msgstr "미시시피"
+
+#: StarPilot device UI dynamic display value
+msgid "North Carolina"
+msgstr "노스캐롤라이나"
+
+#: StarPilot device UI dynamic display value
+msgid "Oklahoma"
+msgstr "오클라호마"
+
+#: StarPilot device UI dynamic display value
+msgid "South Carolina"
+msgstr "사우스캐롤라이나"
+
+#: StarPilot device UI dynamic display value
+msgid "Tennessee"
+msgstr "테네시"
+
+#: StarPilot device UI dynamic display value
+msgid "Texas"
+msgstr "텍사스"
+
+#: StarPilot device UI dynamic display value
+msgid "Virginia"
+msgstr "버지니아"
+
+#: StarPilot device UI dynamic display value
+msgid "West Virginia"
+msgstr "웨스트버지니아"
+
+#: StarPilot device UI dynamic display value
+msgid "Alaska"
+msgstr "알래스카"
+
+#: StarPilot device UI dynamic display value
+msgid "Arizona"
+msgstr "애리조나"
+
+#: StarPilot device UI dynamic display value
+msgid "California"
+msgstr "캘리포니아"
+
+#: StarPilot device UI dynamic display value
+msgid "Colorado"
+msgstr "콜로라도"
+
+#: StarPilot device UI dynamic display value
+msgid "Hawaii"
+msgstr "하와이"
+
+#: StarPilot device UI dynamic display value
+msgid "Idaho"
+msgstr "아이다호"
+
+#: StarPilot device UI dynamic display value
+msgid "Montana"
+msgstr "몬태나"
+
+#: StarPilot device UI dynamic display value
+msgid "Nevada"
+msgstr "네바다"
+
+#: StarPilot device UI dynamic display value
+msgid "New Mexico"
+msgstr "뉴멕시코"
+
+#: StarPilot device UI dynamic display value
+msgid "Oregon"
+msgstr "오리건"
+
+#: StarPilot device UI dynamic display value
+msgid "Utah"
+msgstr "유타"
+
+#: StarPilot device UI dynamic display value
+msgid "Washington"
+msgstr "워싱턴"
+
+#: StarPilot device UI dynamic display value
+msgid "Wyoming"
+msgstr "와이오밍"
+
+#: StarPilot device UI dynamic display value
+msgid "American Samoa"
+msgstr "아메리칸사모아"
+
+#: StarPilot device UI dynamic display value
+msgid "Guam"
+msgstr "괌"
+
+#: StarPilot device UI dynamic display value
+msgid "Northern Mariana Islands"
+msgstr "북마리아나 제도"
+
+#: StarPilot device UI dynamic display value
+msgid "Puerto Rico"
+msgstr "푸에르토리코"
+
+#: StarPilot device UI dynamic display value
+msgid "Virgin Islands"
+msgstr "미국령 버진아일랜드"
+
+#: StarPilot device UI dynamic display value
+msgid "Navigation & Maps"
+msgstr "내비게이션 및 지도"
+
+#: StarPilot device UI dynamic display value
+msgid "Manually"
+msgstr "수동"
+
+#: StarPilot device UI dynamic display value
+msgid "Weekly"
+msgstr "매주"
+
+#: StarPilot device UI dynamic display value
+msgid "Monthly"
+msgstr "매월"
+
+#: StarPilot device UI dynamic display value
+msgid "Acceleration: Current"
+msgstr "가속도: 현재"
+
+#: StarPilot device UI dynamic display value
+msgid "Acceleration: Max"
+msgstr "가속도: 최대"
+
+#: StarPilot device UI dynamic display value
+msgid "Auto Tune: Actuator Delay"
+msgstr "자동 튜닝: 액추에이터 지연"
+
+#: StarPilot device UI dynamic display value
+msgid "Auto Tune: Friction"
+msgstr "자동 튜닝: 마찰"
+
+#: StarPilot device UI dynamic display value
+msgid "Auto Tune: Lateral Acceleration"
+msgstr "자동 튜닝: 횡가속도"
+
+#: StarPilot device UI dynamic display value
+msgid "Auto Tune: Steer Ratio"
+msgstr "자동 튜닝: 조향비"
+
+#: StarPilot device UI dynamic display value
+msgid "Auto Tune: Stiffness Factor"
+msgstr "자동 튜닝: 강성 계수"
+
+#: StarPilot device UI dynamic display value
+msgid "Engagement %: Lateral"
+msgstr "작동률 %: 횡방향"
+
+#: StarPilot device UI dynamic display value
+msgid "Engagement %: Longitudinal"
+msgstr "작동률 %: 종방향"
+
+#: StarPilot device UI dynamic display value
+msgid "Lateral Control: Steering Angle"
+msgstr "횡방향 제어: 조향각"
+
+#: StarPilot device UI dynamic display value
+msgid "Lateral Control: Torque % Used"
+msgstr "횡방향 제어: 사용 토크 %"
+
+#: StarPilot device UI dynamic display value
+msgid "Longitudinal Control: Actuator Acceleration Output"
+msgstr "종방향 제어: 액추에이터 가속도 출력"
+
+#: StarPilot device UI dynamic display value
+msgid "Longitudinal MPC: Danger Factor"
+msgstr "종방향 MPC: 위험 계수"
+
+#: StarPilot device UI dynamic display value
+msgid "Longitudinal MPC Jerk: Acceleration"
+msgstr "종방향 MPC 저크: 가속"
+
+#: StarPilot device UI dynamic display value
+msgid "Longitudinal MPC Jerk: Danger Zone"
+msgstr "종방향 MPC 저크: 위험 구간"
+
+#: StarPilot device UI dynamic display value
+msgid "Longitudinal MPC Jerk: Speed Control"
+msgstr "종방향 MPC 저크: 속도 제어"
+
+#: StarPilot device UI dynamic display value
+msgid "Model Name"
+msgstr "모델 이름"
+
+#: StarPilot device UI dynamic display value
+msgid "Driver"
+msgstr "운전자"
+
+#: StarPilot device UI dynamic display value
+msgid "Wide"
+msgstr "광각"
+
+#: StarPilot device UI dynamic display value
+msgid "Clear"
+msgstr "기본"
+
+#: StarPilot device UI dynamic display value
+msgid "Alphabetical"
+msgstr "가나다순"
+
+#: StarPilot device UI dynamic display value
+msgid "Favorites + Downloaded"
+msgstr "즐겨찾기 + 다운로드됨"
+
+#: StarPilot device UI dynamic display value
+msgid "(User Created)"
+msgstr "(사용자 생성)"
+
+#: selfdrive/ui/layouts/settings/starpilot/maps.py:635
+#, python-format
+msgid "{} region selected"
+msgid_plural "{} regions selected"
+msgstr[0] "{}개 지역 선택됨"

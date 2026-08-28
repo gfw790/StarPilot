@@ -5,7 +5,7 @@ from itertools import zip_longest
 from typing import Union
 import pyray as rl
 
-from openpilot.system.ui.lib.application import gui_app, FontWeight, DEFAULT_TEXT_SIZE, DEFAULT_TEXT_COLOR, FONT_SCALE
+from openpilot.system.ui.lib.application import gui_app, FontWeight, DEFAULT_TEXT_SIZE, DEFAULT_TEXT_COLOR, FONT_SCALE, font_fallback
 from openpilot.system.ui.widgets import Widget
 from openpilot.system.ui.lib.text_measure import measure_text_cached
 from openpilot.system.ui.lib.utils import GuiStyleContext
@@ -95,14 +95,14 @@ def gui_text_box(
     (rl.GuiControl.DEFAULT, rl.GuiDefaultProperty.TEXT_ALIGNMENT_VERTICAL, alignment_vertical),
     (rl.GuiControl.DEFAULT, rl.GuiDefaultProperty.TEXT_WRAP_MODE, rl.GuiTextWrapMode.TEXT_WRAP_WORD)
   ]
-  if font_weight != FontWeight.NORMAL:
-    rl.gui_set_font(gui_app.font(font_weight))
-
-  with GuiStyleContext(styles):
-    rl.gui_label(rect, text)
-
-  if font_weight != FontWeight.NORMAL:
-    rl.gui_set_font(gui_app.font(FontWeight.NORMAL))
+  previous_font = rl.gui_get_font()
+  render_font = font_fallback(gui_app.font(font_weight))
+  rl.gui_set_font(render_font)
+  try:
+    with GuiStyleContext(styles):
+      rl.gui_label(rect, text)
+  finally:
+    rl.gui_set_font(previous_font)
 
 
 # Non-interactive text area. Can render emojis and an optional specified icon.

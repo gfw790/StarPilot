@@ -36,7 +36,7 @@ class StarPilotLayout(Widget):
       "icon": "steering",
       "children": [
         {
-          "title": "Navigation & Maps",
+          "title": tr_noop("Navigation & Maps"),
           "icon": "navigate",
           "children": [
             {"title": "Map Data", "panel": "MAPS", "icon": "navigate"},
