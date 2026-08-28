@@ -1,6 +1,5 @@
 import { html, reactive } from "/assets/vendor/arrow-core.js"
 import { isGalaxyTunnel } from "/assets/js/utils.js"
-import { getOrdinalSuffix } from "/assets/components/navigation/navigation_utilities.js"
 import { Modal } from "/assets/components/modal.js";
 
 const state = reactive({
@@ -27,23 +26,16 @@ let seenRouteNames = new Set()
 
 function formatRouteDate(dateString) {
   if (!dateString) {
-    return "Unknown Date"
+    return "알 수 없는 날짜"
   }
 
   const date = new Date(dateString)
   if (isNaN(date.getTime())) {
     return dateString
   }
-  const month = date.toLocaleString("en-US", { month: "long" })
-  const day = date.getDate()
-  const year = date.getFullYear()
-  let hour = date.getHours()
-  const minute = date.getMinutes()
-  const ampm = hour >= 12 ? "pm" : "am"
-  hour = hour % 12
-  hour = hour || 12
-  const minuteStr = minute < 10 ? "0" + minute : minute
-  return `${month} ${day}${getOrdinalSuffix(day)}, ${year} - ${hour}:${minuteStr}${ampm}`
+  const dateLabel = date.toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" })
+  const timeLabel = date.toLocaleTimeString("ko-KR", { hour: "numeric", minute: "2-digit" })
+  return `${dateLabel} - ${timeLabel}`
 }
 
 function resetRouteStreamState() {
@@ -151,7 +143,7 @@ async function fetchRoutes() {
     flushPendingRoutes()
   } catch (error) {
     if (error?.name !== "AbortError") {
-      state.error = "Couldn't load routes. Please try again later..."
+      state.error = "주행 영상을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."
     }
   } finally {
     if (requestToken === routesRequestToken) {
@@ -194,10 +186,10 @@ function closeDialog(o) {
 async function deleteRoute(route) {
   const dlg = openDialog(`
     <div class="dialog-box">
-      <p>Delete “${route.timestamp}”?</p>
+      <p>“${route.timestamp}” 주행 영상을 삭제하시겠습니까?</p>
       <div class="dialog-buttons">
-        <button class="btn btn-cancel" ...>Cancel</button>
-        <button class="btn btn-danger btn-del" ...>Delete</button>
+        <button class="btn btn-cancel" ...>취소</button>
+        <button class="btn btn-danger btn-del" ...>삭제</button>
       </div>
     </div>`)
   dlg.querySelector(".btn-cancel").onclick = () => closeDialog(dlg)
@@ -208,9 +200,9 @@ async function deleteRoute(route) {
       closeDialog(dlg)
       closeOverlay()
       refresh()
-      showSnackbar("Route deleted!")
+      showSnackbar("주행 영상이 삭제되었습니다!")
     } else {
-      showSnackbar("Delete failed...", "error")
+      showSnackbar("삭제하지 못했습니다...", "error")
     }
   }
 }
@@ -233,21 +225,21 @@ async function resetRouteName(route, dlg) {
     if (overlayTitleSpan) {
       overlayTitleSpan.textContent = formatRouteDate(timestamp);
     }
-    showSnackbar("Route name reset!");
+    showSnackbar("주행 이름이 초기화되었습니다!");
   } else {
-    showSnackbar("Resetting name failed...", "error");
+    showSnackbar("주행 이름을 초기화하지 못했습니다...", "error");
   }
 }
 
 async function renameRoute(route) {
   const dlg = openDialog(`
     <div class="dialog-box">
-      <p>Rename "${route.timestamp}"</p>
+      <p>“${route.timestamp}” 이름 변경</p>
       <input class="rn-input" value="${route.timestamp}" />
       <div class="dialog-buttons">
-        <button class="btn-cancel">Cancel</button>
-        <button class="btn-reset">Reset</button>
-        <button class="btn-save">Save</button>
+        <button class="btn-cancel">취소</button>
+        <button class="btn-reset">초기화</button>
+        <button class="btn-save">저장</button>
       </div>
     </div>`);
   dlg.querySelector(".btn-cancel").onclick = () => closeDialog(dlg);
@@ -271,9 +263,9 @@ async function renameRoute(route) {
       if (overlayTitleSpan) {
         overlayTitleSpan.textContent = newName;
       }
-      showSnackbar("Route renamed!");
+      showSnackbar("주행 이름이 변경되었습니다!");
     } else {
-      showSnackbar("Rename failed...", "error");
+      showSnackbar("이름을 변경하지 못했습니다...", "error");
     }
   };
 }
@@ -293,12 +285,12 @@ async function openOverlay(route) {
         <source src="/thumbnails/${route.name}--0/preview.png" type="video/mp4">
       </video>
       <div class="button-row">
-        <button class="close-button action-close">Close</button>
-        <button class="close-button camera-button active" data-camera="forward">Forward</button>
-        <button class="close-button camera-button" data-camera="wide">Wide</button>
-        <button class="close-button camera-button" data-camera="driver">Driver</button>
-        <button class="close-button action-download">Download</button>
-        <button class="close-button action-delete">Delete</button>
+        <button class="close-button action-close">닫기</button>
+        <button class="close-button camera-button active" data-camera="forward">전방</button>
+        <button class="close-button camera-button" data-camera="wide">광각</button>
+        <button class="close-button camera-button" data-camera="driver">운전자</button>
+        <button class="close-button action-download">다운로드</button>
+        <button class="close-button action-delete">삭제</button>
       </div>
     </div>`;
   document.body.appendChild(overlay);
@@ -343,7 +335,7 @@ async function openOverlay(route) {
       vid.load();
       vid.play();
     } catch (error) {
-      showSnackbar("Error: Could not load combined route video.", "error");
+      showSnackbar("오류: 주행 영상을 불러올 수 없습니다.", "error");
     }
   })();
 
@@ -386,10 +378,10 @@ async function togglePreserved(route, e) {
       route.is_preserved = newPreservedState
     } else {
       const errorData = await response.json()
-      showSnackbar(errorData.error || "Failed to update preserved state...", "error")
+      showSnackbar(errorData.error || "보존 상태를 변경하지 못했습니다...", "error")
     }
   } catch (_) {
-    showSnackbar("An error occurred...", "error")
+    showSnackbar("오류가 발생했습니다...", "error")
   }
 }
 
@@ -400,9 +392,9 @@ async function deleteAllRoutes() {
     const res = await fetch("/api/routes/delete_all", { method: "DELETE" })
     if (!res.ok) throw new Error()
     await refresh()
-    showSnackbar("All routes deleted!")
+    showSnackbar("모든 주행 영상이 삭제되었습니다!")
   } catch {
-    showSnackbar("An error occurred while deleting all routes...", "error")
+    showSnackbar("모든 주행 영상을 삭제하는 중 오류가 발생했습니다...", "error")
   } finally {
     state.isDeletingAll = false
   }
@@ -413,8 +405,8 @@ export function RouteRecordings() {
     return html`
       <div class="tunnel-notice">
         <div class="tunnel-notice-icon">🛰️</div>
-        <h3 class="tunnel-notice-title">Dashcam Routes Unavailable via Galaxy</h3>
-        <p class="tunnel-notice-body">Loading dashcam routes requires a direct connection.<br>Connect to your device's local network to use this feature.</p>
+        <h3 class="tunnel-notice-title">Galaxy에서는 주행 영상을 이용할 수 없습니다</h3>
+        <p class="tunnel-notice-body">주행 영상을 불러오려면 장치에 직접 연결해야 합니다.<br>이 기능을 사용하려면 장치의 로컬 네트워크에 연결하세요.</p>
       </div>
     `;
   }
@@ -424,12 +416,12 @@ export function RouteRecordings() {
   return html`
     <div class="screen-recordings-wrapper">
       <div class="screen-recordings-widget">
-        <div class="screen-recordings-title">Dashcam Routes</div>
+        <div class="screen-recordings-title">주행 영상</div>
         <button
           class="show-preserved-button"
           @click="${() => (state.showPreservedOnly = !state.showPreservedOnly)}"
           disabled="${() => (state.loading && state.routes.length === 0) || false}"
-        >          ${() => (state.showPreservedOnly ? "Show All" : "Show Only Preserved Routes")}
+        >          ${() => (state.showPreservedOnly ? "모든 주행 보기" : "보존된 주행만 보기")}
         </button>
 
         ${() => {
@@ -437,21 +429,21 @@ export function RouteRecordings() {
 
       if (routesToShow.length === 0) {
         if (state.loading && state.total > 0) {
-          return html`<p class="screen-recordings-message">Processing Routes: ${state.progress} of ${state.total}</p>`;
+          return html`<p class="screen-recordings-message">주행 처리 중: 전체 ${state.total.toLocaleString("ko-KR")}개 중 ${state.progress.toLocaleString("ko-KR")}개</p>`;
         }
         if (state.loading && !state.isDeletingAll) {
-          return html`<p class="screen-recordings-message">Loading...</p>`;
+          return html`<p class="screen-recordings-message">불러오는 중...</p>`;
         }
         if (state.isDeletingAll) {
-          return html`<p class="screen-recordings-message">Deleting routes...</p>`;
+          return html`<p class="screen-recordings-message">주행 영상 삭제 중...</p>`;
         }
         if (state.showPreservedOnly) {
-          return html`<p class="screen-recordings-message">No preserved routes...</p>`;
+          return html`<p class="screen-recordings-message">보존된 주행이 없습니다...</p>`;
         }
         if (state.error) {
           return html`<p class="screen-recordings-message">${state.error}</p>`;
         }
-        return html`<p class="screen-recordings-message">No routes found...</p>`;
+        return html`<p class="screen-recordings-message">주행 영상을 찾을 수 없습니다...</p>`;
       }
 
       return html`
@@ -483,7 +475,7 @@ export function RouteRecordings() {
           `;
     }}
         ${() => state.truncated ? html`
-          <p class="screen-recordings-message">Showing first ${MAX_RENDERED_ROUTES} routes to keep the UI responsive.</p>
+          <p class="screen-recordings-message">원활한 화면 표시를 위해 처음 ${MAX_RENDERED_ROUTES.toLocaleString("ko-KR")}개 주행만 표시합니다.</p>
         ` : ""}
         ${() => {
       if (state.routes.length > 0) {
@@ -492,7 +484,7 @@ export function RouteRecordings() {
                 class="delete-all-button"
                 @click="${() => (state.showDeleteAllModal = true)}"
                 disabled="${() => state.isDeletingAll || false}"
-              >                ${() => (state.isDeletingAll ? "Deleting..." : "Delete All Routes")}
+              >                ${() => (state.isDeletingAll ? "삭제 중..." : "모든 주행 영상 삭제")}
               </button>
             `;
       }
@@ -500,11 +492,11 @@ export function RouteRecordings() {
     }}
       </div>
       ${() => state.showDeleteAllModal ? Modal({
-      title: "Confirm Delete All",
-      message: "Are you sure you want to delete all routes? This action cannot be undone...",
+      title: "전체 삭제 확인",
+      message: "모든 주행 영상을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다...",
       onConfirm: deleteAllRoutes,
       onCancel: () => { state.showDeleteAllModal = false; },
-      confirmText: "Delete All"
+      confirmText: "모두 삭제"
     }) : ""}
     </div>
   `;

@@ -484,7 +484,7 @@ class StarPilotAppearanceLayout(_SettingsPage):
             SettingRow(
                 f"DeveloperSidebarMetric{i}",
                 "value",
-                tr_noop(f"Metric #{i}"),
+                f"{tr('Metric')} #{i}",
                 subtitle="",
                 get_value=lambda i=i: self._get_developer_sidebar_metric_display(i),
                 on_click=lambda i=i: self._show_developer_sidebar_metric_selector(i),
@@ -739,7 +739,7 @@ class StarPilotAppearanceLayout(_SettingsPage):
                 )
                 self._params.put_int(key, selected_int)
 
-        dialog = MultiOptionDialog(tr(f"Metric #{idx}"), options, current_display, callback=on_select)
+        dialog = MultiOptionDialog(f"{tr('Metric')} #{idx}", options, current_display, callback=on_select)
         gui_app.push_widget(dialog)
 
     def _get_developer_sidebar_metric_display(self, idx: int) -> str:

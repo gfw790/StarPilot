@@ -1,4 +1,5 @@
 import { html, reactive } from "/assets/vendor/arrow-core.js";
+import { uiKey } from "/assets/js/i18n.js";
 
 const CANVAS_W = 640;
 const CANVAS_H = 480;
@@ -567,7 +568,7 @@ export function PipSideCamera() {
                  value="${() => state.zoom}" @input="${updateZoom}" />
           <div class="pip-zoom-labels">
             <span>Wide</span>
-            <span>Close</span>
+            <span>${uiKey("pipZoomClose", "Close")}</span>
           </div>
           <div class="pip-zoom-hint">Applied to both windows so the preview stays consistent.</div>
         </div>

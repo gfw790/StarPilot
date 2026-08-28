@@ -1,5 +1,6 @@
 import { html, reactive } from "/assets/vendor/arrow-core.js"
 import { Modal } from "/assets/components/modal.js"
+import { localizeSnackbar } from "/assets/js/i18n.js"
 
 const state = reactive({
   keyName: "",
@@ -21,6 +22,7 @@ let clearTimer = null
 let fadeTimer = null
 
 function showMessage(type, text) {
+  text = localizeSnackbar(text)
   clearTimeout(clearTimer)
   clearTimeout(fadeTimer)
 

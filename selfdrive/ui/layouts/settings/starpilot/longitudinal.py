@@ -676,7 +676,7 @@ class StarPilotLongitudinalLayout(_SettingsPage):
     for i in range(1, 8):
       key = f"Offset{i}"
       self._slc_offset_rows.append(SettingRow(
-        f"Offset{i}", "value", tr_noop(f"Offset {i}"),
+        f"Offset{i}", "value", f"{tr('Offset')} {i}",
         subtitle="",
         get_value=lambda k=key: f"{self._params.get_int(k)}{self._speed_unit()}",
         on_click=lambda k=key: self._show_slider(k, *self._speed_range(), unit=self._speed_unit()),
@@ -1131,10 +1131,16 @@ class StarPilotLongitudinalLayout(_SettingsPage):
   def _show_personality_profile_category(self, profile: str):
     rows = self._build_personality_profile_rows(profile)
     panel_name = f"profile_{profile.lower()}"
+    localized_profile = {
+      "Traffic": tr("Traffic"),
+      "Aggressive": tr("Aggressive"),
+      "Standard": tr("Standard"),
+      "Relaxed": tr("Relaxed"),
+    }.get(profile, profile)
     self._sub_panels[panel_name] = AetherSettingsView(
       self,
       [SettingSection(title="", rows=rows)],
-      header_title=tr_noop(f"{profile} Profile"),
+      header_title=f"{localized_profile} {tr('Profile')}",
       header_subtitle=tr_noop("Customize follow distance and smoothness for this driving personality."),
       panel_style=PANEL_STYLE,
     )

@@ -1,5 +1,6 @@
 import { html, reactive } from "/assets/vendor/arrow-core.js"
 import { Modal } from "/assets/components/modal.js";
+import { localizeSnackbar } from "/assets/js/i18n.js"
 
 const DEFAULT_PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.embaucha.galaxynav&hl=en-US&ah=9FldHJ99kxL8oNbSlO5F4sQqwC4"
 
@@ -39,6 +40,7 @@ export function NavKeys() {
   let fadeTimer = null
 
   function showMessage(type, text, group) {
+    text = localizeSnackbar(text)
     clearTimer && clearTimeout(clearTimer)
     fadeTimer && clearTimeout(fadeTimer)
 

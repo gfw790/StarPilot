@@ -1,5 +1,6 @@
 import { html, reactive } from "/assets/vendor/arrow-core.js"
 import { galaxyPath, isGalaxyTunnel } from "/assets/js/utils.js"
+import { uiKey } from "/assets/js/i18n.js"
 import {
   enableSentryPush,
   sendSentryTestNotification,
@@ -183,7 +184,7 @@ async function sendTestNotification() {
 async function deleteEvent(eventId) {
   eventId = String(eventId || "")
   if (!eventId || state.deleteBusy) return
-  if (!window.confirm("Delete this Sentry event and its camera images? This cannot be undone.")) return
+  if (!window.confirm(uiKey("sentryDeleteConfirm", "Delete this Sentry event and its camera images? This cannot be undone."))) return
 
   state.deleteBusy = true
   try {
@@ -214,10 +215,10 @@ function renderEvent(event = state.event) {
 
   return html`
     <div class="sentry-event-meta">
-      <span class="sentry-event-kind">${String(event.kind || "event").toUpperCase()}</span>
+      <span class="sentry-event-kind">${String(event.kind || uiKey("fallbackEvent", "event")).toUpperCase()}</span>
       <span>${event.detectedAt || ""}</span>
     </div>
-    <p class="sentry-event-message">${event.message || "Movement detected while parked."}</p>
+    <p class="sentry-event-message">${event.message || uiKey("fallbackMovementDetected", "Movement detected while parked.")}</p>
     ${Array.isArray(event.imageUrls) && event.imageUrls.length > 0 ? html`
       <div class="sentry-image-grid">
         ${event.imageUrls.map((url, index) => html`
@@ -239,13 +240,13 @@ function renderHistory() {
 
   return html`
     <div class="sentry-history-list">
-      <p class="sentry-muted">${state.history.length} event${state.history.length === 1 ? "" : "s"} retained. Events stay here until you delete them.</p>
+      <p class="sentry-muted">${uiKey("sentryRetainedEvents", "{count} events retained. Events stay here until you delete them.", { count: state.history.length })}</p>
       ${state.history.map((event) => html`
         <article class="sentry-history-event">
           <div class="sentry-history-heading">
-            <strong>${event.detectedAt || "Sentry event"}</strong>
+            <strong>${event.detectedAt || uiKey("fallbackSentryEvent", "Sentry event")}</strong>
             <button class="sentry-button sentry-button-danger" @click="${() => deleteEvent(event.eventId)}" disabled="${() => state.deleteBusy}">
-              ${() => state.deleteBusy ? "Deleting…" : "Delete event"}
+              ${() => state.deleteBusy ? uiKey("sentryDeletingEvent", "Deleting…") : uiKey("sentryDeleteEvent", "Delete event")}
             </button>
           </div>
           ${renderEvent(event)}

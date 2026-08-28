@@ -2,6 +2,7 @@ function showSnackbar(msg, level, timeout = 3500, options = {}) {
   const wrapper = document.getElementById("snackbar_wrapper")
   if (!wrapper) return
 
+  msg = window.__localizeGalaxySnackbar?.(msg) || msg
   const key = String(options?.key || "").trim()
   const replace = options?.replace !== false
 

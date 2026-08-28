@@ -4,6 +4,7 @@ from dataclasses import dataclass, replace
 from collections.abc import Callable
 import json
 import math
+import re
 import shutil
 import threading
 import time
@@ -388,7 +389,7 @@ class DrivingModelManagerView(AetherInteractiveMixin, Widget):
 
     if randomizer_on:
       blacklisted = [m.strip() for m in (self._controller._params.get("BlacklistedModels", encoding="utf-8") or "").split(",") if m.strip()]
-      bl_label = tr(f"Blacklist: {len(blacklisted)} blocked") if blacklisted else tr("Blacklist")
+      bl_label = f"{tr('Blacklist')}: {len(blacklisted)} {tr('blocked')}" if blacklisted else tr("Blacklist")
       bl_w = (usable - gap) / 2
       rt_w = (usable - gap) / 2
       bl_pill = rl.Rectangle(left, pill_y, bl_w, pill_h)
@@ -1092,10 +1093,57 @@ class StarPilotDrivingModelLayout(_SettingsPage):
   def download_progress_text(self) -> str:
     progress = self._params_memory.get(DOWNLOAD_PROGRESS_PARAM, encoding="utf-8") or ""
     if progress:
-      return progress
+      return self._localized_download_status(progress)
     if self._transient_status_text and time.monotonic() < self._transient_status_until:
-      return self._transient_status_text
+      return self._localized_download_status(self._transient_status_text)
     return ""
+
+  @staticmethod
+  def _localized_download_status(status: str) -> str:
+    status_map = {
+      "Downloading...": tr("Downloading..."),
+      "Selected model unavailable; using built-in model.": tr("Selected model unavailable; using built-in model."),
+      "Built-in model already downloaded.": tr("Built-in model already downloaded."),
+      "External GPU required...": tr("External GPU required..."),
+      "Local model, nothing to download.": tr("Local model, nothing to download."),
+      "GitHub and GitLab are offline...": tr("GitHub and GitLab are offline..."),
+      "Verification failed...": tr("Verification failed..."),
+      "Unable to fetch models...": tr("Unable to fetch models..."),
+      "Download cancelled...": tr("Download cancelled..."),
+      "Download invalid...": tr("Download invalid..."),
+      "Verifying authenticity...": tr("Verifying authenticity..."),
+      "Downloaded!": tr("Downloaded!"),
+      "All models downloaded!": tr("All models downloaded!"),
+      "Updating...": tr("Updating..."),
+      "Updated!": tr("Updated!"),
+    }
+    if status in status_map:
+      return status_map[status]
+
+    downloading_selected = re.fullmatch(r'Downloading selected model "(.+)"\.\.\.', status)
+    if downloading_selected:
+      return f'{tr("Downloading selected model")} "{downloading_selected.group(1)}"...'
+    downloading_model = re.fullmatch(r'Downloading "(.+)"\.\.\.', status)
+    if downloading_model:
+      return f'{tr("Downloading")} "{downloading_model.group(1)}"...'
+    unsupported_format = re.fullmatch(r"Unsupported model format for (.+)", status)
+    if unsupported_format:
+      return f"{tr('Unsupported model format for')} {unsupported_format.group(1)}"
+    if status.startswith("Failed: "):
+      detail = status.removeprefix("Failed: ")
+      detail_map = {
+        "Connection dropped": tr("Connection dropped"),
+        "Network request error. Check connection": tr("Network request error. Check connection"),
+        "Download timed out": tr("Download timed out"),
+        "Unexpected error": tr("Unexpected error"),
+      }
+      server_error = re.fullmatch(r"Server error \((\d+)\)", detail)
+      if server_error:
+        detail = f"{tr('Server error')} ({server_error.group(1)})"
+      else:
+        detail = detail_map.get(detail, detail)
+      return f"{tr('Failed')}: {detail}"
+    return status
 
   def _model_key_for_progress(self, progress_text: str) -> str | None:
     if not progress_text:
@@ -1118,7 +1166,7 @@ class StarPilotDrivingModelLayout(_SettingsPage):
       return tr("All Models On Device"), False
     if ui_state.started:
       return tr("Downloads Pause Onroad"), False
-    return tr(f"Download All Missing ({missing_count})"), True
+    return f"{tr('Download All Missing')} ({missing_count})", True
 
   def secondary_header_button_state(self) -> tuple[str, bool]:
     if self._manifest_fetch_thread is not None and self._manifest_fetch_thread.is_alive():
@@ -1162,7 +1210,7 @@ class StarPilotDrivingModelLayout(_SettingsPage):
             "title": tr("Blacklist"),
             "subtitle": tr("Keep specific installed models out of the rotation."),
             "type": "value",
-            "value": tr(f"{blacklist_count} blocked" if blacklist_count else "Manage"),
+            "value": f"{blacklist_count} {tr('blocked')}" if blacklist_count else tr("Manage"),
           },
           {
             "id": "ratings",

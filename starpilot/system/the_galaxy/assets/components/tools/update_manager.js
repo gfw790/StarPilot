@@ -1,4 +1,5 @@
 import { html, reactive } from "/assets/vendor/arrow-core.js"
+import { uiKey, uiText } from "/assets/js/i18n.js"
 
 const state = reactive({
   loading: true,
@@ -102,9 +103,9 @@ function agnosConfirmationText(update = activeAgnosUpdate()) {
   if (!update?.available) return ""
 
   const warningLines = agnosWarningItems(update)
-    .map((warning) => `- ${warning}`)
+    .map((warning) => `- ${uiText(warning)}`)
     .join("\n")
-  return `\n\nAGNOS firmware update included:\n\n${warningLines}`
+  return uiKey("agnosConfirmationWarning", "\n\nAGNOS firmware update included:\n\n{warnings}", { warnings: warningLines })
 }
 
 function normalizeGithubRemote(remoteValue, commitsUrlValue = "") {
@@ -506,14 +507,7 @@ async function runFastUpdate(skipConfirmation = false) {
 
   if (!skipConfirmation) {
     const agnosWarning = agnosConfirmationText()
-    const confirmed = window.confirm(
-      "Fast update warning:\n\n" +
-      "- This update method skips backup creation.\n" +
-      "- Your device will reboot when the update is done." +
-      agnosWarning +
-      "\n\n" +
-      "Continue with fast update?"
-    )
+    const confirmed = window.confirm(uiKey("fastUpdateConfirm", "Fast update warning:\n\n- This update method skips backup creation.\n- Your device will reboot when the update is done.{agnosWarning}\n\nContinue with fast update?", { agnosWarning }))
     if (!confirmed) return
   }
 
@@ -569,20 +563,15 @@ async function runBranchSwitch(skipConfirmation = false) {
   }
 
   const currentBranch = String(state.status?.branch || "").trim()
-  const actionLabel = currentBranch && currentBranch === targetBranch ? "update" : "switch and update"
+  const actionLabel = currentBranch && currentBranch === targetBranch
+    ? uiKey("updateAction", "update")
+    : uiKey("switchAndUpdateAction", "switch and update")
   if (!skipConfirmation) {
     if (isSelectedBranchDifferent()) {
       await fetchSelectedBranchAgnosStatus(false, true)
     }
     const agnosWarning = agnosConfirmationText()
-    const confirmed = window.confirm(
-      `This will ${actionLabel} to the '${targetBranch}' branch.\n\n` +
-      "- This update method skips backup creation.\n" +
-      "- Your device will reboot when the update is done." +
-      agnosWarning +
-      "\n\n" +
-      "Continue?"
-    )
+    const confirmed = window.confirm(uiKey("branchUpdateConfirm", "This will {action} to the '{branch}' branch.\n\n- This update method skips backup creation.\n- Your device will reboot when the update is done.{agnosWarning}\n\nContinue?", { action: actionLabel, branch: targetBranch, agnosWarning }))
     if (!confirmed) return
   }
 
@@ -643,14 +632,7 @@ async function runRollback(skipConfirmation = false) {
   }
 
   if (!skipConfirmation) {
-    const confirmed = window.confirm(
-      "Roll back to the previous installed version?\n\n" +
-      `Target: ${rollbackBranch || "Unknown"} @ ${shortHash(rollbackCommit)}\n\n` +
-      "- This restores the version this device was running before the last Galaxy update.\n" +
-      "- Automatic updates will be turned off.\n" +
-      "- Your device will reboot when the rollback is done.\n\n" +
-      "Continue?"
-    )
+    const confirmed = window.confirm(uiKey("rollbackConfirm", "Roll back to the previous installed version?\n\nTarget: {branch} @ {commit}\n\n- This restores the version this device was running before the last Galaxy update.\n- Automatic updates will be turned off.\n- Your device will reboot when the rollback is done.\n\nContinue?", { branch: rollbackBranch || uiKey("fallbackUnknown", "Unknown"), commit: shortHash(rollbackCommit) }))
     if (!confirmed) return
   }
 
@@ -703,11 +685,7 @@ async function retryInterruptedUpdate() {
     return
   }
 
-  const confirmed = window.confirm(
-    "Retry the interrupted update safely?\n\n" +
-    "Galaxy will verify that the vehicle is parked and no update or Git process is active. " +
-    "It will clear only the abandoned shallow-update lock, then retry the previous update action."
-  )
+  const confirmed = window.confirm(uiKey("updateRecoveryConfirm", "Retry the interrupted update safely?\n\nGalaxy will verify that the vehicle is parked and no update or Git process is active. It will clear only the abandoned shallow-update lock, then retry the previous update action."))
   if (!confirmed) return
 
   const previousMode = String(state.status?.lastMode || "").trim()

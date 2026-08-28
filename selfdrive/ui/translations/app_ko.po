@@ -2633,3 +2633,1389 @@ msgstr "문 잠금 타이머"
 
 msgid "Dashboard Speed Offset"
 msgstr "계기판 속도 오프셋"
+
+#: selfdrive/ui/layouts/settings/starpilot/maps.py:83
+msgid "AK, AZ, CA, CO, HI, ID, MT, NV, NM, OR, UT, WA, WY"
+msgstr "AK, AZ, CA, CO, HI, ID, MT, NV, NM, OR, UT, WA, WY"
+
+#: selfdrive/ui/layouts/settings/starpilot/maps.py:78
+msgid "AL, AR, DE, DC, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV"
+msgstr "AL, AR, DE, DC, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV"
+
+#: selfdrive/ui/layouts/settings/starpilot/maps.py:88
+msgid "AS, GU, MP, PR, VI"
+msgstr "AS, GU, MP, PR, VI"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:650
+msgid "Abbreviated Sources"
+msgstr "축약된 소스 아이콘 표시"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1175
+msgid "Accel Smoothness"
+msgstr "가속 부드러움"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:225
+msgid "Acceleration Path"
+msgstr "가속 경로"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:509
+msgid "Acceleration Profile"
+msgstr "가속 프로필"
+
+#: selfdrive/ui/layouts/settings/starpilot/system_settings.py:84
+msgid "Acceleration feels harsh or jerky"
+msgstr "가속이 거칠거나 울컥거립니다"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:540
+msgid "Acceleration tuning for EV and direct-drive vehicles."
+msgstr "EV에 맞게 조정된 가속 프로필을 사용합니다. 차량에서 감지된 파워트레인 유형이 기본값이지만 자동 선택이 일치하지 않는 경우 재정의될 수 있습니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:655
+msgid "Active Sources Only"
+msgstr "제한속도가 있는 소스만 표시"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:293 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:558
+msgid "Actuator Delay"
+msgstr "조향 액추에이터 지연"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:236
+msgid "Adjacent Lane Metrics"
+msgstr "인접 차선 지표"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:231
+msgid "Adjacent Lanes"
+msgstr "인접 차선"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1151
+msgid "Adjust driving parameters for this weather condition."
+msgstr "이 날씨 조건에 맞게 주행 매개변수를 조정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:799
+msgid "Adjust parameters for fog, mist, and poor visibility conditions."
+msgstr "안개, 박무 및 시야가 좋지 않은 상황에 맞게 매개변수를 조정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:809
+msgid "Adjust parameters for heavy rain and storms."
+msgstr "폭우와 폭풍우에 맞게 매개변수를 조정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:804
+msgid "Adjust parameters for light to moderate rain."
+msgstr "약하거나 보통 수준의 비에 맞게 매개변수를 조정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:814
+msgid "Adjust parameters for snowy and icy conditions."
+msgstr "눈길과 빙판길 상황에 맞게 매개변수를 조정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:385
+msgid "Adjust path-angle strength at lower speeds and higher curvature."
+msgstr "저속 및 곡률이 큰 구간에서 경로 각도 강도를 조정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:392
+msgid "Adjust path-angle strength through larger highway curves."
+msgstr "고속도로의 큰 곡선에서 경로 각도 강도를 조정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:63
+msgid "Adopt Current Speed Limit"
+msgstr "현재 제한속도 적용"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:530
+msgid "Allow an active navigation route to reduce cruise speed for upcoming turns, ramps, and roundabouts."
+msgstr "활성 내비게이션 경로를 사용하여 다가오는 회전, 램프 및 원형 교차로에 맞게 크루즈 속도를 낮춥니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:156
+msgid "Allow navigation to request lane keep and turns."
+msgstr "내비게이션이 차선 유지와 회전을 요청하도록 허용합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:208
+msgid "Allows for a temporary shorter follow distance behind lead so that openpilot merges smoothly out of current lane, it will allow car to accelerate as it changes lanes."
+msgstr "차선 변경 시 openpilot이 현재 차선에서 부드럽게 빠져나갈 수 있도록 선행 차량과의 차간거리를 일시적으로 줄이고 가속을 허용합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/system_settings.py:85
+msgid "An alert was unclear and I'm not sure what it meant"
+msgstr "알림이 명확하지 않아 무슨 뜻인지 모르겠습니다"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:405
+msgid "Angle Lane-Change Factor"
+msgstr "각도 모드 차선 변경 계수"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:377
+msgid "Angle Prediction Blend"
+msgstr "각도 예측 혼합"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:498 selfdrive/ui/layouts/settings/starpilot/main_panel.py:106
+msgid "Appearance"
+msgstr "화면 설정"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:165
+msgid "Auto Lane Changes"
+msgstr "자동 차선 변경"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:611
+msgid "Auto Match Speed Limits"
+msgstr "제어 시작 시 제한속도에 맞춤"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:794
+msgid "Automatically adjust driving behavior based on real-time weather."
+msgstr "실시간 날씨에 따라 운전 행동을 자동으로 조정합니다. 가시성이 낮거나 비 또는 눈이 올 때 편안함과 안전성을 유지하는 데 도움이 됩니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:378
+msgid "Blend model prediction into the path-angle command."
+msgstr "모델 예측을 경로 각도 명령에 혼합합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:357
+msgid "Blend model-predicted curvature into gentle turns."
+msgstr "모델이 예측한 곡률을 완만한 곡선에 혼합합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:364
+msgid "Blend model-predicted curvature into tighter turns."
+msgstr "모델이 예측한 곡률을 급한 곡선에 혼합합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:281
+msgid "Blind Spot Borders"
+msgstr "사각지대 테두리"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:241
+msgid "Blind Spot Path"
+msgstr "사각지대 경로"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:292
+msgid "Border Width"
+msgstr "테두리 너비"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1179
+msgid "Brake Smoothness"
+msgstr "제동 부드러움"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:574
+msgid "Brake force to hold the vehicle at a complete stop."
+msgstr "차량을 완전히 정지 상태로 유지하는 제동력입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/system_settings.py:86
+msgid "Braking is too sudden or uncomfortable"
+msgstr "제동이 너무 갑작스럽거나 불편합니다"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:167
+msgid "CC Main Button"
+msgstr "CC 메인 버튼"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:456
+msgid "CPU Metrics"
+msgstr "CPU 지표"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:319
+msgid "CSC Status Widget"
+msgstr "CSC 상태 위젯"
+
+#: selfdrive/ui/layouts/settings/starpilot/maps.py:73
+msgid "CT, ME, MA, NH, NJ, NY, PA, RI, VT"
+msgstr "CT, ME, MA, NH, NJ, NY, PA, RI, VT"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:687
+msgid "Calibrated Lateral Accel"
+msgstr "보정된 횡가속"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:692
+msgid "Calibration Progress"
+msgstr "보정 진행률"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:737 selfdrive/ui/layouts/settings/starpilot/vehicle.py:157
+msgid "Cancel Button"
+msgstr "취소 버튼"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:116
+msgid "Car Make"
+msgstr "차량 제조사"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:120
+msgid "Car Model"
+msgstr "차량 모델 (Fingerprint)"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:53
+msgid "Change Personality"
+msgstr "주행 성향 변경"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:515
+msgid "Choose how firmly openpilot slows the car down."
+msgstr "openpilot이 차량을 감속하는 강도를 선택합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:510
+msgid "Choose how quickly openpilot speeds up."
+msgstr "openpilot이 가속하는 속도를 선택합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:373
+msgid "Clear Route When Offroad"
+msgstr "Offroad 전환 시 경로 지우기"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:374
+msgid "Clear the active navigation destination when the device goes offroad."
+msgstr "장치가 오프로드 상태가 되면 활성 탐색 목적지를 지웁니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:207
+msgid "Close Gap On Lane Change"
+msgstr "차선 변경 시 차간거리 축소"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:251
+msgid "Compass"
+msgstr "나침반"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:303
+msgid "Compensates for steering friction around center."
+msgstr "중앙 부근의 조향 마찰을 보정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:662 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:709 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:713 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:717 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:721 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:800 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:805 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:810 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:815
+msgid "Configure"
+msgstr "설정"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:712
+msgid "Configure follow distance, smoothness, and response for aggressive driving."
+msgstr "적극적인 주행에 맞게 차간거리, 부드러움 및 반응을 설정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:716
+msgid "Configure follow distance, smoothness, and response for everyday driving."
+msgstr "일상 주행에 맞게 차간거리, 부드러움 및 반응을 설정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:720
+msgid "Configure follow distance, smoothness, and response for relaxed driving."
+msgstr "여유로운 주행에 맞게 차간거리, 부드러움 및 반응을 설정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:708
+msgid "Configure follow distance, smoothness, and response for traffic conditions."
+msgstr "교통 상황에 맞게 차간거리, 부드러움 및 반응을 설정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:416
+msgid "Configure steering behavior and lane changes."
+msgstr "조향 동작과 차선 변경을 설정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1028 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1036 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1247
+msgid "Confirm"
+msgstr "확인"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:624
+msgid "Confirm Higher"
+msgstr "높은 제한속도 확인"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:619
+msgid "Confirm Lower"
+msgstr "낮은 제한속도 확인"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:615
+msgid "Confirm New Limits"
+msgstr "새 제한속도 확인"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:525
+msgid "Control how aggressively openpilot detects and reacts to vehicles ahead."
+msgstr "openpilot이 선행 차량을 감지하고 반응하는 민감도를 조절합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:391
+msgid "Convenience features for everyday driving."
+msgstr "일상 주행을 위한 편의 기능입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:61
+msgid "Create Bookmark"
+msgstr "북마크 생성"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:727
+msgid "Cruise Interval"
+msgstr "크루즈 속도 조절 간격"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:734
+msgid "Cruise Long"
+msgstr "크루즈 속도 조절 간격 (길게 누름)"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:370
+msgid "Curvature Lane-Change Factor"
+msgstr "곡률 모드 차선 변경 계수"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:344
+msgid "Curvature is the tuned default. Angle is available for comparison; Native preserves the original controls."
+msgstr "곡률 방식이 조정된 기본값입니다. 비교를 위해 각도 방식을 사용할 수 있으며, 기본 방식은 원래 제어를 유지합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1138
+msgid "Customize follow distance and smoothness for this driving personality."
+msgstr "이 주행 성향의 차간거리와 부드러움을 설정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:499
+msgid "Customize your display, driving widgets, model visualization, and themes."
+msgstr "화면, 주행 위젯, 모델 시각화 및 테마를 설정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:903
+msgid "Daily QOL & Weather"
+msgstr "일상 편의 및 날씨"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:399
+msgid "Dampen small steering corrections at highway speed."
+msgstr "고속도로 속도에서 작은 조향 보정을 완화합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:514
+msgid "Deceleration Profile"
+msgstr "감속 프로필"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:149
+msgid "Delay before lateral resumes after signal off. 0 = Off."
+msgstr "방향 지시등이 꺼진 후 횡방향 제어가 재개되기까지의 지연입니다. 방향 지시등을 켜는 동안 차량 속도가 \"조향 일시 중지\" 속도의 절반 이하로 떨어진 경우에만 적용됩니다. 비활성화하려면 0으로 설정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:187
+msgid "Delay before the start of an automatic lane change. 0 = Instant."
+msgstr "방향 지시등 활성화와 자동 차선 변경 시작 사이의 지연입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:888
+msgid "Detect and display speed-limit signs without enabling the Speed Limit Controller."
+msgstr "제한속도 컨트롤러를 켜지 않고도 제한속도 표지판을 감지해 표시합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:447
+msgid "Developer Metrics"
+msgstr "개발자 지표"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:418
+msgid "Developer Sidebar"
+msgstr "개발자 사이드바"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:476 selfdrive/ui/layouts/settings/starpilot/appearance.py:560
+msgid "Developer Sidebar Metrics"
+msgstr "개발자 사이드바 지표"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:774
+msgid "Developer-only: coast this far below the current cruise target before accelerating back up."
+msgstr "개발자 전용: 다시 가속하기 전에 현재 크루즈 목표 속도보다 이 값만큼 낮아질 때까지 타력 주행합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:112
+msgid "Disable Fingerprinting"
+msgstr "자동 Fingerprint 감지 비활성화"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:298
+msgid "Disabled while auto-learned delay is enabled."
+msgstr "자동 학습 조향 지연이 활성화되어 있습니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:295
+msgid "Disengagement Alert"
+msgstr "제어 해제 경고음"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:149 selfdrive/ui/layouts/settings/starpilot/vehicle.py:732
+msgid "Distance Button"
+msgstr "차간거리 버튼"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:293
+msgid "Distracted Driver"
+msgstr "운전자 주의 산만"
+
+#: selfdrive/ui/layouts/settings/starpilot/main_panel.py:101
+msgid "Driving Model"
+msgstr "주행 모델"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:419
+msgid "Driving metrics panel on the right"
+msgstr "오른쪽의 주행 지표 패널"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:180
+msgid "Dynamic Path"
+msgstr "동적 경로"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:303
+msgid "Dynamic Pedals"
+msgstr "동적 페달"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:552
+msgid "EV Active"
+msgstr "EV 활성"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:539
+msgid "EV Tuning"
+msgstr "EV 튜닝"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:294
+msgid "Engagement Chime"
+msgstr "제어 활성화 알림음"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:292
+msgid "Engagement Refused"
+msgstr "제어 활성화 거부"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:819
+msgid "Enter or remove your weather data API key."
+msgstr "날씨 데이터 API 키를 입력하거나 삭제합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:294
+msgid "Exact full delay between steering command and vehicle response."
+msgstr "조향 명령과 차량 반응 사이의 정확한 전체 지연입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:569
+msgid "Extra acceleration when moving away from a stop."
+msgstr "가속 시작"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:451
+msgid "FPS Display"
+msgstr "FPS 표시"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:597
+msgid "Fallback Speed"
+msgstr "대체 속도"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:64
+msgid "Favorite #1"
+msgstr "즐겨찾기 #1"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:65
+msgid "Favorite #2"
+msgstr "즐겨찾기 #2"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:66
+msgid "Favorite #3"
+msgstr "즐겨찾기 #3"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:828
+msgid "Fine-tune acceleration, braking, and driving behavior."
+msgstr "가속, 제동 및 주행 동작을 세밀하게 조정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1162
+msgid "Follow Distance"
+msgstr "차간거리"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1169
+msgid "Follow High"
+msgstr "긴 차간거리"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:215
+msgid "Follow distance to hold while changing lanes. Only applied when shorter than your normal gap."
+msgstr "차선을 변경하는 동안 유지하기 위해 거리를 따르십시오. 일반적인 간격보다 짧은 경우에만 적용됩니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:257
+msgid "Follow turn intent below min lane change speed."
+msgstr "방향 지시등이 활성화된 상태에서 최소 차선 변경 속도 미만으로 주행하는 동안 openpilot에 좌회전/우회전을 지시합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1206
+msgid "Following Distance"
+msgstr "차간거리"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:275
+msgid "Force Auto-Tune Off"
+msgstr "자동 튜닝 강제 비활성화"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:264
+msgid "Force Auto-Tune On"
+msgstr "자동 튜닝 강제 활성화"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:54
+msgid "Force Coast"
+msgstr "타력 주행 강제"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:756
+msgid "Force Standstill"
+msgstr "정차 상태 강제 적용"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:746
+msgid "Force Stop Offset"
+msgstr "강제 정지 오프셋"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:741
+msgid "Force Stops"
+msgstr "‘감지된’ 정지 신호/표지판에서 강제 정지"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:246
+msgid "Force Torque Ctrl"
+msgstr "토크 제어기 강제 사용"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:256
+msgid "Force Turn Desires"
+msgstr "차선 변경 속도 이하에서 회전 의도 강제"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:276
+msgid "Force-disable learned lateral values and use your set values."
+msgstr "\"마찰\" 및 \"횡가속도\"에 대한 openpilot의 실시간 자동 튜닝을 강제 비활성화하고 대신 설정된 값을 사용합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:265
+msgid "Force-enable live auto-tuning for friction and lateral accel."
+msgstr "\"마찰\" 및 \"횡가속\"에 대한 openpilot의 실시간 자동 튜닝을 강제 활성화합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:302
+msgid "Friction"
+msgstr "조향 마찰"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:461
+msgid "GPU Metrics"
+msgstr "GPU 지표"
+
+#: selfdrive/ui/layouts/settings/starpilot/main_panel.py:102
+msgid "Gas / Brake"
+msgstr "가속 / 제동"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:827
+msgid "Gas/Brake"
+msgstr "가속/제동"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:296
+msgid "General Prompt"
+msgstr "일반 안내음"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:308
+msgid "Green Light"
+msgstr "초록불"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:336
+msgid "Hide Alerts"
+msgstr "알림 숨기기"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:353
+msgid "Hide Changing Lanes Banner"
+msgstr "차선 변경 배너 숨기기"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:357
+msgid "Hide Distance Profile Banner"
+msgstr "차간거리 프로필 배너 숨기기"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:344
+msgid "Hide Driver Monitoring Icon"
+msgstr "운전자 모니터링 아이콘 숨기기"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:348
+msgid "Hide Lead Marker"
+msgstr "선행 차량 표시 숨기기"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:332
+msgid "Hide Max Speed"
+msgstr "최대 속도 숨기기"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:328
+msgid "Hide Speed"
+msgstr "속도 숨기기"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:340
+msgid "Hide Steering Wheel"
+msgstr "스티어링 휠 숨기기"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:361
+msgid "Hide Turning Banner"
+msgstr "회전 배너 숨기기"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:656
+msgid "Hide source rows that have no current speed limit reading."
+msgstr "현재 제한속도 값이 없는 소스 행을 숨깁니다. 간략한 표시와 전체 표시 모두에서 작동합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:391
+msgid "High-Speed Angle Response"
+msgstr "고속 각도 반응"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:398
+msgid "High-Speed Damping"
+msgstr "고속 감쇠"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:629
+msgid "Higher Lookahead"
+msgstr "높은 제한속도 미리보기"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:693
+msgid "How much curve data has been collected. Normal for the value to stay low."
+msgstr "수집된 곡선 데이터의 양입니다. 값이 낮게 유지되는 것은 정상입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:579
+msgid "How quickly braking ramps up to bring the car to a stop."
+msgstr "차량을 정지시키기 위해 제동력이 증가하는 속도입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:310
+msgid "How strongly openpilot corrects lateral position."
+msgstr "openpilot이 횡방향 위치를 보정하는 강도입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:519
+msgid "Human-Like Lane Changes"
+msgstr "사람처럼 자연스러운 차선 변경"
+
+#: selfdrive/ui/layouts/settings/starpilot/system_settings.py:87
+msgid "I'm not sure if this is normal or a bug:"
+msgstr "정상 동작인지 버그인지 잘 모르겠습니다:"
+
+#: selfdrive/ui/layouts/settings/starpilot/maps.py:68
+msgid "IL, IN, IA, KS, MI, MN, MO, NE, ND, OH, SD, WI"
+msgstr "IL, IN, IA, KS, MI, MN, MO, NE, ND, OH, SD, WI"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:290
+msgid "Immediate Warning"
+msgstr "즉시 경고"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:309
+msgid "Kp Factor"
+msgstr "Kp 계수"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:163
+msgid "LKAS Button"
+msgstr "LKAS 버튼"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:186
+msgid "Lane Change Delay"
+msgstr "차선 변경 지연 시간"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:190
+msgid "Lane Line Color"
+msgstr "차선 색상"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:185
+msgid "Lane Line Width"
+msgstr "차선 너비"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:363
+msgid "Large-Curve Prediction"
+msgstr "급한 곡선 예측"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:316
+msgid "Lateral Acceleration"
+msgstr "횡가속도"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:312
+msgid "Lead Departure"
+msgstr "선행 차량 출발"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:524
+msgid "Lead Detection Sensitivity"
+msgstr "선행 차량 감지 민감도"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:427
+msgid "Lead Vehicle Metrics"
+msgstr "선행 차량 지표"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:287
+msgid "Learn the full steering delay automatically. The manual value below is ignored while enabled."
+msgstr "전체 조향 지연을 자동으로 학습합니다. 활성화된 동안 수동 액추에이터 지연은 무시됩니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:237
+msgid "Lightweight NNFF when full model is off."
+msgstr "전체 모델이 꺼져 있을 때 사용하는 경량 NNFF입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:554
+msgid "Loaded trailer weight for tow-aware gas, brake, and conservative lateral assist."
+msgstr "견인 상태를 반영한 가속, 제동 및 보수적인 횡방향 보조에 사용할 트레일러 적재 중량입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:734 selfdrive/ui/layouts/settings/starpilot/vehicle.py:739 selfdrive/ui/layouts/settings/starpilot/vehicle.py:744 selfdrive/ui/layouts/settings/starpilot/vehicle.py:749
+msgid "Long Press"
+msgstr "길게 누르기"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:316
+msgid "Loud Blindspot"
+msgstr "사각지대 경고음 크게"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:322
+msgid "Loud While Paused"
+msgstr "일시정지 중 경고음 크게"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:297
+msgid "Low Speed Alert"
+msgstr "저속 경고음"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:798 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:801
+msgid "Low Visibility"
+msgstr "저시정"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:384
+msgid "Low-Speed Angle Response"
+msgstr "저속 각도 반응"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:633
+msgid "Lower Lookahead"
+msgstr "낮은 제한속도 미리보기"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:180
+msgid "Lowest speed at which openpilot will change lanes."
+msgstr "openpilot이 차선을 변경하는 최저 속도입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:349
+msgid "Manual Turn Release"
+msgstr "수동 회전 시 해제"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:113
+msgid "Manually select vehicle instead of auto-detecting."
+msgstr "자동 감지 대신 차량을 직접 선택합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:783
+msgid "Map Acceleration"
+msgstr "지도 기반 가속"
+
+#: selfdrive/ui/layouts/settings/starpilot/main_panel.py:104
+msgid "Map Data"
+msgstr "지도 데이터"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:788
+msgid "Map Deceleration"
+msgstr "지도 기반 감속"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:778
+msgid "Map Gears"
+msgstr "가속/감속을 기어에 매핑"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:637
+msgid "Mapbox Fallback"
+msgstr "Mapbox를 대체 소스로 사용"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:317
+msgid "Maps steering torque to turning response."
+msgstr "조향 토크를 회전 반응에 대응시킵니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:563
+msgid "Maximum Acceleration"
+msgstr "최대 가속도"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:179
+msgid "Min Lane Change Speed"
+msgstr "최소 차선 변경 속도"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:193
+msgid "Min Lane Width"
+msgstr "최소 차선 너비"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:742 selfdrive/ui/layouts/settings/starpilot/vehicle.py:175
+msgid "Mode Button"
+msgstr "모드 버튼"
+
+#: selfdrive/ui/layouts/settings/starpilot/system_settings.py:88
+msgid "My steering wheel buttons aren't working"
+msgstr "스티어링 휠 버튼이 작동하지 않습니다"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:225
+msgid "NNFF"
+msgstr "신경망 피드포워드 (NNFF)"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:236
+msgid "NNFF Lite"
+msgstr "신경망 피드포워드 (NNFF) Lite"
+
+#: selfdrive/ui/layouts/settings/starpilot/main_panel.py:105
+msgid "Navigation"
+msgstr "내비게이션"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:369
+msgid "Navigation Widgets"
+msgstr "내비게이션 위젯"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:319 selfdrive/ui/layouts/settings/starpilot/sounds.py:325
+msgid "Needs BSM"
+msgstr "BSM 필요"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:333
+msgid "Needs Speed Limits"
+msgstr "제한속도 정보 필요"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:226
+msgid "Neural net feedforward steering controller."
+msgstr "Twilsonco의 \"신경망 피드포워드(Neural Network FeedForward)\" 컨트롤러. 보다 부드러운 모델 기반 조향을 위해 훈련된 신경망 모델을 사용하여 차량 속도, 롤링, 과거/미래 계획 경로 데이터를 기반으로 조향 토크를 예측합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:52
+msgid "No Action"
+msgstr "동작 없음"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:232 selfdrive/ui/layouts/settings/starpilot/lateral.py:242 selfdrive/ui/layouts/settings/starpilot/lateral.py:252 selfdrive/ui/layouts/settings/starpilot/lateral.py:271 selfdrive/ui/layouts/settings/starpilot/lateral.py:282
+msgid "Not Available"
+msgstr "사용할 수 없음"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:172
+msgid "One Per Signal"
+msgstr "방향지시등당 한 번만 차선 변경"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:173
+msgid "One lane change per signal activation."
+msgstr "방향 지시등 활성화 시 자동 차선 변경을 한 번으로 제한하십시오."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:143
+msgid "Only pause steering when turn signal is active."
+msgstr "방향 지시등이 활성화된 경우에만 조향을 일시 중지하십시오."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:602
+msgid "Override Speed"
+msgstr "재정의 속도"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:210
+msgid "Path Color"
+msgstr "경로 색상"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:205
+msgid "Path Edge Color"
+msgstr "경로 가장자리 색상"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:200
+msgid "Path Edge Width"
+msgstr "경로 가장자리 너비"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:195
+msgid "Path Width"
+msgstr "경로 너비"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:129
+msgid "Pause AOL On Brake"
+msgstr "설정 속도 이하 브레이크 입력 시 일시정지"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:130
+msgid "Pause AOL below this speed while brake is pressed."
+msgstr "브레이크 페달을 밟고 있는 동안 설정 속도 이하에서 \"상시 횡방향 제어\"를 일시 정지합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:57
+msgid "Pause Accel/Brake"
+msgstr "가속/제동 일시정지"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:56
+msgid "Pause Steering"
+msgstr "조향 일시정지"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:137
+msgid "Pause steering below the set speed."
+msgstr "설정된 속도 이하에서는 조향을 일시 정지합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:297
+msgid "Pedal Indicators"
+msgstr "가속/브레이크 페달 표시기"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1125 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:661
+msgid "Per-limit speed adjustments for the Speed Limit Controller."
+msgstr "제한속도 컨트롤러의 제한속도별 속도 조정값입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:448
+msgid "Performance data, sensor readings, and system metrics."
+msgstr "성능 데이터, 센서 측정값 및 시스템 지표입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:256
+msgid "Personality Button"
+msgstr "주행 성향 버튼"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:561 selfdrive/ui/layouts/settings/starpilot/appearance.py:477
+msgid "Pick which metrics appear in the developer sidebar on the driving screen."
+msgstr "주행 화면의 개발자 사이드바에 표시할 지표를 선택합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:734 selfdrive/ui/layouts/settings/starpilot/vehicle.py:739 selfdrive/ui/layouts/settings/starpilot/vehicle.py:744 selfdrive/ui/layouts/settings/starpilot/vehicle.py:749
+msgid "Press"
+msgstr "짧게 누르기"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:194
+msgid "Prevent lane changes into narrower lanes."
+msgstr "설정된 폭보다 좁은 차선으로 자동 차선 변경을 방지합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:55
+msgid "Pulse and Glide"
+msgstr "펄스 앤 글라이드"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:471
+msgid "RAM Metrics"
+msgstr "RAM 지표"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:432
+msgid "Radar Point Display"
+msgstr "레이더 포인트 표시"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:751
+msgid "Radar for Takeoffs"
+msgstr "출발 시 레이더 사용"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:520
+msgid "Radar-informed behavior during lane changes."
+msgstr "차선 변경 중에 인접한 차량을 예측하고 추적하여 인간 운전자를 모방하는 차선 변경 동작입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:803 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:806
+msgid "Rain"
+msgstr "비"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:220
+msgid "Rainbow Path"
+msgstr "무지개 경로"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:808 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:811
+msgid "Rainstorms"
+msgstr "폭우"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1215
+msgid "Reduce Accel"
+msgstr "가속 감소"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1219
+msgid "Reduce Curve Speed"
+msgstr "곡선 속도 감소"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:324
+msgid "Relationship between steering wheel and road-wheel angle."
+msgstr "스티어링 휠 각도와 바퀴 조향각의 비율입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:350
+msgid "Release lateral control during a sustained hands-on turn, then ramp back in smoothly."
+msgstr "운전자가 계속 조향하는 동안 횡방향 제어를 해제한 후 부드럽게 다시 적용합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1247
+msgid "Remove API Key?"
+msgstr "API 키를 삭제할까요?"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:651
+msgid "Render speed-limit sources as compact text labels (e.g. Dash-45)."
+msgstr "제한속도 소스를 아이콘 없이 압축된 텍스트 레이블(예: \"Dash-45\", \"MapD-30\")로 렌더링합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:697
+msgid "Reset Curve Data"
+msgstr "곡선 데이터 초기화"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1028
+msgid "Reset Curve Data?"
+msgstr "곡선 데이터를 초기화할까요?"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:698
+msgid "Reset collected user data for Curve Speed Controller."
+msgstr "곡선 속도 컨트롤러가 수집한 사용자 데이터를 초기화합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1195
+msgid "Reset to Defaults"
+msgstr "기본값으로 초기화"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1036
+msgid "Reset to Defaults?"
+msgstr "기본값으로 초기화할까요?"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:148
+msgid "Resume Delay"
+msgstr "횡방향 제어 재개 지연"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:215
+msgid "Road Edge Width"
+msgstr "도로 가장자리 너비"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:377
+msgid "Road Name"
+msgstr "도로명"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:261
+msgid "Rotating Wheel"
+msgstr "회전하는 스티어링 휠"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:660 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1124
+msgid "SLC Offsets"
+msgstr "SLC 오프셋"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1183
+msgid "Safety Gap Bias"
+msgstr "안전 간격 성향"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:406
+msgid "Scale steering during high-speed lane changes in Angle mode."
+msgstr "각도 모드에서 고속 차선 변경 중 조향을 조절합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:371
+msgid "Scale steering during high-speed lane changes in Curvature mode."
+msgstr "곡률 모드에서 고속 차선 변경 중 조향을 조절합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:820
+msgid "Set Key"
+msgstr "키 설정"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:767
+msgid "Set Speed Offset"
+msgstr "설정 속도 오프셋"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:818
+msgid "Set Weather Key"
+msgstr "날씨 키 설정"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:642
+msgid "Show SLC Offset"
+msgstr "제한속도 오프셋 표시"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:646
+msgid "Show Sources"
+msgstr "제한속도 소스 표시"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:381
+msgid "Show Speed Limits"
+msgstr "제한속도 표시"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:437
+msgid "Show Stop Sign"
+msgstr "정지 표지판 표시"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:272
+msgid "Show a curved torque-utilization indicator at the bottom of the driving screen."
+msgstr "주행 화면 하단에 곡선형 토크 사용량 표시기를 표시합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:370
+msgid "Show navigation info on the driving screen."
+msgstr "주행 화면에 내비게이션 정보를 표시합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:320
+msgid "Show the Curve Speed Controller target speed and ambient border glow."
+msgstr "주행 화면에 \"커브 속도 컨트롤러\" 목표 속도를 표시합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:166
+msgid "Signal triggers automatic lane change."
+msgstr "방향 지시등이 켜지면 openpilot이 자동으로 차선을 변경합니다. 사각지대에서 차량이 감지되면 차선 변경은 사각지대가 없어질 때까지 기다립니다. 스티어링 휠을 살짝 움직일 필요가 없습니다!"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1187
+msgid "Slowdown Response"
+msgstr "감속 반응"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:356
+msgid "Small-Curve Prediction"
+msgstr "완만한 곡선 예측"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:201
+msgid "Smoothness of lane change commit. 10 = Stock, 1 = Smoothest."
+msgstr "차선 변경 동작의 부드러움입니다. 10 = 기본, 1 = 가장 부드러움."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:813 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:816
+msgid "Snow"
+msgstr "눈"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:291
+msgid "Soft Warning"
+msgstr "약한 경고"
+
+#: selfdrive/ui/layouts/settings/starpilot/system_settings.py:91
+msgid "Something else (please describe)"
+msgstr "기타(내용을 설명해 주세요)"
+
+#: selfdrive/ui/layouts/settings/starpilot/main_panel.py:99
+msgid "Sounds"
+msgstr "소리"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:607
+msgid "Source Priority"
+msgstr "소스 우선순위"
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:328
+msgid "Speed Limit"
+msgstr "제한속도"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:589
+msgid "Speed where openpilot considers the vehicle fully stopped."
+msgstr "openpilot이 차량이 완전히 정지했다고 판단하는 속도입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:584
+msgid "Speed where openpilot exits the stopped state."
+msgstr "openpilot이 정지 상태에서 벗어나는 속도입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1191
+msgid "Speed-Up Response"
+msgstr "가속 반응"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:747 selfdrive/ui/layouts/settings/starpilot/vehicle.py:180
+msgid "Star Button"
+msgstr "별표 버튼"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:568
+msgid "Start Acceleration"
+msgstr "출발 가속도"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:583
+msgid "Start Speed"
+msgstr "시작 속도"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:309
+msgid "Static Pedals"
+msgstr "고정 페달"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:323
+msgid "Steer Ratio"
+msgstr "조향비"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:415 selfdrive/ui/layouts/settings/starpilot/main_panel.py:103
+msgid "Steering"
+msgstr "조향"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:343
+msgid "Steering Strategy"
+msgstr "조향 방식"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:266
+msgid "Steering Torque Indicator"
+msgstr "조향 토크 표시기"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:573
+msgid "Stop Acceleration"
+msgstr "정지 가속도"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:442
+msgid "Stop Distance"
+msgstr "정지 거리"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:588
+msgid "Stop Speed"
+msgstr "정지 속도"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:761 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1210
+msgid "Stopped Distance"
+msgstr "정차 거리"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:315
+msgid "Stopped Timer"
+msgstr "정차 시간 표시"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:578
+msgid "Stopping Rate"
+msgstr "정지율"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:547
+msgid "Stronger launch and acceleration for heavier vehicles."
+msgstr "트럭에 맞춰 조정된 공격적인 가속 프로필을 사용합니다. 더 강한 스로틀이 필요한 대형 차량용입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:564
+msgid "Strongest acceleration openpilot is allowed to command."
+msgstr "openpilot이 명령할 수 있는 최대 가속도입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/sounds.py:284
+msgid "Switchback Cooldown"
+msgstr "전환 대기 시간"
+
+#: selfdrive/ui/layouts/settings/starpilot/main_panel.py:100
+msgid "System Settings"
+msgstr "시스템 설정"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:466
+msgid "Temperature Metrics"
+msgstr "온도 지표"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:214
+msgid "Temporary Follow Distance"
+msgstr "임시 차간거리"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:688
+msgid "The learned lateral acceleration from collected driving data. Higher values allow faster cornering."
+msgstr "수집된 주행 데이터에서 학습된 횡가속입니다. 값이 높을수록 더 빠르게 곡선을 주행할 수 있습니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:559
+msgid "Time between command and the vehicle's response."
+msgstr "명령과 차량 반응 사이의 시간입니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:62
+msgid "Toggle Always On Lateral"
+msgstr "상시 횡방향 제어 전환"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:58
+msgid "Toggle Experimental"
+msgstr "실험 모드 전환"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:60
+msgid "Toggle Switchback"
+msgstr "전환 모드 전환"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:59
+msgid "Toggle Traffic"
+msgstr "교통 모드 전환"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:271
+msgid "Torque Bar"
+msgstr "토크 바"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:247
+msgid "Torque-based steering for smoother lane keeping."
+msgstr "특히 곡선에서 보다 부드러운 차선 유지를 위해 각도 기반 제어 대신 토크 기반 조향 제어를 사용합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:707
+msgid "Traffic"
+msgstr "교통"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:553
+msgid "Trailer Load"
+msgstr "트레일러 하중"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:545
+msgid "Truck Active"
+msgstr "트럭 활성"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:546
+msgid "Truck Tuning"
+msgstr "트럭 튜닝"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:460
+msgid "Tune Ford-specific polynomial steering while retaining the native strategy as a fallback."
+msgstr "기본 방식을 대체 방식으로 유지하면서 Ford 전용 다항식 조향을 조정합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:276
+msgid "Turn Signal Borders"
+msgstr "방향지시등 테두리"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:142
+msgid "Turn Signal Only"
+msgstr "방향지시등 작동 시에만"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:752
+msgid "Turns on/off using radar data to track leads at standstill, making following/takeoffs more responsive once leads move."
+msgstr "정차 중 레이더 데이터로 선행 차량을 추적하여 선행 차량이 출발할 때 추종과 출발 반응을 향상합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/maps.py:67
+msgid "U.S. Midwest Region (12 States)"
+msgstr "미국 중서부 지역(12개 주)"
+
+#: selfdrive/ui/layouts/settings/starpilot/maps.py:72
+msgid "U.S. Northeast Region (9 States)"
+msgstr "미국 북동부 지역(9개 주)"
+
+#: selfdrive/ui/layouts/settings/starpilot/maps.py:77
+msgid "U.S. South Region (17 States)"
+msgstr "미국 남부 지역(17개 주)"
+
+#: selfdrive/ui/layouts/settings/starpilot/maps.py:87
+msgid "U.S. Territories (5 Territories)"
+msgstr "미국령 지역(5개 지역)"
+
+#: selfdrive/ui/layouts/settings/starpilot/maps.py:82
+msgid "U.S. West Region (13 States)"
+msgstr "미국 서부 지역(13개 주)"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:286
+msgid "Use Auto-Learned Delay"
+msgstr "자동 학습 조향 지연 사용"
+
+#: selfdrive/ui/layouts/settings/starpilot/lateral.py:155
+msgid "Use Route Desires"
+msgstr "회전에 경로 의도 사용"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:529
+msgid "Use Route Speed Control"
+msgstr "경로 기반 속도 제어 사용"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:669
+msgid "Use the road camera to detect and display speed-limit signs, with optional use by Speed Limit Controller."
+msgstr "도로 카메라로 제한속도 표지판을 감지해 표시하며, 제한속도 컨트롤러에서도 선택적으로 사용합니다."
+
+#: selfdrive/ui/layouts/settings/starpilot/main_panel.py:107
+msgid "Vehicle Settings"
+msgstr "차량 설정"
+
+#: selfdrive/ui/layouts/settings/starpilot/vehicle.py:734 selfdrive/ui/layouts/settings/starpilot/vehicle.py:739 selfdrive/ui/layouts/settings/starpilot/vehicle.py:744 selfdrive/ui/layouts/settings/starpilot/vehicle.py:749
+msgid "Very Long"
+msgstr "아주 길게 누르기"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:385
+msgid "Vienna Signs"
+msgstr "비엔나 스타일 속도 표지판 사용"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:668
+msgid "Vision Detection"
+msgstr "비전 감지"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1249 selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1237
+msgid "Weather API Key"
+msgstr "날씨 API 키"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:793
+msgid "Weather Condition Offsets"
+msgstr "날씨 조건 오프셋"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:287
+msgid "Wheel Speed"
+msgstr "휠 속도 사용"
+
+#: selfdrive/ui/layouts/settings/starpilot/system_settings.py:89
+msgid "openpilot disengages when I don't expect it"
+msgstr "예상하지 못한 상황에서 openpilot이 해제됩니다"
+
+#: selfdrive/ui/layouts/settings/starpilot/system_settings.py:90
+msgid "openpilot feels sluggish or slow to respond"
+msgstr "openpilot의 반응이 둔하거나 느립니다"
+
+#: selfdrive/ui/layouts/settings/starpilot/driving_model.py:1121
+msgid "Download All Missing"
+msgstr "누락된 모델 모두 다운로드"
+
+#: selfdrive/ui/layouts/settings/starpilot/appearance.py:487 selfdrive/ui/layouts/settings/starpilot/appearance.py:742
+msgid "Metric"
+msgstr "지표"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:679
+msgid "Offset"
+msgstr "오프셋"
+
+#: selfdrive/ui/layouts/settings/starpilot/longitudinal.py:1143
+msgid "Profile"
+msgstr "프로필"
+
+#: selfdrive/ui/layouts/settings/starpilot/driving_model.py:391 selfdrive/ui/layouts/settings/starpilot/driving_model.py:1165
+msgid "blocked"
+msgstr "차단됨"
+
+msgid "All models downloaded!"
+msgstr "모든 모델을 다운로드했습니다!"
+
+msgid "Built-in model already downloaded."
+msgstr "내장 모델이 이미 다운로드되어 있습니다."
+
+msgid "Connection dropped"
+msgstr "연결이 끊어졌습니다"
+
+msgid "Deleted"
+msgstr "삭제됨"
+
+msgid "Download cancelled..."
+msgstr "다운로드가 취소되었습니다..."
+
+msgid "Download failed..."
+msgstr "다운로드에 실패했습니다..."
+
+msgid "Download invalid..."
+msgstr "유효하지 않은 다운로드입니다..."
+
+msgid "Download timed out"
+msgstr "다운로드 시간이 초과되었습니다"
+
+msgid "Downloaded!"
+msgstr "다운로드 완료!"
+
+msgid "Downloading selected model"
+msgstr "선택한 모델 다운로드 중"
+
+msgid "Downloading..."
+msgstr "다운로드 중..."
+
+msgid "External GPU required..."
+msgstr "외장 GPU가 필요합니다..."
+
+msgid "Failed"
+msgstr "실패"
+
+msgid "GitHub and GitLab are offline..."
+msgstr "GitHub와 GitLab에 연결할 수 없습니다..."
+
+msgid "Local model, nothing to download."
+msgstr "로컬 모델이므로 다운로드할 항목이 없습니다."
+
+msgid "Network request error. Check connection"
+msgstr "네트워크 요청 오류입니다. 연결을 확인하세요"
+
+msgid "Read timed out"
+msgstr "읽기 시간이 초과되었습니다"
+
+msgid "Repository unavailable"
+msgstr "저장소를 사용할 수 없습니다"
+
+msgid "Selected model unavailable; using built-in model."
+msgstr "선택한 모델을 사용할 수 없어 내장 모델을 사용합니다."
+
+msgid "Server error"
+msgstr "서버 오류"
+
+msgid "Unable to fetch models..."
+msgstr "모델 목록을 가져올 수 없습니다..."
+
+msgid "Unexpected error"
+msgstr "예기치 않은 오류"
+
+msgid "Unpacking theme..."
+msgstr "테마 압축 해제 중..."
+
+msgid "Unsupported model format for"
+msgstr "지원하지 않는 모델 형식:"
+
+msgid "Updated!"
+msgstr "업데이트 완료!"
+
+msgid "Updating..."
+msgstr "업데이트 중..."
+
+msgid "Verification failed..."
+msgstr "검증에 실패했습니다..."
+
+msgid "Verifying authenticity..."
+msgstr "파일 검증 중..."
+
+msgid "User Created"
+msgstr "사용자 생성"
+
+msgid "by"
+msgstr "제작자"
+
+msgid "Set Home"
+msgstr "집 위치 설정"
+
+msgid "Unset Home"
+msgstr "집 위치 해제"
+
+msgid "Set Work"
+msgstr "직장 위치 설정"
+
+msgid "Unset Work"
+msgstr "직장 위치 해제"

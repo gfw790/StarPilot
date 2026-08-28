@@ -14,7 +14,7 @@ const TOP_MODEL_LIMIT = 3;
 
 function withTimeout(promise, timeoutMs, label) {
   return new Promise((resolve, reject) => {
-    const timerId = setTimeout(() => reject(new Error(`${label} timed out`)), timeoutMs);
+    const timerId = setTimeout(() => reject(new Error(`${label} 시간 초과`)), timeoutMs);
     promise.then((value) => {
       clearTimeout(timerId);
       resolve(value);
@@ -45,11 +45,11 @@ function numberValue(value, fallback = 0) {
 }
 
 function formatInt(value) {
-  return Math.round(numberValue(value)).toLocaleString("en-US", { maximumFractionDigits: 0 });
+  return Math.round(numberValue(value)).toLocaleString("ko-KR", { maximumFractionDigits: 0 });
 }
 
 function formatOneDecimal(value) {
-  return numberValue(value).toLocaleString("en-US", { maximumFractionDigits: 1 });
+  return numberValue(value).toLocaleString("ko-KR", { maximumFractionDigits: 1 });
 }
 
 function formatPercent(value) {
@@ -60,15 +60,15 @@ function formatDuration(seconds) {
   const total = Math.max(0, Math.round(numberValue(seconds)));
   const hours = Math.floor(total / 3600);
   const minutes = Math.floor((total % 3600) / 60);
-  if (hours > 0) return `${hours}h ${minutes}m`;
-  return `${minutes}m`;
+  if (hours > 0) return `${hours}시간 ${minutes}분`;
+  return `${minutes}분`;
 }
 
 function formatDate(value) {
-  if (!value) return "No drives yet";
+  if (!value) return "아직 주행 기록 없음";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return String(value);
-  return date.toLocaleString("en-US", {
+  return date.toLocaleString("ko-KR", {
     month: "short",
     day: "numeric",
     hour: "numeric",
@@ -77,21 +77,66 @@ function formatDate(value) {
 }
 
 function formatDriveTimeRange(startValue, endValue) {
-  if (!startValue) return "No drives yet";
+  if (!startValue) return "아직 주행 기록 없음";
   const start = new Date(startValue);
   const end = new Date(endValue);
   if (Number.isNaN(start.getTime())) return String(startValue);
   if (Number.isNaN(end.getTime()) || end <= start) return formatDate(startValue);
 
-  const dateLabel = start.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  const startTime = start.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-  const endTime = end.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  const dateLabel = start.toLocaleDateString("ko-KR", { month: "short", day: "numeric" });
+  const startTime = start.toLocaleTimeString("ko-KR", { hour: "numeric", minute: "2-digit" });
+  const endTime = end.toLocaleTimeString("ko-KR", { hour: "numeric", minute: "2-digit" });
   if (start.toDateString() === end.toDateString()) {
     return `${dateLabel}, ${startTime}-${endTime}`;
   }
 
-  const endDateLabel = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const endDateLabel = end.toLocaleDateString("ko-KR", { month: "short", day: "numeric" });
   return `${dateLabel}, ${startTime}-${endDateLabel}, ${endTime}`;
+}
+
+function localizeUnit(unit) {
+  return ({ miles: "마일", kilometers: "킬로미터", mph: "mph", kph: "km/h" })[unit] || unit;
+}
+
+function localizeDayLabel(label) {
+  return ({ Mon: "월", Tue: "화", Wed: "수", Thu: "목", Fri: "금", Sat: "토", Sun: "일" })[label] || label;
+}
+
+function localizeDisplayText(value) {
+  const text = String(value ?? "");
+  const exact = {
+    "No drives": "주행 기록 없음",
+    "No clean drives": "안전 주행 기록 없음",
+    "No undistracted drives": "집중력 저하 없는 주행 기록 없음",
+    "Consecutive drive days": "연속 주행",
+    "No attention warnings": "주의 경고 없음",
+    "Unknown date": "알 수 없는 날짜",
+    "Parked": "주차 중",
+    "Driving": "주행 중",
+    "Yes": "예",
+    "No": "아니요",
+    "unknown": "알 수 없음",
+  };
+  if (exact[text]) return exact[text];
+  const months = { Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12 };
+  const localizedDates = text.replace(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{1,2})(?:, (\d{4}))?/g,
+    (_, month, day, year) => `${year ? `${year}년 ` : ""}${months[month]}월 ${day}일`);
+  if (localizedDates !== text) {
+    const isWeekDetail = /^(miles|kilometers) - week of /.test(text);
+    return localizedDates
+      .replace(/^(miles|kilometers) - week of /, (_, unit) => `${localizeUnit(unit)} - `)
+      .replace(/^(miles|kilometers) - /, (_, unit) => `${localizeUnit(unit)} - `)
+      + (isWeekDetail ? "이 포함된 주" : "");
+  }
+  if (text === "miles" || text === "kilometers") return localizeUnit(text);
+  if (/^\d+(?:\.\d+)? hours?$/.test(text)) return text.replace(/ hours?$/, "시간");
+  if (/^\d+ days?$/.test(text)) return text.replace(/ days?$/, "일");
+  if (/^\d+ drives?$/.test(text)) return text.replace(/ drives?$/, "회");
+  if (/^\d+(?:\.\d+)? (miles|kilometers)$/.test(text)) {
+    const [, amount, unit] = text.match(/^(\d+(?:\.\d+)?) (miles|kilometers)$/);
+    return `${amount} ${localizeUnit(unit)}`;
+  }
+  return text;
 }
 
 function formatBytes(bytes) {
@@ -106,9 +151,9 @@ function statBlock(title, stats = {}, unit) {
     <section class="dashboard-card dashboard-summary-card">
       <h2>${escapeHtml(title)}</h2>
       <div class="dashboard-stat-row">
-        <div><strong>${formatInt(stats.drives)}</strong><span>drives</span></div>
-        <div><strong>${formatOneDecimal(stats.distance)}</strong><span>${escapeHtml(stats.unit || unit)}</span></div>
-        <div><strong>${formatOneDecimal(stats.hours)}</strong><span>hours</span></div>
+        <div><strong>${formatInt(stats.drives)}회</strong><span>주행</span></div>
+        <div><strong>${formatOneDecimal(stats.distance)}</strong><span>${escapeHtml(localizeUnit(stats.unit || unit))}</span></div>
+        <div><strong>${formatOneDecimal(stats.hours)}</strong><span>시간</span></div>
       </div>
     </section>
   `;
@@ -125,7 +170,7 @@ function fallbackDashboard(data, unit) {
       duration: 0,
       avgSpeed: 0,
       engagedPercent: 0,
-      model: "Unknown model",
+      model: "알 수 없는 모델",
       segmentCount: 0,
       distractedMoments: 0,
       unresponsiveMoments: 0,
@@ -145,11 +190,11 @@ function fallbackDashboard(data, unit) {
     },
     records: {
       longestDrive: { value: "0", detail: unit },
-      mostEngagedDay: { value: "0%", detail: "No drives" },
+      mostEngagedDay: { value: "0%", detail: "주행 기록 없음" },
       bestWeek: { value: "0", detail: unit },
-      highestStreak: { value: "0 days", detail: "No drives" },
-      longestUndistractedDrive: { value: "0.0 hours", detail: "No clean drives" },
-      cleanDriveStreak: { value: "0 drives", detail: "No clean drives" },
+      highestStreak: { value: "0일", detail: "주행 기록 없음" },
+      longestUndistractedDrive: { value: "0.0시간", detail: "안전 주행 기록 없음" },
+      cleanDriveStreak: { value: "0회", detail: "안전 주행 기록 없음" },
     },
     device: { status: "Parked", online: true, uptimeSeconds: null, cpuTempC: null },
     storage: {
@@ -157,7 +202,7 @@ function fallbackDashboard(data, unit) {
       usedBytes: 0,
       totalBytes: 0,
       usedPercent: Number.parseFloat(disk?.usedPercentage) || 0,
-      legacyText: `${usedText} used of ${sizeText}`,
+      legacyText: `${sizeText} 중 ${usedText} 사용`,
       segmentCounts: { standard: 0, highResolution: 0, alternate: 0 },
     },
     favoriteModels: [],
@@ -202,8 +247,8 @@ function renderAnalysisStatus(dashboard) {
 
   const runningCount = count || Math.max(1, Math.round(numberValue(analysis.batchSize)));
   const label = analysis.running
-    ? `Analyzing ${runningCount} ${runningCount === 1 ? "drive" : "drives"}`
-    : `${count} ${count === 1 ? "drive" : "drives"} queued`;
+    ? `${runningCount}개 주행 분석 중`
+    : `${count}개 주행 분석 대기 중`;
 
   return `
     <div class="dashboard-analysis-status">
@@ -217,20 +262,20 @@ function renderLastDrive(drive) {
   const ready = driveStatsReady(drive);
   return `
     <section class="dashboard-card dashboard-last-drive">
-      <div class="dashboard-card-kicker"><span></span>Last drive</div>
+      <div class="dashboard-card-kicker"><span></span>최근 주행</div>
       <div class="dashboard-drive-date">${escapeHtml(formatDriveTimeRange(drive.date, drive.endDate))}</div>
       <div class="dashboard-drive-metrics">
-        <div><strong>${ready ? formatOneDecimal(drive.distance) : "..."}</strong><span>${ready ? escapeHtml(drive.distanceUnit || "miles") : "analyzing"}</span></div>
-        <div><strong>${formatDuration(drive.duration)}</strong><span>duration</span></div>
-        <div><strong>${ready ? formatInt(drive.avgSpeed) : "..."}</strong><span>${ready ? `${escapeHtml(drive.speedUnit || "mph")} avg` : "speed"}</span></div>
-        <div><strong>${ready ? formatPercent(drive.engagedPercent) : "..."}</strong><span>engaged</span></div>
+        <div><strong>${ready ? formatOneDecimal(drive.distance) : "..."}</strong><span>${ready ? escapeHtml(localizeUnit(drive.distanceUnit || "miles")) : "분석 중"}</span></div>
+        <div><strong>${formatDuration(drive.duration)}</strong><span>주행 시간</span></div>
+        <div><strong>${ready ? formatInt(drive.avgSpeed) : "..."}</strong><span>${ready ? `평균 ${escapeHtml(localizeUnit(drive.speedUnit || "mph"))}` : "속도"}</span></div>
+        <div><strong>${ready ? formatPercent(drive.engagedPercent) : "..."}</strong><span>제어 활성</span></div>
       </div>
       <div class="dashboard-drive-footer">
-        <span><i class="bi bi-cpu"></i>${escapeHtml(drive.model || "Unknown model")}</span>
+        <span><i class="bi bi-cpu"></i>${escapeHtml(drive.model || "알 수 없는 모델")}</span>
         ${ready
-          ? `<span><i class="bi bi-eye"></i>${formatInt(drive.distractedMoments)} distracted</span>
-             <span><i class="bi bi-exclamation-triangle"></i>${formatInt(drive.unresponsiveMoments)} unresponsive</span>`
-          : `<span><i class="bi bi-hourglass-split"></i>Analyzing stats</span>`}
+          ? `<span><i class="bi bi-eye"></i>주의 분산 ${formatInt(drive.distractedMoments)}회</span>
+             <span><i class="bi bi-exclamation-triangle"></i>무반응 ${formatInt(drive.unresponsiveMoments)}회</span>`
+          : `<span><i class="bi bi-hourglass-split"></i>통계 분석 중</span>`}
       </div>
     </section>
   `;
@@ -246,26 +291,26 @@ function renderWeekChart(week) {
     return `
       <div class="dashboard-day">
         <div class="dashboard-day-bar" style="height:${height}%"></div>
-        <span>${escapeHtml(day.label)}</span>
+        <span>${escapeHtml(localizeDayLabel(day.label))}</span>
       </div>
     `;
   }).join("");
 
   return `
     <section class="dashboard-card dashboard-week">
-      <h2>This week</h2>
+      <h2>이번 주</h2>
       <div class="dashboard-week-top">
         <div class="dashboard-donut" style="--value:${Math.max(0, Math.min(100, numberValue(week.engagedPercent)))}">
           <strong>${formatPercent(week.engagedPercent)}</strong>
-          <span>engaged</span>
+          <span>제어 활성</span>
         </div>
         <div class="dashboard-week-metrics">
-          <div><strong>${formatOneDecimal(week.distance)}</strong><span>${escapeHtml(week.distanceUnit || "miles")}</span></div>
-          <div><strong>${formatOneDecimal(week.hours)}</strong><span>hours</span></div>
-          <div><strong>${formatInt(week.drives)}</strong><span>drives</span></div>
+          <div><strong>${formatOneDecimal(week.distance)}</strong><span>${escapeHtml(localizeUnit(week.distanceUnit || "miles"))}</span></div>
+          <div><strong>${formatOneDecimal(week.hours)}</strong><span>시간</span></div>
+          <div><strong>${formatInt(week.drives)}회</strong><span>주행</span></div>
         </div>
       </div>
-      <h3>Distance per day</h3>
+      <h3>일별 주행 거리</h3>
       <div class="dashboard-bars">${bars}</div>
     </section>
   `;
@@ -277,8 +322,8 @@ function recordRow(icon, title, record) {
       <span><i class="bi ${icon}"></i></span>
       <div>
         <p>${escapeHtml(title)}</p>
-        <strong>${escapeHtml(record?.value ?? "0")}</strong>
-        <small>${escapeHtml(record?.detail ?? "")}</small>
+        <strong>${escapeHtml(localizeDisplayText(record?.value ?? "0"))}</strong>
+        <small>${escapeHtml(localizeDisplayText(record?.detail ?? ""))}</small>
       </div>
     </div>
   `;
@@ -287,13 +332,13 @@ function recordRow(icon, title, record) {
 function renderRecords(records) {
   return `
     <section class="dashboard-card dashboard-records">
-      <h2>Personal records</h2>
-      ${recordRow("bi-arrow-right", "Longest drive", records.longestDrive)}
-      ${recordRow("bi-check2-circle", "Most-engaged day", records.mostEngagedDay)}
-      ${recordRow("bi-graph-up-arrow", "Best week", records.bestWeek)}
-      ${recordRow("bi-lightning-charge", "Highest streak", records.highestStreak)}
-      ${recordRow("bi-shield-check", "Longest undistracted drive", records.longestUndistractedDrive)}
-      ${recordRow("bi-stars", "Clean-drive streak", records.cleanDriveStreak)}
+      <h2>개인 기록</h2>
+      ${recordRow("bi-arrow-right", "최장 주행", records.longestDrive)}
+      ${recordRow("bi-check2-circle", "제어 활성률이 가장 높은 날", records.mostEngagedDay)}
+      ${recordRow("bi-graph-up-arrow", "최고 주간 기록", records.bestWeek)}
+      ${recordRow("bi-lightning-charge", "최장 연속 주행", records.highestStreak)}
+      ${recordRow("bi-shield-check", "주의 분산 없는 최장 주행", records.longestUndistractedDrive)}
+      ${recordRow("bi-stars", "안전 주행 연속 기록", records.cleanDriveStreak)}
     </section>
   `;
 }
@@ -302,8 +347,8 @@ function renderRecentDrives(drives) {
   if (!Array.isArray(drives) || drives.length === 0) {
     return `
       <section class="dashboard-card dashboard-recent">
-        <h2>Recent drives</h2>
-        <div class="dashboard-empty">No local drives found yet.</div>
+        <h2>최근 주행</h2>
+        <div class="dashboard-empty">아직 로컬 주행 기록이 없습니다.</div>
       </section>
     `;
   }
@@ -316,22 +361,22 @@ function renderRecentDrives(drives) {
     <div class="dashboard-drive-row ${ready ? "" : "is-pending"} ${ignored ? "is-ignored" : ""}">
       <div class="dashboard-drive-main">
         <strong>${escapeHtml(formatDriveTimeRange(drive.date, drive.endDate))}</strong>
-        <span>${escapeHtml(drive.model || "Unknown model")}</span>
+        <span>${escapeHtml(drive.model || "알 수 없는 모델")}</span>
       </div>
       <div class="dashboard-drive-details">
-        <span>${ignored && drive.attentionKnown === false ? "Stats excluded" : (ready ? `${formatOneDecimal(drive.distance)} ${escapeHtml(drive.distanceUnit || "miles")}` : "Analyzing stats")}</span>
+        <span>${ignored && drive.attentionKnown === false ? "통계에서 제외됨" : (ready ? `${formatOneDecimal(drive.distance)} ${escapeHtml(localizeUnit(drive.distanceUnit || "miles"))}` : "통계 분석 중")}</span>
         <span>${formatDuration(drive.duration)}</span>
       </div>
       <div class="dashboard-attention">
         ${ignored
-          ? `<span><i class="bi bi-eye-slash"></i> Ignored from stats</span>`
+          ? `<span><i class="bi bi-eye-slash"></i> 통계에서 제외됨</span>`
           : ready
-          ? `<span>${formatInt(drive.distractedMoments)} distracted</span><span>${formatInt(drive.unresponsiveMoments)} unresponsive</span>`
-          : `<span>Waiting for full route analysis</span>`}
+          ? `<span>주의 분산 ${formatInt(drive.distractedMoments)}회</span><span>무반응 ${formatInt(drive.unresponsiveMoments)}회</span>`
+          : `<span>전체 경로 분석 대기 중</span>`}
       </div>
       <div class="dashboard-engaged-cell">
         <div class="dashboard-mini-bar"><span style="width:${ready && !ignored ? Math.max(0, Math.min(100, numberValue(drive.engagedPercent))) : 0}%"></span></div>
-        <strong>${ignored ? "Excluded" : (ready ? `${formatPercent(drive.engagedPercent)} engaged` : "Pending")}</strong>
+        <strong>${ignored ? "제외됨" : (ready ? `제어 활성 ${formatPercent(drive.engagedPercent)}` : "대기 중")}</strong>
       </div>
       ${routeNames.length === 0 ? "" : `
         <div class="dashboard-drive-actions">
@@ -339,9 +384,9 @@ function renderRecentDrives(drives) {
             class="dashboard-drive-stats-action"
             data-action="${ignored ? "include" : "ignore"}"
             data-route-names="${escapeHtml(JSON.stringify(routeNames))}"
-            title="${ignored ? "Include this drive in local dashboard statistics" : "Exclude this drive from local dashboard statistics"}">
+            title="${ignored ? "이 주행을 로컬 대시보드 통계에 포함" : "이 주행을 로컬 대시보드 통계에서 제외"}">
             <i class="bi ${ignored ? "bi-arrow-counterclockwise" : "bi-eye-slash"}"></i>
-            <span>${ignored ? "Include drive stats" : "Ignore drive stats"}</span>
+            <span>${ignored ? "주행 통계에 포함" : "주행 통계에서 제외"}</span>
           </button>
         </div>
       `}
@@ -351,7 +396,7 @@ function renderRecentDrives(drives) {
 
   return `
     <section class="dashboard-card dashboard-recent">
-      <h2>Recent drives</h2>
+      <h2>최근 주행</h2>
       ${rows}
     </section>
   `;
@@ -361,7 +406,7 @@ function favoriteChart(models) {
   if (!Array.isArray(models) || models.length === 0) {
     return {
       style: "background: conic-gradient(var(--dashboard-track) 0 100%)",
-      rows: `<div class="dashboard-empty">No model usage recorded yet.</div>`,
+      rows: `<div class="dashboard-empty">아직 모델 사용 기록이 없습니다.</div>`,
     };
   }
 
@@ -380,7 +425,7 @@ function favoriteChart(models) {
       <span class="dashboard-swatch" style="background:${FAVORITE_COLORS[index]}"></span>
       <div>
         <strong>${escapeHtml(model.name)}</strong>
-        <small>${formatInt(model.drives)} ${numberValue(model.drives) === 1 ? "drive" : "drives"} using this model</small>
+        <small>이 모델로 ${formatInt(model.drives)}회 주행</small>
       </div>
     </div>
   `).join("");
@@ -395,7 +440,7 @@ function renderFavoriteModels(models) {
   const chart = favoriteChart(models);
   return `
     <section class="dashboard-card dashboard-models">
-      <h2>Most used models</h2>
+      <h2>가장 많이 사용한 모델</h2>
       <div class="dashboard-model-layout">
         <div class="dashboard-favorite-donut" style="${chart.style}"></div>
         <div class="dashboard-model-list">${chart.rows}</div>
@@ -407,36 +452,38 @@ function renderFavoriteModels(models) {
 function renderStorage(storage) {
   const usedPercent = Math.max(0, Math.min(100, numberValue(storage.usedPercent)));
   const counts = storage.segmentCounts || {};
-  const summary = storage.legacyText || `${formatBytes(storage.usedBytes)} used of ${formatBytes(storage.totalBytes)}`;
+  const summary = storage.legacyText
+    ? storage.legacyText.replace(/^(.+) used of (.+)$/, "$2 중 $1 사용")
+    : `${formatBytes(storage.totalBytes)} 중 ${formatBytes(storage.usedBytes)} 사용`;
   return `
     <section class="dashboard-card dashboard-device-card">
-      <h2>Storage</h2>
+      <h2>저장 공간</h2>
       <p class="dashboard-muted">${escapeHtml(summary)}</p>
       <div class="dashboard-storage-track"><span style="width:${usedPercent}%"></span></div>
       <div class="dashboard-key-values">
-        <div><span>Dashcam footage</span><strong>${formatInt(counts.standard)} segments</strong></div>
-        <div><span>High-resolution footage</span><strong>${formatInt(counts.highResolution)} segments</strong></div>
-        <div><span>Konik footage</span><strong>${formatInt(counts.alternate)} segments</strong></div>
-        <div><span>Free space</span><strong>${formatBytes(storage.freeBytes)}</strong></div>
+        <div><span>주행 영상</span><strong>${formatInt(counts.standard)}개 구간</strong></div>
+        <div><span>고해상도 영상</span><strong>${formatInt(counts.highResolution)}개 구간</strong></div>
+        <div><span>Konik 영상</span><strong>${formatInt(counts.alternate)}개 구간</strong></div>
+        <div><span>여유 공간</span><strong>${formatBytes(storage.freeBytes)}</strong></div>
       </div>
     </section>
   `;
 }
 
 function renderVitals(device) {
-  const uptime = device.uptimeSeconds == null ? "unknown" : formatDuration(device.uptimeSeconds);
-  const cpu = device.cpuTempC == null ? "unknown" : `${formatInt(device.cpuTempC)} C`;
-  const lanIp = device.lanIp || "unknown";
-  const networkName = device.networkName || "No wireless connectivity";
+  const uptime = device.uptimeSeconds == null ? "알 수 없음" : formatDuration(device.uptimeSeconds);
+  const cpu = device.cpuTempC == null ? "알 수 없음" : `${formatInt(device.cpuTempC)} °C`;
+  const lanIp = device.lanIp || "알 수 없음";
+  const networkName = device.networkName || "무선 네트워크 연결 없음";
   return `
     <section class="dashboard-card dashboard-device-card">
-      <h2>Vitals</h2>
+      <h2>장치 상태</h2>
       <div class="dashboard-key-values">
-        <div><span>Status</span><strong>${escapeHtml(device.status || "Parked")}</strong></div>
+        <div><span>상태</span><strong>${escapeHtml(localizeDisplayText(device.status || "Parked"))}</strong></div>
         <div><span>LAN IP</span><strong>${escapeHtml(lanIp)}</strong></div>
-        <div><span>Network</span><strong>${escapeHtml(networkName)}</strong></div>
-        <div><span>Uptime</span><strong>${escapeHtml(uptime)}</strong></div>
-        <div><span>CPU temp</span><strong>${escapeHtml(cpu)}</strong></div>
+        <div><span>네트워크</span><strong>${escapeHtml(networkName)}</strong></div>
+        <div><span>가동 시간</span><strong>${escapeHtml(uptime)}</strong></div>
+        <div><span>CPU 온도</span><strong>${escapeHtml(cpu)}</strong></div>
       </div>
     </section>
   `;
@@ -447,22 +494,22 @@ function renderSoftware(info = {}) {
   const commitUrl = safeUrl(info.commitUrl);
   const commitHref = changelogUrl || commitUrl;
   const fields = [
-    { label: "Branch", value: info.branchName },
-    { label: "Build", value: info.buildEnvironment },
-    { label: "Commit", value: info.commitHash, href: commitHref },
-    { label: "Version date", value: info.versionDate },
-    { label: "Fork maintainer", value: info.forkMaintainer },
-    { label: "Update available", value: info.updateAvailable },
+    { label: "브랜치", value: info.branchName },
+    { label: "빌드", value: info.buildEnvironment },
+    { label: "커밋", value: info.commitHash, href: commitHref },
+    { label: "버전 날짜", value: info.versionDate },
+    { label: "포크 관리자", value: info.forkMaintainer },
+    { label: "업데이트 가능", value: localizeDisplayText(info.updateAvailable) },
   ];
 
   return `
     <section class="dashboard-card dashboard-device-card">
-      <h2>Software</h2>
+      <h2>소프트웨어</h2>
       <div class="dashboard-software-list">
         ${fields.map((field) => `
           <div>
             <span>${escapeHtml(field.label)}</span>
-            <strong>${field.href ? `<a href="${escapeHtml(field.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(field.value ?? "unknown")}</a>` : escapeHtml(field.value ?? "unknown")}</strong>
+            <strong>${field.href ? `<a href="${escapeHtml(field.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(field.value ?? "알 수 없음")}</a>` : escapeHtml(field.value ?? "알 수 없음")}</strong>
           </div>
         `).join("")}
       </div>
@@ -488,8 +535,8 @@ function bindDashboardActions() {
 
       const action = button.dataset.action === "include" ? "include" : "ignore";
       const confirmed = action === "include" || window.confirm(
-        "Ignore this drive's statistics?\n\n" +
-        "It will no longer affect local weekly totals, records, model usage, engagement, or attention streaks."
+        "이 주행의 통계를 제외하시겠습니까?\n\n" +
+        "로컬 주간 합계, 기록, 모델 사용량, 제어 활성률 및 주의 상태 연속 기록에 더 이상 반영되지 않습니다."
       );
       if (!confirmed) return;
 
@@ -501,10 +548,10 @@ function bindDashboardActions() {
           body: JSON.stringify({ routeNames }),
         });
         const payload = await response.json();
-        if (!response.ok) throw new Error(payload.error || `Unable to ${action} drive statistics.`);
+        if (!response.ok) throw new Error(payload.error || "주행 통계를 변경할 수 없습니다.");
         await initializeHome(false);
       } catch (error) {
-        window.alert(error?.message || `Unable to ${action} drive statistics.`);
+        window.alert(error?.message || "주행 통계를 변경할 수 없습니다.");
         button.disabled = false;
       }
     };
@@ -519,8 +566,8 @@ function renderDashboard(state) {
     clearDashboardRefreshTimer();
     shell.innerHTML = `
       <div class="dashboard dashboard-narrow">
-        <div class="dashboard-error">Failed to load dashboard: ${escapeHtml(state.error)}</div>
-        <button id="dashboard_refresh" class="dashboard-refresh"><i class="bi bi-arrow-clockwise"></i>Refresh</button>
+        <div class="dashboard-error">대시보드를 불러오지 못했습니다: ${escapeHtml(state.error)}</div>
+        <button id="dashboard_refresh" class="dashboard-refresh"><i class="bi bi-arrow-clockwise"></i>새로고침</button>
       </div>
     `;
     bindDashboardActions();
@@ -530,7 +577,7 @@ function renderDashboard(state) {
   if (state.status !== "ready" || !state.data) {
     shell.innerHTML = `
       <div class="dashboard dashboard-narrow">
-        <div class="dashboard-loading">Loading dashboard...</div>
+        <div class="dashboard-loading">대시보드 불러오는 중...</div>
       </div>
     `;
     return;
@@ -541,25 +588,25 @@ function renderDashboard(state) {
   const driveStats = data.driveStats || {};
   const device = dashboard.device || {};
   const status = device.status || "Parked";
-  const onlineText = device.online === false ? "device offline" : "device online";
+  const onlineText = device.online === false ? "장치 오프라인" : "장치 온라인";
 
   shell.innerHTML = `
     <main class="dashboard">
       <header class="dashboard-header">
         <div>
-          <h1>Dashboard</h1>
-          <p><span class="dashboard-status-dot"></span><strong>${escapeHtml(status)}</strong> - ${escapeHtml(onlineText)}</p>
+          <h1>대시보드</h1>
+          <p><span class="dashboard-status-dot"></span><strong>${escapeHtml(localizeDisplayText(status))}</strong> - ${escapeHtml(onlineText)}</p>
         </div>
-        <button id="dashboard_refresh" class="dashboard-refresh"><i class="bi bi-arrow-clockwise"></i>Refresh</button>
+        <button id="dashboard_refresh" class="dashboard-refresh"><i class="bi bi-arrow-clockwise"></i>새로고침</button>
       </header>
 
       ${renderLastDrive(dashboard.lastDrive || fallbackDashboard(data, state.unit).lastDrive)}
       ${renderAnalysisStatus(dashboard)}
 
-      <div class="dashboard-section-label"><span></span>Your driving</div>
+      <div class="dashboard-section-label"><span></span>나의 주행</div>
       <div class="dashboard-summary-grid">
-        ${statBlock("All time", driveStats.all, state.unit)}
-        ${statBlock("Past week", driveStats.week, state.unit)}
+        ${statBlock("전체 기간", driveStats.all, state.unit)}
+        ${statBlock("지난 1주", driveStats.week, state.unit)}
         ${statBlock("StarPilot", driveStats.starpilot, state.unit)}
       </div>
 
@@ -575,7 +622,7 @@ function renderDashboard(state) {
         ${renderStorage(dashboard.storage || {})}
       </div>
 
-      <div class="dashboard-section-label"><span></span>Your device</div>
+      <div class="dashboard-section-label"><span></span>내 장치</div>
       <div class="dashboard-device-grid">
         ${renderVitals(device)}
         ${renderSoftware(data.softwareInfo || {})}
@@ -595,11 +642,11 @@ async function initializeHome(force = false) {
   }
 
   try {
-    const statsResponse = await withTimeout(fetch("/api/stats"), 5000, "stats request");
+    const statsResponse = await withTimeout(fetch("/api/stats"), 5000, "통계 요청");
 
-    if (!statsResponse.ok) throw new Error(`stats API error: ${statsResponse.status}`);
+    if (!statsResponse.ok) throw new Error(`통계 API 오류: ${statsResponse.status}`);
 
-    const statsJson = await withTimeout(statsResponse.json(), 5000, "stats JSON parse");
+    const statsJson = await withTimeout(statsResponse.json(), 5000, "통계 JSON 처리");
     const payloadUnit = statsJson?.dashboard?.week?.distanceUnit || statsJson?.driveStats?.all?.unit;
 
     HOME_STATE.data = statsJson;
@@ -622,5 +669,5 @@ export function Home() {
     }
   }, 0);
 
-  return html`<div id="home_shell"><p>Loading dashboard...</p></div>`;
+  return html`<div id="home_shell"><p>대시보드 불러오는 중...</p></div>`;
 }

@@ -1,4 +1,5 @@
 import { html, reactive } from "/assets/vendor/arrow-core.js";
+import { uiKey } from "/assets/js/i18n.js";
 
 const state = reactive({
   loading: true,
@@ -390,7 +391,7 @@ async function runAction(action, modelKey = "") {
       await cancelDownload();
     } else if (action === "delete") {
       if (!modelKey) return;
-      const confirmed = window.confirm(`Delete local files for model \"${modelKey}\"?`);
+      const confirmed = window.confirm(uiKey("modelDeleteConfirm", "Delete local files for model \"{model}\"?", { model: modelKey }));
       if (!confirmed) return;
       await deleteModel(modelKey);
     } else if (action === "favorite") {

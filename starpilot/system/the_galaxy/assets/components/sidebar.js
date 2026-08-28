@@ -3,35 +3,41 @@ import { hideSidebar, upperFirst } from "/assets/js/utils.js";
 
 const MENU_ITEMS = {
   home: [
-    { name: "Home", link: "/", icon: "bi-house-fill" },
+    { name: "홈", link: "/", icon: "bi-house-fill" },
   ],
   recordings: [
-    { name: "Dashcam Routes", link: "/dashcam_routes", icon: "bi-camera-reels" },
-    { name: "Screen Recordings", link: "/screen_recordings", icon: "bi-record-circle" },
+    { name: "주행 영상", link: "/dashcam_routes", icon: "bi-camera-reels" },
+    { name: "화면 녹화", link: "/screen_recordings", icon: "bi-record-circle" },
   ],
   tools: [
-    { name: "Toggles", link: "/device_settings", icon: "bi-toggle-on" },
-    { name: "Download Speed Limits", link: "/download_speed_limits", icon: "bi-download" },
-    { name: "Error Logs", link: "/manage_error_logs", icon: "bi-exclamation-triangle" },
+    { name: "설정", link: "/device_settings", icon: "bi-toggle-on" },
+    { name: "제한 속도 다운로드", link: "/download_speed_limits", icon: "bi-download" },
+    { name: "오류 로그", link: "/manage_error_logs", icon: "bi-exclamation-triangle" },
     { name: "Galaxy", link: "/galaxy", icon: "bi-globe2" },
-    { name: "Sentry Mode", link: "/sentry", icon: "bi-shield-exclamation" },
-    { name: "Lateral Tuning", link: "/tuning", icon: "bi-sign-turn-right" },
-    { name: "Long Maneuvers", link: "/longitudinal_maneuvers", icon: "bi-signpost-split" },
-    { name: "Maps", link: "/manage_maps", icon: "bi-map" },
-    { name: "Navigation", link: "/set_navigation_destination", icon: "bi-geo-alt-fill" },
-    { name: "App Keys", link: "/manage_navigation_keys", icon: "bi-key-fill" },
-    { name: "Model Manager", link: "/manage_models", icon: "bi-cpu" },
-    { name: "Plots", link: "/plots", icon: "bi-graph-up-arrow" },
-    { name: "Testing Ground", link: "/testing_ground", icon: "bi-bezier2" },
-    { name: "Troubleshoot", link: "/troubleshoot", icon: "bi-tools" },
-    { name: "V-Adj Spot Monitor", link: "/manage_v_asm", icon: "bi-eye" },
-    { name: "PiP Side Camera", link: "/manage_pip_sidecam", icon: "bi-badge-hd", developerOnly: true },
-    { name: "Theme Maker", link: "/theme_maker", icon: "bi-palette-fill" },
-    { name: "Tmux Log", link: "/manage_tmux", icon: "bi-terminal" },
-    { name: "Backup and Restore", link: "/manage_toggles", icon: "bi-arrow-repeat" },
-    { name: "Software", link: "/manage_updates", icon: "bi-arrow-up-circle" },
-    { name: "Vehicle Features", link: "/vehicle_features", icon: "bi-car-front" },
+    { name: "감시 모드", link: "/sentry", icon: "bi-shield-exclamation" },
+    { name: "횡방향 튜닝", link: "/tuning", icon: "bi-sign-turn-right" },
+    { name: "종방향 제어", link: "/longitudinal_maneuvers", icon: "bi-signpost-split" },
+    { name: "지도", link: "/manage_maps", icon: "bi-map" },
+    { name: "내비게이션", link: "/set_navigation_destination", icon: "bi-geo-alt-fill" },
+    { name: "앱 키", link: "/manage_navigation_keys", icon: "bi-key-fill" },
+    { name: "모델 관리", link: "/manage_models", icon: "bi-cpu" },
+    { name: "그래프", link: "/plots", icon: "bi-graph-up-arrow" },
+    { name: "테스트 환경", link: "/testing_ground", icon: "bi-bezier2" },
+    { name: "문제 해결", link: "/troubleshoot", icon: "bi-tools" },
+    { name: "V-Adj 사각지대 모니터", link: "/manage_v_asm", icon: "bi-eye" },
+    { name: "PiP 측면 카메라", link: "/manage_pip_sidecam", icon: "bi-badge-hd", developerOnly: true },
+    { name: "테마 만들기", link: "/theme_maker", icon: "bi-palette-fill" },
+    { name: "Tmux 로그", link: "/manage_tmux", icon: "bi-terminal" },
+    { name: "백업 및 복원", link: "/manage_toggles", icon: "bi-arrow-repeat" },
+    { name: "소프트웨어", link: "/manage_updates", icon: "bi-arrow-up-circle" },
+    { name: "차량 기능", link: "/vehicle_features", icon: "bi-car-front" },
   ],
+};
+
+const SECTION_NAMES = {
+  home: "홈",
+  recordings: "녹화",
+  tools: "도구",
 };
 
 let galaxyDeveloperMode = false;
@@ -59,7 +65,7 @@ function buildSectionMarkup(section, links, currentPath) {
     <div class="sidebar_widget">
       <ul class="menu_section">
         <li>
-          <span class="section-title">${upperFirst(section)}</span>
+          <span class="section-title">${SECTION_NAMES[section] ?? upperFirst(section)}</span>
           <ul id="${section}">
             ${linksMarkup}
           </ul>

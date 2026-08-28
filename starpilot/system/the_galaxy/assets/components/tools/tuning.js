@@ -1,4 +1,5 @@
 import { html, reactive } from "/assets/vendor/arrow-core.js"
+import { uiKey } from "/assets/js/i18n.js"
 
 const MAX_RENDERED_ROUTES = 250
 const ROUTE_FLUSH_INTERVAL_MS = 120
@@ -245,7 +246,7 @@ async function loadReport(reportId) {
 
 async function deleteReport(reportId) {
   if (!reportId || state.runningAction) return
-  if (!window.confirm("Delete this saved tuning report and its generated trial data?")) return
+  if (!window.confirm(uiKey("tuningReportDeleteConfirm", "Delete this saved tuning report and its generated trial data?"))) return
 
   state.runningAction = true
   try {
@@ -425,8 +426,8 @@ async function applyProfile(profileId) {
 
 async function saveCurrentTune() {
   if (state.runningAction || !state.workspace?.activeTrial) return
-  const defaultName = state.workspace.activeTrial.profileLabel || state.workspace.currentCarFingerprint || "Saved Tune"
-  const name = window.prompt("Name this tune", defaultName)
+  const defaultName = state.workspace.activeTrial.profileLabel || state.workspace.currentCarFingerprint || uiKey("fallbackSavedTune", "Saved Tune")
+  const name = window.prompt(uiKey("tuningNamePrompt", "Name this tune"), defaultName)
   if (name === null) return
 
   state.runningAction = true
@@ -469,7 +470,7 @@ async function applySavedTune(tuneId) {
 
 async function renameSavedTune(tune) {
   if (!tune?.tuneId || state.runningAction) return
-  const name = window.prompt("Rename saved tune", tune.name || "Saved Tune")
+  const name = window.prompt(uiKey("tuningRenamePrompt", "Rename saved tune"), tune.name || uiKey("fallbackSavedTune", "Saved Tune"))
   if (name === null) return
 
   state.runningAction = true
@@ -494,7 +495,7 @@ async function renameSavedTune(tune) {
 
 async function deleteSavedTune(tune) {
   if (!tune?.tuneId || state.runningAction) return
-  if (!window.confirm(`Delete saved tune "${tune.name || "Saved Tune"}"?`)) return
+  if (!window.confirm(uiKey("tuningDeleteConfirm", "Delete saved tune \"{name}\"?", { name: tune.name || uiKey("fallbackSavedTune", "Saved Tune") }))) return
 
   state.runningAction = true
   try {
@@ -514,12 +515,10 @@ async function deleteSavedTune(tune) {
 
 async function submitSavedTune(tune) {
   if (!tune?.tuneId || state.runningAction) return
-  const approved = window.confirm(
-    "Think this FLM tune is genuinely good and worth sharing? Send it to Firestar for review and possible inclusion in future tuning. Only the tune values, car identity, and your Discord username are sent; routes and driving logs are not included."
-  )
+  const approved = window.confirm(uiKey("tuningSubmitConfirm", "Think this FLM tune is genuinely good and worth sharing? Send it to Firestar for review and possible inclusion in future tuning. Only the tune values, car identity, and your Discord username are sent; routes and driving logs are not included."))
   if (!approved) return
 
-  const discordUsername = window.prompt("Enter your Discord username so Firestar can credit you.", "")
+  const discordUsername = window.prompt(uiKey("tuningDiscordPrompt", "Enter your Discord username so Firestar can credit you."), "")
   if (discordUsername === null || !discordUsername.trim()) return
 
   state.runningAction = true
@@ -589,7 +588,7 @@ async function revertProfile() {
 
 async function acceptCurrentAsBaseline() {
   if (state.runningAction || !state.workspace?.activeTrial) return
-  if (!window.confirm("Keep the currently applied tuning values and end this trial? This does not restore the previous tune.")) return
+  if (!window.confirm(uiKey("tuningKeepBaselineConfirm", "Keep the currently applied tuning values and end this trial? This does not restore the previous tune."))) return
 
   state.runningAction = true
   try {
@@ -969,17 +968,17 @@ function renderTrackingOverview() {
             <div class="flmTrackingCardHeader">
               <div>
                 <strong>${item.overviewTitle}</strong>
-                <span>${String(item.bucket || "event").replace(/_/g, " ")}</span>
+                <span>${String(item.bucket || uiKey("fallbackEvent", "event")).replace(/_/g, " ")}</span>
               </div>
               <span>${Number(item.plotData.meanSpeedMph || 0).toFixed(1)} mph</span>
             </div>
             ${renderTrackingPlot(item.plotData)}
             <div class="flmTrackingMeta">
-              <span>${item.evidence?.directionBias || item.plotData.direction || "center"}</span>
-              <span>${item.evidence?.speedBand || item.plotData.speedBand || "mixed"}</span>
-              <span>${Number(item.plotData.eventDurationSec || 0).toFixed(1)}s event</span>
+              <span>${item.evidence?.directionBias || item.plotData.direction || uiKey("fallbackCenter", "center")}</span>
+              <span>${item.evidence?.speedBand || item.plotData.speedBand || uiKey("fallbackMixed", "mixed")}</span>
+              <span>${uiKey("tuningEventDuration", "{duration}s event", { duration: Number(item.plotData.eventDurationSec || 0).toFixed(1) })}</span>
             </div>
-            <small title="${item.plotData.segmentLabel || ""}">${item.plotData.segmentLabel || "Unknown segment"}</small>
+            <small title="${item.plotData.segmentLabel || ""}">${item.plotData.segmentLabel || uiKey("fallbackUnknownSegment", "Unknown segment")}</small>
           </article>
         `)}
       </div>
@@ -1036,8 +1035,8 @@ function renderSuggestion(suggestion) {
         <div>
           <h4>${suggestion.bucket.replace(/_/g, " ")}</h4>
           <p class="longManeuverMuted">
-            ${suggestion.evidence?.speedBand || "mixed"} |
-            ${suggestion.evidence?.directionBias || "center"} |
+            ${suggestion.evidence?.speedBand || uiKey("fallbackMixed", "mixed")} |
+            ${suggestion.evidence?.directionBias || uiKey("fallbackCenter", "center")} |
             ${safeCount(suggestion.evidence?.eventCount)} event(s)
           </p>
         </div>
@@ -1300,7 +1299,7 @@ export function Tuning() {
                 ? state.workspace.savedTunes.map((tune) => html`
                   <div class="flmWorkspaceRow">
                     <div class="flmWorkspaceItem">
-                      <strong>${tune.name || "Saved Tune"}${tune.active ? " (Active)" : ""}</strong>
+                      <strong>${tune.name || uiKey("fallbackSavedTune", "Saved Tune")}${tune.active ? uiKey("activeSuffix", " (Active)") : ""}</strong>
                       <span>${tune.carFingerprint || "Unknown car"}${tune.pathLabel ? ` / ${tune.pathLabel}` : ""}</span>
                       <small>
                         ${tune.genericParamCount} generic, ${tune.frictionCurveCount} friction curve, ${tune.vehicleKnobCount} vehicle knobs

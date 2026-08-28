@@ -61,6 +61,7 @@ const FLM_ADVANCED_LATERAL_KEYS = new Set([
 
 // Module-level state (persists across route changes)
 const state = reactive({
+  translations: {},
   layout: [],
   allKeys: [],
   paramMetaByKey: {},
@@ -83,6 +84,135 @@ const state = reactive({
   favoriteFilters: ["", "", ""],
   favoriteValues: {},
 })
+
+function t(key, fallback, values = {}) {
+  const translated = state.translations?.common?.[key]
+  const template = typeof translated === "string" ? translated : fallback
+  return String(template).replace(/\{([A-Za-z0-9_]+)\}/g, (match, name) => (
+    Object.prototype.hasOwnProperty.call(values, name) ? String(values[name]) : match
+  ))
+}
+
+function toastText(key, fallback, values = {}) {
+  const translated = state.translations?.toasts?.[key]
+  const template = typeof translated === "string" ? translated : fallback
+  return String(template).replace(/\{([A-Za-z0-9_]+)\}/g, (match, name) => (
+    Object.prototype.hasOwnProperty.call(values, name) ? String(values[name]) : match
+  ))
+}
+
+function localizedToastMessage(message) {
+  const text = String(message || "")
+  const fixedMessages = {
+    "Favorite slots saved.": ["favoriteSlotsSaved", "Favorite slots saved."],
+    "Failed to save favorite slots": ["favoriteSlotsSaveFailed", "Failed to save favorite slots"],
+    "Favorite action sent.": ["favoriteActionSent", "Favorite action sent."],
+    "Failed to send favorite action": ["favoriteActionSendFailed", "Failed to send favorite action"],
+    "Failed to update parameter": ["parameterUpdateFailed", "Failed to update parameter"],
+    "Network error — is the device reachable?": ["networkDeviceUnreachable", "Network error — is the device reachable?"],
+    "Enter a value first.": ["enterValueFirst", "Enter a value first."],
+    "Enter a valid number.": ["enterValidNumber", "Enter a valid number."],
+    "Value is out of range.": ["valueOutOfRange", "Value is out of range."],
+    "Couldn't load defaults. Try refreshing the page.": ["defaultsLoadFailed", "Couldn't load defaults. Try refreshing the page."],
+    "No default value available for this setting.": ["defaultUnavailable", "No default value available for this setting."],
+    "Right Hand Driving override updated successfully.": ["rhdOverrideUpdated", "Right Hand Driving override updated successfully."],
+    "Right Hand Driving auto detection restored.": ["rhdAutoRestored", "Right Hand Driving auto detection restored."],
+    "Right Hand Driving override enabled.": ["rhdOverrideEnabled", "Right Hand Driving override enabled."],
+    "Failed to restore auto detection": ["autoDetectionRestoreFailed", "Failed to restore auto detection"],
+    "Car make updated successfully.": ["carMakeUpdated", "Car make updated successfully."],
+    "Failed to reset parameter": ["parameterResetFailed", "Failed to reset parameter"],
+    "Action failed": ["actionFailedGeneric", "Action failed"],
+    "Remap Cancel Button enabled.": ["remapCancelEnabled", "Remap Cancel Button enabled."],
+    "Remap Cancel Button enabled. Existing distance mappings were copied to the new cancel button.": ["remapCancelEnabledMappingsCopied", "Remap Cancel Button enabled. Existing distance mappings were copied to the new cancel button."],
+    "Rivian steering mode updated. The safe channel handoff is in progress.": ["rivianSteeringUpdated", "Rivian steering mode updated. The safe channel handoff is in progress."],
+    "Model smoothing is available only with Developer UI enabled.": ["modelSmoothingDeveloperOnly", "Model smoothing is available only with Developer UI enabled."],
+    "Custom Home Screen Name is available only with Galaxy Developer Mode enabled.": ["homeNameDeveloperOnly", "Custom Home Screen Name is available only with Galaxy Developer Mode enabled."],
+    "Pulse and Glide is available only with Galaxy Developer Mode enabled.": ["pulseGlideDeveloperOnly", "Pulse and Glide is available only with Galaxy Developer Mode enabled."],
+    "Alpha Longitudinal is not available for the detected vehicle.": ["alphaLongUnavailable", "Alpha Longitudinal is not available for the detected vehicle."],
+    "Cannot change Alpha Longitudinal while driving.": ["alphaLongOnroadBlocked", "Cannot change Alpha Longitudinal while driving."],
+    "Force Offroad is only available while the vehicle is in Park.": ["forceOffroadParkOnly", "Force Offroad is only available while the vehicle is in Park."],
+    "Cannot change Automatic Updates while driving.": ["automaticUpdatesOnroadBlocked", "Cannot change Automatic Updates while driving."],
+    "Cannot change V-ASM configuration while driving.": ["vasmOnroadBlocked", "Cannot change V-ASM configuration while driving."],
+    "PiP Side Camera is available only with Galaxy Developer Mode enabled.": ["pipDeveloperOnly", "PiP Side Camera is available only with Galaxy Developer Mode enabled."],
+    "Cannot change PiP Side Camera configuration while driving.": ["pipOnroadBlocked", "Cannot change PiP Side Camera configuration while driving."],
+    "Cannot flash Panda firmware while driving.": ["pandaFlashOnroadBlocked", "Cannot flash Panda firmware while driving."],
+    "Panda firmware changes require confirmation before flashing.": ["pandaFlashConfirmationRequired", "Panda firmware changes require confirmation before flashing."],
+    "Car model cannot be empty.": ["carModelEmpty", "Car model cannot be empty."],
+    "Driving model cannot be empty.": ["drivingModelEmpty", "Driving model cannot be empty."],
+    "This model requires a detected external GPU.": ["externalGpuRequired", "This model requires a detected external GPU."],
+  }
+  if (fixedMessages[text]) {
+    const [key, fallback] = fixedMessages[text]
+    return toastText(key, fallback)
+  }
+
+  let match = text.match(/^Parameter '(.+)' updated successfully\. The driving stack will restart shortly\.$/)
+  if (match) return toastText("parameterUpdatedRestart", "Parameter '{key}' updated successfully. The driving stack will restart shortly.", { key: match[1] })
+  match = text.match(/^Parameter '(.+)' updated successfully\. Panda flashing started; device will reboot when finished\.$/)
+  if (match) return toastText("parameterUpdatedPandaReboot", "Parameter '{key}' updated successfully. Panda flashing started; device will reboot when finished.", { key: match[1] })
+  match = text.match(/^Parameter '(.+)' updated successfully\.$/)
+  if (match) return toastText("parameterUpdated", "Parameter '{key}' updated successfully.", { key: match[1] })
+  match = text.match(/^Parameter '(.+)' updated\.$/)
+  if (match) return toastText("parameterUpdated", "Parameter '{key}' updated successfully.", { key: match[1] })
+  match = text.match(/^Parameter '(.+)' reset to default\.$/)
+  if (match) return toastText("parameterResetDefault", "Parameter '{key}' reset to default.", { key: match[1] })
+  match = text.match(/^Parameter '(.+)' reset to stock\.$/)
+  if (match) return toastText("parameterResetStock", "Parameter '{key}' reset to stock.", { key: match[1] })
+  match = text.match(/^Parameter '(.+)' is not editable\.$/)
+  if (match) return toastText("parameterNotEditable", "Parameter '{key}' is not editable.", { key: match[1] })
+  match = text.match(/^(.+) must be numeric\.$/)
+  if (match) return toastText("valueMustBeNumeric", "{key} must be numeric.", { key: match[1] })
+  match = text.match(/^(.+) must be between (.+) and (.+)\.$/)
+  if (match) return toastText("valueMustBeBetween", "{key} must be between {minimum} and {maximum}.", { key: match[1], minimum: match[2], maximum: match[3] })
+  match = text.match(/^Custom Home Screen Name must be (\d+) characters or fewer\.$/)
+  if (match) return toastText("homeNameTooLong", "Custom Home Screen Name must be {maximum} characters or fewer.", { maximum: match[1] })
+  match = text.match(/^Cannot change (.+) while the car is driving\. A reboot is required\.$/)
+  if (match) return toastText("settingOnroadRebootBlocked", "Cannot change {name} while the car is driving. A reboot is required.", { name: match[1] })
+  match = text.match(/^Force Offroad (enabled|disabled)\.$/)
+  if (match) return toastText(match[1] === "enabled" ? "forceOffroadEnabled" : "forceOffroadDisabled", `Force Offroad ${match[1]}.`)
+  match = text.match(/^Fingerprint set to '(.+)'\.$/)
+  if (match) return toastText("fingerprintSet", "Fingerprint set to '{model}'.", { model: match[1] })
+  match = text.match(/^(.+) completed\.$/)
+  if (match) return toastText("actionCompleted", "{name} completed.", { name: match[1] })
+  match = text.match(/^(.+) failed\.$/)
+  if (match) return toastText("actionFailed", "{name} failed.", { name: match[1] })
+  return text
+}
+
+function translatedSectionName(name) {
+  return state.translations?.sections?.[name] || name
+}
+
+function translatedParamLabel(key, fallback) {
+  return state.translations?.params?.[key]?.label || fallback
+}
+
+function translatedParamDescription(key, fallback) {
+  return state.translations?.params?.[key]?.description || fallback
+}
+
+function translatedParamField(key, field, fallback) {
+  return state.translations?.params?.[key]?.[field] || fallback
+}
+
+function translatedParamOption(key, value, fallback) {
+  return state.translations?.params?.[key]?.options?.[String(value)] || fallback
+}
+
+function translatedDescriptionStep(key, max, fallback) {
+  return state.translations?.params?.[key]?.description_steps?.[String(max)] || fallback
+}
+
+async function fetchTranslations() {
+  try {
+    const response = await fetch("/assets/locales/ko.json", { cache: "no-store" })
+    if (!response.ok) return
+    const translations = await response.json()
+    state.translations = translations && typeof translations === "object" ? translations : {}
+  } catch (_) {
+    state.translations = {}
+  }
+}
 
 function slugifySectionName(name) {
   return String(name || "")
@@ -175,7 +305,7 @@ function resolveColorInputValue(param, rawValue = undefined) {
 
 function formatColorDisplayValue(param, rawValue = undefined) {
   const value = normalizeHexColor(rawValue ?? state.values[param?.key])
-  return value ? value.toUpperCase() : "Stock"
+  return value ? value.toUpperCase() : t("stock", "Stock")
 }
 
 function isStockColorValue(rawValue) {
@@ -198,13 +328,13 @@ function scheduleSyncInputs() {
   })
 }
 
-function applySelectOptions(el, options) {
+function applySelectOptions(el, key, options) {
   el.innerHTML = ""
   for (const opt of options || []) {
     if (opt?.developer_only && !state.values[GALAXY_DEVELOPER_MODE_KEY]) continue
     const o = document.createElement("option")
     o.value = String(opt.value)
-    o.textContent = opt.label
+    o.textContent = translatedParamOption(key, opt.value, opt.label)
     el.appendChild(o)
   }
 }
@@ -234,7 +364,7 @@ function syncSelectValue(el, key) {
 
 async function hydrateEndpointOptions(el, key, endpoint) {
   if (endpointOptionsCache[endpoint]) {
-    applySelectOptions(el, endpointOptionsCache[endpoint])
+    applySelectOptions(el, key, endpointOptionsCache[endpoint])
     el.dataset.hydrated = "1"
     syncSelectValue(el, key)
     return
@@ -256,7 +386,7 @@ async function hydrateEndpointOptions(el, key, endpoint) {
   const options = await endpointOptionsInflight[endpoint]
   if (!options || !el.isConnected) return
 
-  applySelectOptions(el, options)
+  applySelectOptions(el, key, options)
   el.dataset.hydrated = "1"
   syncSelectValue(el, key)
 }
@@ -299,7 +429,7 @@ function syncInputs() {
 
     if (Array.isArray(inlineOptions) && inlineOptions.length > 0) {
       if (!el.dataset.hydrated) {
-        applySelectOptions(el, inlineOptions)
+        applySelectOptions(el, key, inlineOptions)
         el.dataset.hydrated = "1"
       }
       syncSelectValue(el, key)
@@ -385,6 +515,8 @@ async function fetchLayoutAndParams() {
   state.loadingLayout = true
   state.loadingValues = true
 
+  await fetchTranslations()
+
   try {
     const layoutRes = await fetch("/assets/components/tools/device_settings_layout.json?v=settings-tier-1", { cache: "no-store" })
     const rawLayoutData = await layoutRes.json()
@@ -444,7 +576,7 @@ function formatSliderValue(val, stepStr, precisionInt, key) {
   if (Number.isNaN(v)) return val
 
   if (key === "SwitchbackModeCooldown") {
-    if (v === 0) return "Off"
+    if (v === 0) return t("off", "Off")
     return v === 1 ? "1 min" : `${v} min`
   }
 
@@ -458,8 +590,8 @@ function formatSliderValue(val, stepStr, precisionInt, key) {
     "WarningImmediateVolume", "WarningSoftVolume",
   ]
   if (key && volumeKeys.includes(key)) {
-    if (v === 0) return "Muted"
-    if (v === 101) return "Auto"
+    if (v === 0) return t("muted", "Muted")
+    if (v === 101) return t("auto", "Auto")
     return `${v}%`
   }
 
@@ -579,7 +711,9 @@ function normalizeFavoriteOptions(options) {
 function favoriteOptionMatchesFilter(option, filter) {
   if (!filter) return true
   const q = filter.toLowerCase()
-  return [option.label, option.key, option.section, option.description]
+  return [option.label, translatedParamLabel(option.key, option.label), option.key,
+    option.section, translatedSectionName(option.section), option.description,
+    translatedParamField(option.key, "picker_description", option.description)]
     .some(value => String(value || "").toLowerCase().includes(q))
 }
 
@@ -604,9 +738,9 @@ function populateFavoriteSelect(index, selectEl = null) {
   const selectedKey = slots[index]?.key || ""
   const options = filteredFavoriteOptions(index)
   select.replaceChildren()
-  select.appendChild(new Option("Select a toggle...", "", false, selectedKey === ""))
+  select.appendChild(new Option(t("selectToggle", "Select a toggle..."), "", false, selectedKey === ""))
   for (const opt of options) {
-    select.appendChild(new Option(opt.label, opt.key, false, selectedKey === opt.key))
+    select.appendChild(new Option(translatedParamLabel(opt.key, opt.label), opt.key, false, selectedKey === opt.key))
   }
   select.value = options.some(opt => opt.key === selectedKey) ? selectedKey : ""
 }
@@ -844,7 +978,7 @@ function isNumericUpdating(key) {
 }
 
 function showParamSnackbar(message, level, timeout = 2200) {
-  showSnackbar(message, level, timeout, {
+  showSnackbar(localizedToastMessage(message), level, timeout, {
     key: "device-settings-param-update",
     replace: true,
   })
@@ -856,12 +990,13 @@ function getParamDisplayLabel(key) {
 
 function getSliderDescription(param, value) {
   const steps = Array.isArray(param.description_steps) ? param.description_steps : []
-  if (!steps.length) return param.description || ""
+  if (!steps.length) return translatedParamDescription(param.key, param.description) || ""
 
   const numericValue = Number(value)
-  if (!Number.isFinite(numericValue)) return param.description || ""
+  if (!Number.isFinite(numericValue)) return translatedParamDescription(param.key, param.description) || ""
   const selected = steps.find(step => numericValue <= Number(step.max)) || steps[steps.length - 1]
-  return selected.description || param.description || ""
+  return translatedDescriptionStep(param.key, selected.max, selected.description) ||
+    translatedParamDescription(param.key, param.description) || ""
 }
 
 function confirmPandaFirmwareToggle(key, enabled) {
@@ -1056,7 +1191,7 @@ async function runSettingAction(param) {
   const endpoint = String(param?.action_endpoint || "")
   if (!key || !endpoint || state.actionUpdating[key]) return
 
-  const confirmation = String(param?.confirm_message || `Run ${param?.label || key}?`)
+  const confirmation = String(translatedParamField(key, "confirm_message", param?.confirm_message) || `Run ${param?.label || key}?`)
   if (!window.confirm(confirmation)) return
 
   state.actionUpdating = { ...state.actionUpdating, [key]: true }
@@ -1110,7 +1245,8 @@ async function updateParam(key, elType) {
     return
   }
 
-  if (elType === "checkbox" && formattedVal && param.confirm_message && !window.confirm(param.confirm_message)) {
+  if (elType === "checkbox" && formattedVal && param.confirm_message &&
+      !window.confirm(translatedParamField(key, "confirm_message", param.confirm_message))) {
     revertInput(key, current, elType)
     return
   }
@@ -1231,9 +1367,34 @@ function matchesFilter(p) {
   if (isGroupParam(p)) return false
   const q = state.filter.toLowerCase()
   const label = String(p.label || "").toLowerCase()
+  const translatedLabel = String(translatedParamLabel(p.key, p.label) || "").toLowerCase()
   const key = String(p.key || "").toLowerCase()
   const description = String(p.description || "").toLowerCase()
-  return label.includes(q) || key.includes(q) || description.includes(q)
+  const translatedDescription = String(translatedParamDescription(p.key, p.description) || "").toLowerCase()
+  const originalRelatedText = [
+    ...(p.options || []).map(option => option.label),
+    ...(p.description_steps || []).map(step => step.description),
+    p.placeholder,
+    p.confirm_message,
+    p.disabled_reason,
+    p.action_label,
+    p.picker_label,
+    p.picker_description,
+  ].map(value => String(value || "").toLowerCase())
+  const translatedRelatedText = [
+    ...(p.options || []).map(option => translatedParamOption(p.key, option.value, option.label)),
+    ...(p.description_steps || []).map(step => translatedDescriptionStep(p.key, step.max, step.description)),
+    translatedParamField(p.key, "placeholder", p.placeholder),
+    translatedParamField(p.key, "confirm_message", p.confirm_message),
+    translatedParamField(p.key, "disabled_reason", p.disabled_reason),
+    translatedParamField(p.key, "action_label", p.action_label),
+    translatedParamField(p.key, "picker_label", p.picker_label),
+    translatedParamField(p.key, "picker_description", p.picker_description),
+  ].map(value => String(value || "").toLowerCase())
+  return label.includes(q) || translatedLabel.includes(q) || key.includes(q) ||
+    description.includes(q) || translatedDescription.includes(q) ||
+    originalRelatedText.some(value => value.includes(q)) ||
+    translatedRelatedText.some(value => value.includes(q))
 }
 
 function clearSearchFilter() {
@@ -1246,18 +1407,18 @@ const cancelButtonKeys = new Set(["CancelButtonControl", "LongCancelButtonContro
 
 function getSettingLockReason(param) {
   if (param?.requires_offroad && state.values.IsOnroad) {
-    return "This setting can only be changed while parked."
+    return t("parkedOnly", "This setting can only be changed while parked.")
   }
   if (param?.requires_parked && !state.values.VehicleParked) {
-    return "This setting can only be changed while the vehicle is in Park."
+    return t("vehicleParkOnly", "This setting can only be changed while the vehicle is in Park.")
   }
   if (param?.disabled_when_key_true && state.values[param.disabled_when_key_true]) {
-    return param.disabled_reason || "Disabled by another setting."
+    return translatedParamField(param.key, "disabled_reason", param.disabled_reason) || t("disabledBySetting", "Disabled by another setting.")
   }
   if (param?.requires_nonempty_key) {
     const val = state.values[param.requires_nonempty_key]
     if (!val || val === "{}" || val === "") {
-      return param.disabled_reason || "Required configuration missing."
+      return translatedParamField(param.key, "disabled_reason", param.disabled_reason) || t("requiredConfigurationMissing", "Required configuration missing.")
     }
   }
   return ""
@@ -1292,8 +1453,8 @@ function getFlmParamStatus(key) {
 }
 
 function formatFlmValue(param, value) {
-  if (value === undefined || value === null) return "not set"
-  if (param.data_type === "bool") return value ? "On" : "Off"
+  if (value === undefined || value === null) return t("notSet", "not set")
+  if (param.data_type === "bool") return value ? t("on", "On") : t("off", "Off")
   if (param.ui_type === "numeric") {
     const bounds = numericBounds(param)
     return formatSliderValue(value, String(bounds.step), param.precision, param.key)
@@ -1330,7 +1491,7 @@ function handleSectionTabClick(sectionSlug, event) {
 
 function renderFavoriteSlotsPanel() {
   if (state.favoriteLoading) {
-    return html`<div class="ds-loading">Loading favorite slots...</div>`
+    return html`<div class="ds-loading">${t("loadingFavoriteSlots", "Loading favorite slots...")}</div>`
   }
 
   const slots = normalizeFavoriteSlots(state.favoriteSlots)
@@ -1361,9 +1522,9 @@ function renderFavoriteSlotsPanel() {
             const isAction = isFavoriteActionOption(selectedOption)
             const quickCopy = html`
               <div class="ds-favorite-quick-copy">
-                <span class="ds-favorite-quick-slot">Favorite #${favorite.index + 1}</span>
-                <span class="ds-favorite-quick-title">${selectedOption.label || favorite.slot.label || selectedKey}</span>
-                ${selectedOption.section ? html`<span class="ds-favorite-quick-section">${selectedOption.section}</span>` : ""}
+                <span class="ds-favorite-quick-slot">${t("favoriteNumber", "Favorite #{number}", { number: favorite.index + 1 })}</span>
+                <span class="ds-favorite-quick-title">${translatedParamLabel(selectedKey, selectedOption.label || favorite.slot.label || selectedKey)}</span>
+                ${selectedOption.section ? html`<span class="ds-favorite-quick-section">${translatedSectionName(selectedOption.section)}</span>` : ""}
                 ${selectedOption.description ? html`<span class="ds-favorite-quick-desc">${selectedOption.description}</span>` : ""}
               </div>
             `
@@ -1375,7 +1536,7 @@ function renderFavoriteSlotsPanel() {
                   class="ds-favorite-quick-card ds-favorite-action-card"
                   @click="${() => activateFavoriteAction(selectedKey)}">
                   ${quickCopy}
-                  <span class="ds-favorite-action-chip">Press</span>
+                  <span class="ds-favorite-action-chip">${t("press", "Press")}</span>
                 </button>
               `
             }
@@ -1405,11 +1566,11 @@ function renderFavoriteSlotsPanel() {
           <div class="ds-favorite-card">
             <div class="ds-favorite-card-header">
               <div>
-                <div class="ds-row-label">Favorite #${index + 1}</div>
-                <div class="ds-row-desc">${selectedOption?.section || "No toggle selected"}</div>
+                <div class="ds-row-label">${t("favoriteNumber", "Favorite #{number}", { number: index + 1 })}</div>
+                <div class="ds-row-desc">${selectedOption?.section ? translatedSectionName(selectedOption.section) : t("noToggleSelected", "No toggle selected")}</div>
               </div>
               <label class="ds-favorite-switch">
-                <span>Enabled</span>
+                <span>${t("enabled", "Enabled")}</span>
                 <input
                   type="checkbox"
                   class="ds-toggle"
@@ -1423,7 +1584,7 @@ function renderFavoriteSlotsPanel() {
 
             <div class="ds-favorite-controls">
               <label class="ds-favorite-field">
-                <span>Search</span>
+                <span>${t("search", "Search")}</span>
                 <input
                   type="search"
                   class="ds-search ds-favorite-search"
@@ -1435,22 +1596,22 @@ function renderFavoriteSlotsPanel() {
               </label>
 
               <label class="ds-favorite-field">
-                <span>Toggle</span>
+                <span>${t("toggle", "Toggle")}</span>
                 <select
                   class="ds-select ds-favorite-select"
                   data-favorite-slot="${index}"
                   data-favorite-field="key"
                   disabled="${() => state.favoriteSaving}"
                   @change="${(e) => updateFavoriteSlot(index, { key: e.currentTarget.value || null })}">
-                  <option value="" selected="${() => selectedKey === ""}">Select a toggle...</option>
+                  <option value="" selected="${() => selectedKey === ""}">${t("selectToggle", "Select a toggle...")}</option>
                   ${filteredOptions.map(opt => html`
-                    <option value="${opt.key}" selected="${() => selectedKey === opt.key}">${opt.label}</option>
+                    <option value="${opt.key}" selected="${() => selectedKey === opt.key}">${translatedParamLabel(opt.key, opt.label)}</option>
                   `)}
                 </select>
               </label>
 
               <label class="ds-favorite-switch">
-                <span>On-Road Button (C4: tap invisible third)</span>
+                <span>${t("onRoadButton", "On-Road Button (C4: tap invisible third)")}</span>
                 <input
                   type="checkbox"
                   class="ds-toggle"
@@ -1500,7 +1661,7 @@ function renderSettingRow(p) {
         class="ds-reset-btn"
         disabled="${() => isLocked() || !!state.actionUpdating[p.key]}"
         @click="${() => runSettingAction(p)}">
-        ${() => state.actionUpdating[p.key] ? "Resetting..." : (p.action_label || "Run")}
+        ${() => state.actionUpdating[p.key] ? t("resetting", "Resetting...") : (translatedParamField(p.key, "action_label", p.action_label) || t("run", "Run"))}
       </button>
     `
   } else if (isSlider) {
@@ -1512,7 +1673,7 @@ function renderSettingRow(p) {
           min="${numericBounds(p).min}"
           max="${numericBounds(p).max}"
           step="${numericBounds(p).step}"
-          aria-label="${p.label}"
+          aria-label="${translatedParamLabel(p.key, p.label)}"
           disabled="${() => isLocked() || isNumericUpdating(p.key)}"
           value="${() => {
             const bounds = numericBounds(p)
@@ -1535,7 +1696,7 @@ function renderSettingRow(p) {
             const epsilon = Math.pow(10, -(precision + 2))
             return isLocked() || isNumericUpdating(p.key) || defaultValue === null || Math.abs(defaultValue - currentValue) <= epsilon
           }}"
-          @click="${() => resetNumericParam(p)}">Reset to Default</button>
+          @click="${() => resetNumericParam(p)}">${t("resetToDefault", "Reset to Default")}</button>
       </div>
     `
   } else if (isNumeric) {
@@ -1552,7 +1713,7 @@ function renderSettingRow(p) {
       const defaultNumeric = resolveDefaultNumericValue(p, bounds)
       const defaultLabel = defaultNumeric !== null
         ? formatSliderValue(defaultNumeric, String(bounds.step), p.precision, p.key)
-        : "N/A"
+        : t("notAvailable", "N/A")
       const canReset = !updating && defaultNumeric !== null && Math.abs(defaultNumeric - currentNumeric) > epsilon
       const stepLabel = p.key === "DeviceShutdown" ? "1 hour" : formatStepValue(bounds.step, precision)
       return html`
@@ -1562,9 +1723,9 @@ function renderSettingRow(p) {
                 disabled="${() => isLocked() || !canDecrease || false}"
                 @click="${() => stepNumericParam(p, -1)}">-</button>
               <div class="ds-stepper-meta">
-                <span>${formatSliderValue(bounds.min, String(bounds.step), p.precision, p.key)} to ${formatSliderValue(bounds.max, String(bounds.step), p.precision, p.key)}</span>
-                <span class="ds-step-value">Step: ${stepLabel} per click</span>
-                <span class="ds-default-value">Default: ${defaultLabel}</span>
+                <span>${t("range", "{min} to {max}", { min: formatSliderValue(bounds.min, String(bounds.step), p.precision, p.key), max: formatSliderValue(bounds.max, String(bounds.step), p.precision, p.key) })}</span>
+                <span class="ds-step-value">${t("stepPerClick", "Step: {step} per click", { step: stepLabel })}</span>
+                <span class="ds-default-value">${t("defaultValue", "Default: {value}", { value: defaultLabel })}</span>
                 <div class="ds-manual-row">
                   <input
                     type="number"
@@ -1583,12 +1744,12 @@ function renderSettingRow(p) {
                   <button
                     class="ds-apply-btn"
                     disabled="${() => isLocked() || updating}"
-                    @click="${() => applyManualNumericParam(p)}">Apply</button>
+                    @click="${() => applyManualNumericParam(p)}">${t("apply", "Apply")}</button>
                 </div>
                 <button
                   class="ds-reset-btn"
                   disabled="${() => isLocked() || !canReset || false}"
-                  @click="${() => resetNumericParam(p)}">Reset to Default</button>
+                  @click="${() => resetNumericParam(p)}">${t("resetToDefault", "Reset to Default")}</button>
               </div>
               <button
                 class="ds-stepper-btn"
@@ -1606,7 +1767,7 @@ function renderSettingRow(p) {
         data-endpoint="${p.options_endpoint || ""}"
         disabled="${() => isLocked()}"
         @change="${() => updateParam(p.key, "dropdown")}">
-        <option value="">Loading...</option>
+        <option value="">${t("loading", "Loading...")}</option>
       </select>
     `
   } else if (isText) {
@@ -1616,7 +1777,7 @@ function renderSettingRow(p) {
         class="ds-manual-input ds-text-input"
         id="ds-${p.key}"
         value="${() => toSelectValue(state.values[p.key])}"
-        placeholder="${p.placeholder || ""}"
+        placeholder="${translatedParamField(p.key, "placeholder", p.placeholder) || ""}"
         maxlength="${p.max_length || ""}"
         disabled="${() => isLocked()}"
         @change="${() => updateParam(p.key, "text")}" />
@@ -1634,7 +1795,7 @@ function renderSettingRow(p) {
         <button
           class="ds-reset-btn"
           disabled="${() => isLocked() || isStockColorValue(state.values[p.key])}"
-          @click="${() => resetColorParam(p)}">Stock</button>
+          @click="${() => resetColorParam(p)}">${t("stock", "Stock")}</button>
       </div>
     `
   } else if (!isGroup) {
@@ -1649,7 +1810,7 @@ function renderSettingRow(p) {
           ${() => state.values.IsRHDOverride ? html`
             <button
               class="ds-reset-btn"
-              @click="${restoreRhdAutoDetection}">Auto</button>
+              @click="${restoreRhdAutoDetection}">${t("auto", "Auto")}</button>
           ` : ""}
         </div>
       `
@@ -1670,39 +1831,41 @@ function renderSettingRow(p) {
       <div class="ds-row-info">
         <div class="ds-row-text">
           <div class="ds-row-heading">
-            <span class="ds-row-label">${p.label}</span>
-            ${flmParamStatus ? html`<span class="ds-flm-badge">Currently overridden by FLM</span>` : ""}
+            <span class="ds-row-label">${translatedParamLabel(p.key, p.label)}</span>
+            ${flmParamStatus ? html`<span class="ds-flm-badge">${t("currentlyOverriddenByFlm", "Currently overridden by FLM")}</span>` : ""}
           </div>
           ${p.description_steps
             ? html`<div class="ds-row-desc">${() => getSliderDescription(p, state.sliderPreviewValues[p.key] ?? state.values[p.key])}</div>`
-            : (p.description ? html`<div class="ds-row-desc">${p.description}</div>` : "")}
+            : (p.description ? html`<div class="ds-row-desc">${translatedParamDescription(p.key, p.description)}</div>` : "")}
           ${() => {
             const reason = lockReason()
-            return reason ? html`<div class="ds-row-desc"><strong>Locked:</strong> ${reason}</div>` : ""
+            return reason ? html`<div class="ds-row-desc"><strong>${t("locked", "Locked")}:</strong> ${reason}</div>` : ""
           }}
           ${flmParamStatus ? html`
             <div class="ds-flm-detail">
-              Effective now: <strong>${formatFlmValue(p, flmParamStatus.effectiveValue)}</strong>.
-              Revert restores: <strong>${formatFlmValue(p, flmParamStatus.previousValue)}</strong>.
-              You can still edit this while the trial is active.
+              ${t("flmEffectiveNow", "Effective now:")} <strong>${formatFlmValue(p, flmParamStatus.effectiveValue)}</strong>.
+              ${t("flmRevertRestores", "Revert restores:")} <strong>${formatFlmValue(p, flmParamStatus.previousValue)}</strong>.
+              ${t("flmEditableHelp", "You can still edit this while the trial is active.")}
             </div>
           ` : ""}
           ${flmTrialSummary ? html`
             <div class="ds-flm-summary">
-              <div><strong>FLM trial active:</strong> ${flmTrialSummary.title}</div>
+              <div><strong>${t("flmTrialActive", "FLM trial active:")}</strong> ${flmTrialSummary.title}</div>
               <div>
-                ${flmTrialSummary.genericCount} advanced setting${flmTrialSummary.genericCount === 1 ? "" : "s"},
-                ${flmTrialSummary.thresholdCount} friction curve${flmTrialSummary.thresholdCount === 1 ? "" : "s"}, and
-                ${flmTrialSummary.vehicleKnobCount} vehicle-specific knob${flmTrialSummary.vehicleKnobCount === 1 ? "" : "s"} active.
+                ${t("flmActiveCounts", "{genericCount} advanced setting(s), {thresholdCount} friction curve(s), and {vehicleKnobCount} vehicle-specific knob(s) active.", {
+                  genericCount: flmTrialSummary.genericCount,
+                  thresholdCount: flmTrialSummary.thresholdCount,
+                  vehicleKnobCount: flmTrialSummary.vehicleKnobCount,
+                })}
               </div>
-              <div>Revert from Lateral Tuning restores the exact settings saved before this trial.</div>
-              <a class="ds-flm-link" href="/tuning">Open Lateral Tuning</a>
+              <div>${t("flmRevertHelp", "Revert from Lateral Tuning restores the exact settings saved before this trial.")}</div>
+              <a class="ds-flm-link" href="/tuning">${t("openLateralTuning", "Open Lateral Tuning")}</a>
             </div>
           ` : ""}
 
           ${() => p.is_parent_toggle && isParamEnabledForChildren(p) ? html`
             <div class="ds-manage-btn" @click="${() => toggleManage(p.key)}">
-              ${state.expanded[p.key] ? "Close" : "Manage"}
+              ${state.expanded[p.key] ? t("close", "Close") : t("manage", "Manage")}
               <i class="bi bi-chevron-${state.expanded[p.key] ? "up" : "down"}"></i>
             </div>
           ` : ""}
@@ -1774,13 +1937,13 @@ export function DeviceSettings({ params }) {
 
   return html`
     <div class="ds-wrapper">
-      <h2>Toggles</h2>
+      <h2>${t("title", "Toggles")}</h2>
 
       <div class="ds-search-row">
         <input
           class="ds-search"
           type="text"
-          placeholder="Search settings..."
+          placeholder="${t("searchPlaceholder", "Search settings...")}"
           value="${() => state.filter}"
           @keydown="${(e) => {
             if (e.key === "Escape") clearSearchFilter()
@@ -1791,19 +1954,19 @@ export function DeviceSettings({ params }) {
           <button
             class="ds-search-clear"
             @click="${() => clearSearchFilter()}">
-            Clear
+            ${t("clear", "Clear")}
           </button>
         ` : ""}
       </div>
 
       ${() => {
       if (state.loadingLayout || state.loadingValues) {
-        return html`<div class="ds-loading">Loading configuration...</div>`
+        return html`<div class="ds-loading">${t("loadingConfiguration", "Loading configuration...")}</div>`
       }
 
       const sections = getSectionsWithSlug()
       if (sections.length === 0) {
-        return html`<div class="ds-empty">No settings available.</div>`
+        return html`<div class="ds-empty">${t("noSettingsAvailable", "No settings available.")}</div>`
       }
 
       // Sync DOM inputs after ArrowJS renders (safe: syncScheduled is non-reactive)
@@ -1820,24 +1983,24 @@ export function DeviceSettings({ params }) {
 
         return html`
           <div class="ds-status-bar">
-            <span>${totalMatches} result${totalMatches !== 1 ? "s" : ""} across ${searchResults.length} section${searchResults.length !== 1 ? "s" : ""}</span>
-            <span>${state.allKeys.length} total mapped</span>
+            <span>${t("searchSummary", "{resultCount} result(s) across {sectionCount} section(s)", { resultCount: totalMatches, sectionCount: searchResults.length })}</span>
+            <span>${t("totalMapped", "{count} total mapped", { count: state.allKeys.length })}</span>
           </div>
 
           ${searchResults.map(section => html`
             <div class="ds-section">
               <div class="ds-section-header ds-static-header">
                 <i class="bi ${section.icon}"></i>
-                <span class="ds-section-title">${section.name} (${section.matches.length})</span>
+                <span class="ds-section-title">${translatedSectionName(section.name)} (${section.matches.length})</span>
               </div>
               <div class="ds-section-body">
                 ${section.matches.slice(0, MAX_PER_SECTION).map(p => renderSettingRow(p))}
-                ${section.matches.length > MAX_PER_SECTION ? html`<div class="ds-row"><span class="ds-row-label" style="opacity:0.5">+${section.matches.length - MAX_PER_SECTION} more — refine your search</span></div>` : ""}
+                ${section.matches.length > MAX_PER_SECTION ? html`<div class="ds-row"><span class="ds-row-label" style="opacity:0.5">${t("moreResults", "+{count} more — refine your search", { count: section.matches.length - MAX_PER_SECTION })}</span></div>` : ""}
               </div>
             </div>
           `)}
 
-          ${totalMatches === 0 ? html`<div class="ds-empty">No settings match your search.</div>` : ""}
+          ${totalMatches === 0 ? html`<div class="ds-empty">${t("noSearchMatches", "No settings match your search.")}</div>` : ""}
         `
       }
 
@@ -1854,27 +2017,27 @@ export function DeviceSettings({ params }) {
           handleSectionTabClick(section.slug, e)
         }}">
                 <i class="bi ${section.icon}"></i>
-                <span>${section.name}</span>
+                <span>${translatedSectionName(section.name)}</span>
               </button>
             `)}
           </div>
 
           <div class="ds-status-bar">
-            <span>${activeSection.params.length} settings in ${activeSection.name}</span>
-            <span>${state.allKeys.length} total mapped</span>
+            <span>${t("settingsInSection", "{count} settings in {sectionName}", { count: activeSection.params.length, sectionName: translatedSectionName(activeSection.name) })}</span>
+            <span>${t("totalMapped", "{count} total mapped", { count: state.allKeys.length })}</span>
           </div>
 
           <div class="ds-section">
             <div class="ds-section-header ds-static-header">
               <i class="bi ${activeSection.icon}"></i>
-              <span class="ds-section-title">${activeSection.name} (${visibleParams.length})</span>
+              <span class="ds-section-title">${translatedSectionName(activeSection.name)} (${visibleParams.length})</span>
             </div>
             <div class="ds-section-body">
               ${renderSettingTree(visibleParams)}
             </div>
           </div>
 
-          ${visibleParams.length === 0 ? html`<div class="ds-empty">No settings match your search.</div>` : ""}
+          ${visibleParams.length === 0 ? html`<div class="ds-empty">${t("noSearchMatches", "No settings match your search.")}</div>` : ""}
         `
     }}
     </div>

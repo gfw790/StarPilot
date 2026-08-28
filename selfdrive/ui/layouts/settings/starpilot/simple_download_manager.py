@@ -25,11 +25,11 @@ from openpilot.selfdrive.ui.layouts.settings.starpilot.aethergrid import (
 
 def _theme_display_name(value: str) -> str:
   if not value:
-    return "Stock"
+    return tr("Stock")
   if value.lower() == "stock":
-    return "Stock"
+    return tr("Stock")
   if value.lower() == "none":
-    return "None"
+    return tr("None")
   base, creator = (value.split("~", 1) + [""])[:2] if "~" in value else (value, "")
   user_created = False
   for suffix in ("-user_created", "_user_created", "-user-created", "_user-created"):
@@ -40,10 +40,42 @@ def _theme_display_name(value: str) -> str:
   parts = [part for part in re.split(r"[-_]+", base) if part]
   display = " ".join(part[:1].upper() + part[1:] for part in parts) if parts else value
   if user_created:
-    display += " (User Created)"
+    display += f" ({tr('User Created')})"
   if creator:
-    display += f" - by: {creator}"
+    display += f" - {tr('by')}: {creator}"
   return display
+
+
+def _localized_download_status(status: str) -> str:
+  status_map = {
+    "Downloading...": tr("Downloading..."),
+    "Repository unavailable": tr("Repository unavailable"),
+    "GitHub and GitLab are offline...": tr("GitHub and GitLab are offline..."),
+    "Download cancelled...": tr("Download cancelled..."),
+    "Unpacking theme...": tr("Unpacking theme..."),
+    "Downloaded!": tr("Downloaded!"),
+    "Download failed...": tr("Download failed..."),
+    "Download invalid...": tr("Download invalid..."),
+    "Verifying authenticity...": tr("Verifying authenticity..."),
+  }
+  if status in status_map:
+    return status_map[status]
+  if status.startswith("Failed: "):
+    detail = status.removeprefix("Failed: ")
+    detail_map = {
+      "Connection dropped": tr("Connection dropped"),
+      "Network request error. Check connection": tr("Network request error. Check connection"),
+      "Download timed out": tr("Download timed out"),
+      "Read timed out": tr("Read timed out"),
+      "Unexpected error": tr("Unexpected error"),
+    }
+    server_error = re.fullmatch(r"Server error \((\d+)\)", detail)
+    if server_error:
+      detail = f"{tr('Server error')} ({server_error.group(1)})"
+    else:
+      detail = detail_map.get(detail, detail)
+    return f"{tr('Failed')}: {detail}"
+  return status
 
 
 def _display_to_slug(display: str) -> str:
@@ -232,7 +264,7 @@ class SimpleDownloadManager(Widget):
   def _delete_asset(self, display_name: str):
     _delete_asset_file(self.directory, display_name)
     _add_to_downloadable_list(self.params, self.downloadable_list_param, display_name)
-    self._info_message = f"Deleted \"{display_name}\""
+    self._info_message = f"\"{display_name}\" {tr('Deleted')}"
     self._info_message_until = time.monotonic() + 2.5
     self._confirm_target = None
     self._refresh_list()
@@ -398,7 +430,7 @@ class SimpleDownloadManager(Widget):
 
     # ── Current selection ──
     current_val = self._current_value()
-    current_display = _theme_display_name(current_val) if current_val else "Stock"
+    current_display = _theme_display_name(current_val)
     info_font = gui_app.font(FontWeight.NORMAL)
     current_text = f"{tr('Current')}: {current_display}"
     rl.draw_text_ex(info_font, current_text,
@@ -487,7 +519,7 @@ class SimpleDownloadManager(Widget):
                        track_color=with_alpha(rl.Color(255, 255, 255, 18), 255))
 
         # Progress text
-        progress_text = self._download_progress or "Downloading..."
+        progress_text = _localized_download_status(self._download_progress or "Downloading...")
         draw_text_fit_common(
           normal_font, progress_text,
           rl.Vector2(prog_rect.x + 130, prog_rect.y + 32),

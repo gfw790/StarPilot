@@ -14,24 +14,11 @@ const state = reactive({
   total: 0,
 })
 
-function getOrdinalSuffix(n) {
-  const s = ["th", "st", "nd", "rd"];
-  const v = n % 100;
-  return s[(v - 20) % 10] || s[v] || s[0];
-}
-
 function formatScreenRecordingDate(dateString) {
   const date = new Date(dateString);
-  const month = date.toLocaleString("en-US", { month: "long" });
-  const day = date.getDate();
-  const year = date.getFullYear();
-  let hour = date.getHours();
-  const minute = date.getMinutes();
-  const ampm = hour >= 12 ? "pm" : "am";
-  hour = hour % 12;
-  hour = hour ? hour : 12;
-  const minuteStr = minute < 10 ? "0" + minute : minute;
-  return `${month} ${day}${getOrdinalSuffix(day)}, ${year} - ${hour}:${minuteStr}${ampm}`;
+  const dateLabel = date.toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" });
+  const timeLabel = date.toLocaleTimeString("ko-KR", { hour: "numeric", minute: "2-digit" });
+  return `${dateLabel} - ${timeLabel}`;
 }
 
 
@@ -70,7 +57,7 @@ async function fetchRecordings() {
       }
     }
   } catch (_) {
-    state.error = "Couldn't load recordings. Please try again later..."
+    state.error = "화면 녹화를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."
   } finally {
     state.loading = false
   }
@@ -100,11 +87,11 @@ async function renameFile(rec) {
   const base = rec.filename.replace(/\.mp4$/i, "")
   const dlg = openDialog(`
     <div class="dialog-box">
-      <p>Rename “${rec.filename}”</p>
+      <p>“${rec.filename}” 이름 변경</p>
       <input class="rn-input" value="${base}" />
       <div class="dialog-buttons">
-        <button class="btn-cancel">Cancel</button>
-        <button class="btn-save">Save</button>
+        <button class="btn-cancel">취소</button>
+        <button class="btn-save">저장</button>
       </div>
     </div>`)
   dlg.querySelector(".btn-cancel").onclick = () => closeDialog(dlg)
@@ -134,9 +121,9 @@ async function renameFile(rec) {
       if (overlayTitleSpan) {
         overlayTitleSpan.textContent = val.replace(/_/g, " ");
       }
-      showSnackbar("Recording renamed!")
+      showSnackbar("녹화 파일 이름이 변경되었습니다!")
     } else {
-      showSnackbar("Rename failed...", "error")
+      showSnackbar("이름을 변경하지 못했습니다...", "error")
     }
   }
 }
@@ -154,9 +141,9 @@ async function deleteFile() {
   if (res.ok) {
     closeOverlay();
     refresh();
-    showSnackbar("Recording deleted!");
+    showSnackbar("화면 녹화가 삭제되었습니다!");
   } else {
-    showSnackbar("Delete failed...", "error");
+    showSnackbar("삭제하지 못했습니다...", "error");
   }
 
   state.showDeleteModal = false;
@@ -178,9 +165,9 @@ function openOverlay(rec) {
         <source src="/api/screen_recordings/download/${rec.filename}" type="video/mp4">
       </video>
       <div class="button-row">
-        <button class="close-button action-close">Close</button>
-        <button class="close-button action-download">Download</button>
-        <button class="close-button action-delete">Delete</button>
+        <button class="close-button action-close">닫기</button>
+        <button class="close-button action-download">다운로드</button>
+        <button class="close-button action-delete">삭제</button>
       </div>
     </div>`
   overlay.addEventListener("click", e => { if (e.target === overlay) closeOverlay() })
@@ -212,9 +199,9 @@ async function deleteAllRecordings() {
     const res = await fetch("/api/screen_recordings/delete_all", { method: "DELETE" })
     if (!res.ok) throw new Error()
     await refresh()
-    showSnackbar("All screen recordings deleted!")
+    showSnackbar("모든 화면 녹화가 삭제되었습니다!")
   } catch {
-    showSnackbar("An error occurred while deleting all screen recordings...", "error")
+    showSnackbar("모든 화면 녹화를 삭제하는 중 오류가 발생했습니다...", "error")
   } finally {
     state.isDeletingAll = false
   }
@@ -225,8 +212,8 @@ export function ScreenRecordings() {
     return html`
       <div class="tunnel-notice">
         <div class="tunnel-notice-icon">🛰️</div>
-        <h3 class="tunnel-notice-title">Screen Recordings Unavailable via Galaxy</h3>
-        <p class="tunnel-notice-body">Loading screen recordings requires a direct connection.<br>Connect to your device's local network to use this feature.</p>
+        <h3 class="tunnel-notice-title">Galaxy에서는 화면 녹화를 이용할 수 없습니다</h3>
+        <p class="tunnel-notice-body">화면 녹화를 불러오려면 장치에 직접 연결해야 합니다.<br>이 기능을 사용하려면 장치의 로컬 네트워크에 연결하세요.</p>
       </div>
     `;
   }
@@ -236,16 +223,16 @@ export function ScreenRecordings() {
   return html`
     <div class="screen-recordings-wrapper">
       <div class="screen-recordings-widget">
-        <div class="screen-recordings-title">Screen Recordings</div>
+        <div class="screen-recordings-title">화면 녹화</div>
 
         ${() => {
-      if (state.loading && state.recordings.length === 0) return html`<p class="screen-recordings-message">Loading...</p>`
+      if (state.loading && state.recordings.length === 0) return html`<p class="screen-recordings-message">불러오는 중...</p>`
       if (state.error) return html`<p class="screen-recordings-message">${state.error}</p>`
       if (state.progress > 0 && state.progress < state.total) {
-        return html`<p class="screen-recordings-message">Processing Recordings: ${state.progress} of ${state.total}</p>`
+        return html`<p class="screen-recordings-message">화면 녹화 처리 중: 전체 ${state.total.toLocaleString("ko-KR")}개 중 ${state.progress.toLocaleString("ko-KR")}개</p>`
       }
       if (state.recordings.length === 0 && !state.loading) {
-        return html`<p class="screen-recordings-message">No screen recordings found...</p>`
+        return html`<p class="screen-recordings-message">저장된 화면 녹화가 없습니다.</p>`
       }
       return ""
     }}
@@ -274,7 +261,7 @@ export function ScreenRecordings() {
                 class="delete-all-button"
                 @click="${() => (state.showDeleteAllModal = true)}"
               >
-                Delete All Recordings
+                모든 화면 녹화 삭제
               </button>
             `
       }
@@ -282,18 +269,18 @@ export function ScreenRecordings() {
     }}
       </div>
       ${() => state.showDeleteModal ? Modal({
-      title: "Confirm Delete",
-      message: `Are you sure you want to delete <strong>${state.recordingToDelete.filename}</strong>?`,
+      title: "삭제 확인",
+      message: `<strong>${state.recordingToDelete.filename}</strong> 파일을 삭제하시겠습니까?`,
       onConfirm: deleteFile,
       onCancel: () => { state.showDeleteModal = false; state.recordingToDelete = null; },
-      confirmText: "Delete"
+      confirmText: "삭제"
     }) : ""}
       ${() => state.showDeleteAllModal ? Modal({
-      title: "Confirm Delete All",
-      message: "Are you sure you want to delete all screen recordings? This action cannot be undone...",
+      title: "전체 삭제 확인",
+      message: "모든 화면 녹화를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다...",
       onConfirm: deleteAllRecordings,
       onCancel: () => { state.showDeleteAllModal = false; },
-      confirmText: "Delete All"
+      confirmText: "모두 삭제"
     }) : ""}
     </div>
   `

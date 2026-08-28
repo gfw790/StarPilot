@@ -1,6 +1,7 @@
 import { html, reactive } from "/assets/vendor/arrow-core.js"
 import { createBrowserHistory, createRouter } from "/assets/vendor/remix-router-1.3.1.js"
 import { hideSidebar } from "/assets/js/utils.js"
+import { startStaticUiLocalization } from "/assets/js/i18n.js"
 import { DeviceSettings } from "/assets/components/tools/device_settings.js?v=favorite-c4-hint-1"
 import { ErrorLogs } from "/assets/components/tools/error_logs.js"
 import { VehicleFeatures } from "/assets/components/tools/vehicle_features.js"
@@ -193,3 +194,4 @@ if (document.readyState === "loading") {
 }
 
 startSentryNotifications()
+startStaticUiLocalization()
