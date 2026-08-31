@@ -15,9 +15,14 @@ export function highlightRoute(map, routes, selectedRouteId) {
 }
 
 const JAPANESE_KANA_PATTERN = /[\u3040-\u30ff]/u;
+const KOREAN_HANGUL_PATTERN = /[\u1100-\u11ff\u3130-\u318f\uac00-\ud7af]/u;
 
 function usesJapaneseLanguage(language) {
   return typeof language === 'string' && /^(?:main_)?ja(?:[-_]|$)/i.test(language.trim());
+}
+
+function usesKoreanLanguage(language) {
+  return typeof language === 'string' && /^(?:main_)?ko(?:[-_]|$)/i.test(language.trim());
 }
 
 function isLikelyInJapan(position) {
@@ -34,11 +39,29 @@ function isLikelyInJapan(position) {
   return mainIslands || ryukyuIslands || pacificIslands;
 }
 
+function isLikelyInSouthKorea(position) {
+  if (!position) return false;
+
+  const latitude = Number(position.latitude);
+  const longitude = Number(position.longitude);
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return false;
+
+  const mainland = latitude >= 33 && latitude <= 38.9 && longitude >= 124.5 && longitude <= 131;
+  const jeju = latitude >= 32.5 && latitude <= 34.4 && longitude >= 126 && longitude <= 127.5;
+  const ulleungdo = latitude >= 37.2 && latitude <= 37.7 && longitude >= 130.7 && longitude <= 131.2;
+  return mainland || jeju || ulleungdo;
+}
+
 export function getMapboxSearchContext(query, position, preferredLanguages = []) {
   const languages = Array.isArray(preferredLanguages) ? preferredLanguages : [preferredLanguages];
+  const koreanSearch = KOREAN_HANGUL_PATTERN.test(query || '') || languages.some(usesKoreanLanguage);
   const japaneseSearch = JAPANESE_KANA_PATTERN.test(query || '') || languages.some(usesJapaneseLanguage);
   const hasPosition = Number.isFinite(Number(position?.latitude)) && Number.isFinite(Number(position?.longitude));
 
+  if (isLikelyInSouthKorea(position) || (koreanSearch && !hasPosition)) {
+    return { language: 'ko', country: 'kr' };
+  }
+  if (koreanSearch) return { language: 'ko' };
   if (isLikelyInJapan(position) || (japaneseSearch && !hasPosition)) {
     return { language: 'ja', country: 'jp' };
   }

@@ -20,6 +20,10 @@ export function NavKeys() {
     editA1: false, editA2: false,
     savedA1: false, savedA2: false,
 
+    tmapKey: "",
+    editTmap: false,
+    savedTmap: false,
+
     publicKey: "", secretKey: "",
     editPublic: false, editSecret: false,
     savedPublic: false, savedSecret: false,
@@ -35,6 +39,7 @@ export function NavKeys() {
   })
 
   const bumpImageVersion = () => state.imageVersion++
+  const groupForKind = (kind) => kind.startsWith("amap") ? "amap" : kind === "tmap" ? "tmap" : "mapbox"
 
   let clearTimer = null
   let fadeTimer = null
@@ -104,6 +109,7 @@ export function NavKeys() {
   const meta = {
     amap1:  { prop: "amap1Key",  saved: "savedA1",     edit: "editA1",     prefix: "",    body: "amap1", minLength: 39  },
     amap2:  { prop: "amap2Key",  saved: "savedA2",     edit: "editA2",     prefix: "",    body: "amap2", minLength: 39  },
+    tmap:   { prop: "tmapKey",   saved: "savedTmap",   edit: "editTmap",   prefix: "",    body: "tmap",  minLength: 10  },
     public: { prop: "publicKey", saved: "savedPublic", edit: "editPublic", prefix: "pk.", body: "public", minLength: 80 },
     secret: { prop: "secretKey", saved: "savedSecret", edit: "editSecret", prefix: "sk.", body: "secret", minLength: 80 }
   }
@@ -126,6 +132,7 @@ export function NavKeys() {
     switch (kind) {
       case "amap1": return "AMap / Gaode 1"
       case "amap2": return "AMap / Gaode 2"
+      case "tmap": return "TMAP"
       case "public": return "Public Mapbox"
       case "secret": return "Secret Mapbox"
       default: return kind
@@ -151,6 +158,9 @@ export function NavKeys() {
       state.amap2Key = data.amap2Key ?? ""
       state.savedA1 = !!state.amap1Key
       state.savedA2 = !!state.amap2Key
+
+      state.tmapKey = data.tmapKey ?? ""
+      state.savedTmap = !!state.tmapKey
 
       state.publicKey = data.mapboxPublic ?? ""
       state.secretKey = data.mapboxSecret ?? ""
@@ -186,7 +196,7 @@ export function NavKeys() {
     },
 
     save: (kind) => async () => {
-      const group = kind.startsWith("amap") ? "amap" : "mapbox"
+      const group = groupForKind(kind)
       const keyMeta = meta[kind]
       const value = util.prefix(state[keyMeta.prop].trim(), keyMeta.prefix)
 
@@ -237,7 +247,7 @@ export function NavKeys() {
       const kind = state.keyToDelete;
       if (!kind) return;
 
-      const group = kind.startsWith("amap") ? "amap" : "mapbox"
+      const group = groupForKind(kind)
       const keyMeta = meta[kind]
 
       const { ok, data } = await util.req(`${api.path.key}?type=${kind}`, {
@@ -269,6 +279,7 @@ export function NavKeys() {
   function renderGroup(title, kinds) {
     const isMapbox = title === "Mapbox Keys"
     const isAMap = title === "AMap / Gaode Keys"
+    const isTMap = title === "TMAP Key"
 
     return html`
       <div class="navkeys-group">
@@ -281,6 +292,7 @@ export function NavKeys() {
           ` : ""}
         </div>
         ${isAMap ? html`<div class="navkeys-subtitle">AMap is the Gaode provider, not Google Maps.</div>` : ""}
+        ${isTMap ? html`<div class="navkeys-subtitle">TMAP is recommended for South Korea search and routing.</div>` : ""}
 
         ${kinds.map(kind => {
           const keyMeta = meta[kind]
@@ -415,6 +427,10 @@ export function NavKeys() {
 
   return html`
     <div class="navkeys-wrapper navkeys-offset-top">
+      <div class="navkeys-container">
+        ${renderGroup("TMAP Key", ["tmap"])}
+        ${renderStatus("tmap")}
+      </div>
       <div class="navkeys-container">
           ${renderGroup("AMap / Gaode Keys", ["amap1", "amap2"])}
         ${renderStatus("amap")}

@@ -3,13 +3,17 @@ import {
   addRouteToMap,
   formatMetersToHuman,
   formatSecondsToHuman,
-  getCoordinatesFromSearch,
-  getMapboxSearchContext,
-  getRoutes,
   removeRouteFromMap,
   getOrdinalSuffix,
   highlightRoute,
 } from "./navigation_utilities.js?v=nav-search-context-2";
+import {
+  fetchRouteHazards,
+  fetchRoutesForDestination,
+  fetchSuggestionsForProvider,
+  getDefaultSearchProvider,
+  resolveSuggestionToDestination,
+} from "./navigation_providers.js?v=nav-provider-1";
 import { Modal } from "/assets/components/modal.js";
 
 function sha1hex(str) {
@@ -179,6 +183,7 @@ function splitSuggestionLabel(value) {
 function getSuggestionText(suggestion) {
   const rawName = cleanSuggestionText(suggestion.name || suggestion.title || "");
   const rawPlaceName = cleanSuggestionText(suggestion.place_name || "");
+  const preferredSecondary = cleanSuggestionText(suggestion.secondary || "");
   const explicitAddress = joinSuggestionParts([
     suggestion.full_address,
     suggestion.address,
@@ -193,7 +198,7 @@ function getSuggestionText(suggestion) {
     const splitPlaceName = rawPlaceName && rawPlaceName.toLowerCase().startsWith(`${rawName.toLowerCase()},`)
       ? splitSuggestionLabel(rawPlaceName)
       : { primary: rawName, secondary: "" };
-    const secondary = explicitAddress || splitPlaceName.secondary;
+    const secondary = preferredSecondary || explicitAddress || splitPlaceName.secondary;
     return {
       primary: splitPlaceName.primary || rawName,
       secondary: secondary && secondary.toLowerCase() !== rawName.toLowerCase() ? secondary : "",
@@ -214,6 +219,7 @@ function getSuggestionText(suggestion) {
 let map;
 let destinationMarker;
 let favoriteMarkers = [];
+let hazardMarkers = [];
 let sessionToken = crypto.randomUUID?.() || Math.random().toString(36).slice(2);
 let remountCheckScheduled = false;
 
@@ -244,34 +250,42 @@ const state = reactive({
   selectedRoute: null,
   showRemoveFavoriteModal: false,
   showRenameFavoriteModal: false,
-  suggestions: "[]"
+  suggestions: "[]",
+  hasTmapKey: false,
 });
 
 const searchFieldState = reactive({ value: "" });
 
+function clearHazardMarkers() {
+  hazardMarkers.forEach(marker => marker.remove());
+  hazardMarkers = [];
+}
+
+function addHazardMarkers(hazards) {
+  clearHazardMarkers();
+  if (!map) return;
+
+  for (const hazard of hazards || []) {
+    const latitude = Number(hazard?.latitude);
+    const longitude = Number(hazard?.longitude);
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) continue;
+
+    const el = document.createElement("div");
+    el.className = `hazard-marker hazard-${hazard.type || "generic"}`;
+    const hazardLabel = hazard.type === "traffic_signal" ? "SIG" : "CAM";
+    el.textContent = hazard.type === "traffic_signal" ? "🚦" : "📸";
+
+    el.textContent = hazardLabel;
+    const popupText = hazard.title || (hazard.type === "traffic_signal" ? "Traffic signal" : "Speed camera");
+    const marker = new mapboxgl.Marker(el)
+      .setLngLat([longitude, latitude])
+      .setPopup(new mapboxgl.Popup({ offset: 18, closeButton: false }).setText(popupText))
+      .addTo(map);
+    hazardMarkers.push(marker);
+  }
+}
+
 export function NavDestination() {
-
-  function getSearchContext(query) {
-    const browserLanguages = typeof navigator === "undefined"
-      ? []
-      : (navigator.languages || [navigator.language]);
-    const context = getMapboxSearchContext(query, state.lastPosition, [state.language, ...browserLanguages]);
-    if (state.lastPosition) {
-      context.proximity = `${state.lastPosition.longitude},${state.lastPosition.latitude}`;
-    }
-    return context;
-  }
-
-  function getMapboxSuggestParams(query) {
-    return new URLSearchParams({
-      access_token: state.mapboxPublic,
-      session_token: sessionToken,
-      q: query,
-      limit: 4,
-      ...getSearchContext(query),
-    });
-  }
-
   function areRoutesEqual(a, b) {
     return a?.routeHash && b?.routeHash && a.routeHash === b.routeHash;
   }
@@ -299,6 +313,7 @@ export function NavDestination() {
     state.selectedRoute = null;
     state.confirmedRoute = null;
     state.loadingRoute = true;
+    clearHazardMarkers();
     try {
       const { name, longitude, latitude } = destination;
       const coords = [longitude, latitude];
@@ -314,17 +329,14 @@ export function NavDestination() {
       if (destinationMarker) destinationMarker.remove();
       destinationMarker = new mapboxgl.Marker().setLngLat(coords).addTo(map);
 
-      const routes = await getRoutes(
-        `${state.lastPosition.longitude},${state.lastPosition.latitude}`,
-        `${coords[0]},${coords[1]}`,
-        state.mapboxPublic
-      );
+      const routes = await fetchRoutesForDestination(state, destination);
 
       removeRouteFromMap(map);
 
       if (routes.length > 0) {
         const selectedRouteId = "main";
         const selectedRouteData = routes[0];
+        const hazards = await fetchRouteHazards(selectedRouteData).catch(() => []);
         const routeHash = await geometryHashFromRoute(selectedRouteData);
         const selected = {
           name,
@@ -334,11 +346,13 @@ export function NavDestination() {
           startingCoordinates: [state.lastPosition.longitude, state.lastPosition.latitude],
           routeId: selectedRouteId,
           routeHash,
+          hazards,
           steps: selectedRouteData?.legs?.[0]?.steps || []
         };
 
         state.selectedRoute = selected;
         if (resume) state.confirmedRoute = JSON.parse(JSON.stringify(selected));
+        addHazardMarkers(hazards);
 
         localStorage.setItem("lastRouteId", selected.routeId);
 
@@ -347,14 +361,17 @@ export function NavDestination() {
           routes,
           [state.lastPosition.longitude, state.lastPosition.latitude],
           coords,
-          (route, routeId) => {
+          async (route, routeId) => {
+            const hazards = await fetchRouteHazards(route).catch(() => []);
             state.selectedRoute = {
               ...state.selectedRoute,
               duration: route.duration,
               distance: route.distance,
               routeId,
+              hazards,
               steps: route?.legs?.[0]?.steps || []
             };
+            addHazardMarkers(hazards);
             highlightRoute(map, routes, routeId);
           },
           state.isMetric,
@@ -390,13 +407,14 @@ export function NavDestination() {
     state.mapboxSecret = data.mapboxSecret.trim();
     state.amap1Key = data.amap1Key?.trim() || "";
     state.amap2Key = data.amap2Key?.trim() || "";
+    state.hasTmapKey = !!data.hasTmapKey;
     state.isMetric = data.isMetric ?? true;
     state.language = data.language?.trim() || "";
     const hasMapbox = !!state.mapboxPublic && !!state.mapboxSecret;
-    const hasAMap = !!state.amap1Key && !!state.amap2Key;
+    const hasAltProvider = state.hasTmapKey || (!!state.amap1Key && !!state.amap2Key);
     state.missingKeys = !hasMapbox;
-    state.canToggleProvider = hasMapbox && hasAMap;
-    state.searchProvider = hasMapbox ? "mapbox" : "";
+    state.canToggleProvider = hasMapbox && hasAltProvider;
+    state.searchProvider = getDefaultSearchProvider(state);
     if (state.missingKeys) return;
 
     try {
@@ -440,6 +458,7 @@ export function NavDestination() {
     searchFieldState.value = "";
     state.selectedRoute = null;
     state.confirmedRoute = null;
+    clearHazardMarkers();
     const sorted = await loadFavoritesAlphabetically();
     state.suggestions = JSON.stringify(sorted);
     state.favoritesVisible = true;
@@ -457,19 +476,8 @@ export function NavDestination() {
       state.selectedRoute = null;
       state.confirmedRoute = null;
       state.suggestions = "[]";
-      if (state.searchProvider === "mapbox") {
-        const params = getMapboxSuggestParams(val);
-        const res = await fetch(`https://api.mapbox.com/search/searchbox/v1/suggest?${params}`);
-        const data = await res.json();
-        state.suggestions = JSON.stringify(data.suggestions);
-      } else {
-        const auto = new AMap.Autocomplete({ city: "auto" });
-        auto.search(val, (status, result) => {
-          if (status === "complete" && result.tips) {
-            state.suggestions = JSON.stringify(result.tips);
-          }
-        });
-      }
+      const suggestions = await fetchSuggestionsForProvider(state, val, sessionToken);
+      state.suggestions = JSON.stringify(suggestions);
     }
   }
 
@@ -616,64 +624,16 @@ export function NavDestination() {
       state.selectedRoute = null;
       state.confirmedRoute = null;
       state.suggestions = "[]";
-      if (state.searchProvider === "mapbox") {
-        const params = getMapboxSuggestParams(val);
-        const res = await fetch(`https://api.mapbox.com/search/searchbox/v1/suggest?${params}`);
-        const data = await res.json();
-        state.suggestions = JSON.stringify(data.suggestions);
-      } else {
-        const auto = new AMap.Autocomplete({ city: "auto" });
-        auto.search(val, (status, result) => {
-          if (status === "complete" && result.tips) {
-            state.suggestions = JSON.stringify(result.tips);
-          }
-        });
-      }
+      const suggestions = await fetchSuggestionsForProvider(state, val, sessionToken);
+      state.suggestions = JSON.stringify(suggestions);
     }, 800);
   }
 
   async function selectSuggestion(sugg) {
-    const label = sugg.full_address || sugg.name || sugg.address || "Unnamed Location";
-    let coords;
-    const savedLatitude = Number(sugg.latitude);
-    const savedLongitude = Number(sugg.longitude);
-    if (Number.isFinite(savedLatitude) && Number.isFinite(savedLongitude)) {
-      initiateNavigation({
-        name: sugg.name || label,
-        longitude: savedLongitude,
-        latitude: savedLatitude,
-        routeId: sugg.routeId || null
-      });
-      return;
-    }
     state.loadingRoute = true;
     try {
-      if (state.searchProvider === "mapbox") {
-        if (sugg.geometry && Array.isArray(sugg.geometry.coordinates)) {
-          coords = sugg.geometry.coordinates;
-        } else if (sugg.mapbox_id) {
-          const url = new URL(`https://api.mapbox.com/search/searchbox/v1/retrieve/${encodeURIComponent(sugg.mapbox_id)}`);
-          url.searchParams.set("access_token", state.mapboxPublic);
-          url.searchParams.set("session_token", sessionToken);
-          const ret = await fetch(url);
-          const retJson = await ret.json();
-          coords = retJson.features[0].geometry.coordinates;
-        } else {
-          coords = await getCoordinatesFromSearch(label, state.mapboxPublic, getSearchContext(label));
-        }
-      } else {
-        coords = [sugg.location.lng, sugg.location.lat];
-      }
-      if (coords) {
-        initiateNavigation({
-          name: label,
-          longitude: coords[0],
-          latitude: coords[1],
-          routeId: null
-        });
-      } else {
-        throw new Error("Could not determine location.");
-      }
+      const destination = await resolveSuggestionToDestination(state, sugg, sessionToken);
+      initiateNavigation(destination);
     } catch (err) {
       console.error(err);
       showSnackbar("Error: Could not determine location.", "error");
@@ -803,7 +763,8 @@ export function NavDestination() {
                     ${() => (state.favoritesCount > 0 ? html`<button class="favorites-toggle-button" @click="${handleFavoritesClick}">❤️ Favorites</button>` : "")}
                     ${() => (state.canToggleProvider ? html`
                       <div class="search-provider-toggle">
-                        <button class="${() => (state.searchProvider === "amap" ? "active" : "")}" title="AMap / Gaode search provider" @click="${() => { state.searchProvider = "amap"; state.suggestions = "[]"; }}">AMap</button>
+                        ${() => state.hasTmapKey ? html`<button class="${() => (state.searchProvider === "tmap" ? "active" : "")}" title="TMAP search provider" @click="${() => { state.searchProvider = "tmap"; state.suggestions = "[]"; }}">TMAP</button>` : ""}
+                        ${() => (!state.hasTmapKey && state.amap1Key && state.amap2Key) ? html`<button class="${() => (state.searchProvider === "amap" ? "active" : "")}" title="AMap / Gaode search provider" @click="${() => { state.searchProvider = "amap"; state.suggestions = "[]"; }}">AMap</button>` : ""}
                         <button class="${() => (state.searchProvider === "mapbox" ? "active" : "")}" @click="${() => { state.searchProvider = "mapbox"; state.suggestions = "[]"; }}">Mapbox</button>
                       </div>
                     ` : "")}
@@ -824,6 +785,7 @@ export function NavDestination() {
                   state.confirmedRoute = null;
                   state.suggestions = JSON.stringify(state.previousDestinations);
                   if (destinationMarker) destinationMarker.remove();
+                  clearHazardMarkers();
                 },
                 onConfirm: () => {
                   state.confirmedRoute = JSON.parse(JSON.stringify(state.selectedRoute));
@@ -925,11 +887,13 @@ function NavigationDestination({
   searchFieldState,
   isFavorited,
   favoriteRoutes = [],
+  hazards = [],
   steps = []
 }) {
   async function cancelNavigation() {
     showSnackbar("Navigation cancelled...");
     removeRouteFromMap(map);
+    clearHazardMarkers();
     cancelNavigationFn();
     localStorage.removeItem("activeRouteId");
     if (map && Array.isArray(startingCoordinates) && startingCoordinates.length === 2) {
@@ -1027,6 +991,13 @@ function NavigationDestination({
         <span class="label">ETA:</span>
         <span class="value">${etaString}</span>
       </div>
+      ${hazards.length > 0 ? html`
+        <div class="summary-row">
+          <span class="emoji">ALT</span>
+          <span class="label">Alerts:</span>
+          <span class="value">${hazards.length} ahead</span>
+        </div>
+      ` : ""}
       <div class="buttonCluster">
         ${() =>
       isConfirmed()

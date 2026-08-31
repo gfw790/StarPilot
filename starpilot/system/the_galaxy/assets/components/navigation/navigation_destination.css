@@ -110,6 +110,36 @@
   transform: scale(1.2);
 }
 
+.hazard-marker {
+  align-items: center;
+  background: rgba(12, 16, 24, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+  color: #fff4cc;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.625rem;
+  font-weight: 700;
+  justify-content: center;
+  letter-spacing: 0.08em;
+  min-width: 2.5rem;
+  padding: 0.35rem 0.55rem;
+  text-transform: uppercase;
+}
+
+.hazard-marker:hover {
+  transform: scale(1.06);
+}
+
+.hazard-speed_camera {
+  color: #ffe08a;
+}
+
+.hazard-traffic_signal {
+  color: #c8ffd8;
+}
+
 .favorites-toggle-button {
   background-color: var(--input-bg);
   border: var(--border-width-thin) solid var(--track-color);

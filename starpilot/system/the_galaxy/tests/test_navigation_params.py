@@ -180,6 +180,365 @@ def test_navigation_last_position_rejects_stale_persisted_fix(monkeypatch):
   assert the_galaxy._get_navigation_last_position() is None
 
 
+def test_navigation_endpoint_includes_tmap_key(monkeypatch):
+  client, _ = _params_client(monkeypatch, {
+    "AMapKey1": "",
+    "AMapKey2": "",
+    "MapboxPublicKey": "pk.test",
+    "MapboxSecretKey": "sk.test",
+    "TMapApiKey": "tmap-test-key",
+    "ApiCache_NavDestinations": "[]",
+    "LanguageSetting": "main_ko",
+    "IsMetric": True,
+  }, "tici")
+  monkeypatch.setattr(the_galaxy, "_get_navigation_last_position", lambda: {"latitude": 37.5665, "longitude": 126.9780})
+
+  response = client.get("/api/navigation")
+
+  assert response.status_code == 200
+  assert response.get_json()["tmapKey"] == "tmap-test-key"
+
+
+def test_normalize_tmap_poi_results_extracts_coordinates_and_address():
+  payload = {
+    "searchPoiInfo": {
+      "pois": {
+        "poi": [{
+          "name": "서울역",
+          "frontLat": "37.554722",
+          "frontLon": "126.970833",
+          "upperAddrName": "서울",
+          "middleAddrName": "중구",
+          "roadName": "한강대로",
+          "firstNo": "405",
+          "id": "poi-1",
+        }]
+      }
+    }
+  }
+
+  results = the_galaxy._normalize_tmap_poi_results(payload)
+
+  assert results == [{
+    "name": "서울역",
+    "full_address": "서울 중구 405",
+    "address": "서울 중구 405",
+    "latitude": 37.554722,
+    "longitude": 126.970833,
+    "provider": "tmap",
+    "poiId": "poi-1",
+    "roadName": "한강대로",
+    "bizCategory": "",
+  }]
+
+
+def test_normalize_tmap_route_response_matches_navigation_shape():
+  payload = {
+    "features": [
+      {
+        "geometry": {"type": "Point", "coordinates": [126.9780, 37.5665]},
+        "properties": {"totalDistance": 1200, "totalTime": 360, "description": "출발"},
+      },
+      {
+        "geometry": {"type": "LineString", "coordinates": [[126.9780, 37.5665], [126.9790, 37.5670]]},
+        "properties": {},
+      },
+      {
+        "geometry": {"type": "Point", "coordinates": [126.9790, 37.5670]},
+        "properties": {"description": "도착"},
+      },
+    ]
+  }
+
+  routes = the_galaxy._normalize_tmap_route_response(payload)
+
+  assert len(routes) == 1
+  assert routes[0]["distance"] == 1200
+  assert routes[0]["duration"] == 360
+  assert routes[0]["geometry"]["coordinates"] == [[126.978, 37.5665], [126.979, 37.567]]
+  assert routes[0]["legs"][0]["steps"][0]["maneuver"]["instruction"] == "출발"
+
+
+def test_route_geometry_bounds_adds_padding_for_hazard_lookup():
+  bounds = the_galaxy._route_geometry_bounds([
+    [126.9780, 37.5665],
+    [126.9900, 37.5700],
+  ])
+
+  assert bounds == (
+    37.5565,
+    126.968,
+    37.58,
+    127.0,
+  )
+
+
+def test_navigation_endpoint_includes_tmap_key(monkeypatch):
+  client, _ = _params_client(monkeypatch, {
+    "AMapKey1": "",
+    "AMapKey2": "",
+    "MapboxPublicKey": "pk.test",
+    "MapboxSecretKey": "sk.test",
+    "TMapApiKey": "tmap-test-key",
+    "ApiCache_NavDestinations": "[]",
+    "LanguageSetting": "main_ko",
+    "IsMetric": True,
+  }, "tici")
+  monkeypatch.setattr(the_galaxy, "_get_navigation_last_position", lambda: {"latitude": 37.5665, "longitude": 126.9780})
+
+  response = client.get("/api/navigation")
+  payload = response.get_json()
+
+  assert response.status_code == 200
+  assert payload["hasTmapKey"] is True
+  assert "tmapKey" not in payload
+
+
+def test_normalize_tmap_poi_results_extracts_coordinates_and_address():
+  payload = {
+    "searchPoiInfo": {
+      "pois": {
+        "poi": [{
+          "name": "서울역",
+          "frontLat": "37.554722",
+          "frontLon": "126.970833",
+          "upperAddrName": "서울",
+          "middleAddrName": "중구",
+          "roadName": "한강대로",
+          "firstNo": "405",
+          "id": "poi-1",
+          "bizCatName": "교통시설",
+        }]
+      }
+    }
+  }
+
+  results = the_galaxy._normalize_tmap_poi_results(payload)
+
+  assert results == [{
+    "name": "서울역",
+    "full_address": "한강대로 405",
+    "address": "서울 중구 405",
+    "roadAddress": "한강대로 405",
+    "secondary": "교통시설 | 한강대로 405 | 서울 중구 405",
+    "latitude": 37.554722,
+    "longitude": 126.970833,
+    "provider": "tmap",
+    "poiId": "poi-1",
+    "roadName": "한강대로",
+    "bizCategory": "교통시설",
+  }]
+
+
+def test_normalize_tmap_route_response_matches_navigation_shape():
+  payload = {
+    "features": [
+      {
+        "geometry": {"type": "Point", "coordinates": [126.9780, 37.5665]},
+        "properties": {"totalDistance": 1200, "totalTime": 360, "description": "출발"},
+      },
+      {
+        "geometry": {"type": "LineString", "coordinates": [[126.9780, 37.5665], [126.9790, 37.5670]]},
+        "properties": {},
+      },
+      {
+        "geometry": {"type": "Point", "coordinates": [126.9790, 37.5670]},
+        "properties": {"description": "도착"},
+      },
+    ]
+  }
+
+  routes = the_galaxy._normalize_tmap_route_response(payload)
+
+  assert len(routes) == 1
+  assert routes[0]["distance"] == 1200
+  assert routes[0]["duration"] == 360
+  assert routes[0]["geometry"]["coordinates"] == [[126.978, 37.5665], [126.979, 37.567]]
+  assert routes[0]["legs"][0]["steps"][0]["maneuver"]["instruction"] == "출발"
+  assert routes[0]["legs"][0]["steps"][1]["maneuver"]["instruction"] == "도착"
+
+
+def test_route_geometry_bounds_adds_padding_for_hazard_lookup():
+  bounds = the_galaxy._route_geometry_bounds([
+    [126.9780, 37.5665],
+    [126.9900, 37.5700],
+  ])
+
+  assert bounds == (
+    37.5565,
+    126.968,
+    37.58,
+    127.0,
+  )
+
+
+def test_is_likely_korean_position_accepts_korea_and_rejects_invalid():
+  assert the_galaxy._is_likely_korean_position({"latitude": 37.5665, "longitude": 126.9780}) is True
+  assert the_galaxy._is_likely_korean_position({"latitude": 91.0, "longitude": 126.9780}) is False
+  assert the_galaxy._is_likely_korean_position({"latitude": 35.6762, "longitude": 139.6503}) is False
+
+
+def test_normalize_tmap_poi_results_rejects_invalid_coordinates():
+  payload = {
+    "searchPoiInfo": {
+      "pois": {
+        "poi": [{
+          "name": "잘못된 POI",
+          "frontLat": "137.0",
+          "frontLon": "126.970833",
+        }]
+      }
+    }
+  }
+
+  assert the_galaxy._normalize_tmap_poi_results(payload) == []
+
+
+def test_normalize_route_geometry_rejects_excessive_points():
+  route_points = [[126.0 + (index * 0.00001), 37.0] for index in range(the_galaxy._NAVIGATION_HAZARD_MAX_ROUTE_POINTS + 1)]
+
+  try:
+    the_galaxy._normalize_route_geometry(route_points)
+  except ValueError as exc:
+    assert "exceeds limit" in str(exc)
+  else:
+    raise AssertionError("Expected ValueError for excessive route geometry")
+
+
+def test_perform_tmap_poi_search_returns_empty_without_key(monkeypatch):
+  monkeypatch.setattr(the_galaxy, "params", WritableFakeParams({"TMapApiKey": ""}))
+
+  assert the_galaxy._perform_tmap_poi_search("서울역") == []
+
+
+def test_navigation_route_endpoint_rejects_invalid_coordinates(monkeypatch):
+  client, _ = _params_client(monkeypatch, {
+    "MapboxPublicKey": "pk.test",
+    "MapboxSecretKey": "sk.test",
+    "TMapApiKey": "tmap-test-key",
+  }, "tici")
+
+  response = client.post("/api/navigation/route", json={
+    "provider": "tmap",
+    "start": {"longitude": 126.9780, "latitude": 95.0, "name": "Start"},
+    "destination": {"longitude": 127.0, "latitude": 37.5, "name": "End"},
+  })
+
+  assert response.status_code == 400
+  assert response.get_json()["routes"] == []
+
+
+def test_navigation_search_and_route_endpoints_return_empty_without_tmap_key(monkeypatch):
+  client, _ = _params_client(monkeypatch, {
+    "MapboxPublicKey": "pk.test",
+    "MapboxSecretKey": "sk.test",
+    "TMapApiKey": "",
+  }, "tici")
+
+  search_response = client.get("/api/navigation/search?provider=tmap&q=서울역")
+  route_response = client.post("/api/navigation/route", json={
+    "provider": "tmap",
+    "start": {"longitude": 126.9780, "latitude": 37.5665, "name": "Start"},
+    "destination": {"longitude": 127.0, "latitude": 37.5, "name": "End"},
+  })
+
+  assert search_response.status_code == 200
+  assert search_response.get_json()["suggestions"] == []
+  assert route_response.status_code == 200
+  assert route_response.get_json()["routes"] == []
+
+
+def test_build_tmap_poi_request_params_uses_documented_fields():
+  params = the_galaxy._build_tmap_poi_request_params("서울역", count=5)
+
+  assert params == {
+    "version": "1",
+    "searchKeyword": "서울역",
+    "searchType": "all",
+    "reqCoordType": "WGS84GEO",
+    "resCoordType": "WGS84GEO",
+    "count": 5,
+  }
+
+
+def test_build_tmap_route_payload_uses_vehicle_route_fields():
+  payload = the_galaxy._build_tmap_route_payload(
+    {"longitude": 126.9780, "latitude": 37.5665, "name": "출발"},
+    {"longitude": 127.0276, "latitude": 37.4979, "name": "도착"},
+  )
+
+  assert payload["startX"] == 126.9780
+  assert payload["startY"] == 37.5665
+  assert payload["endX"] == 127.0276
+  assert payload["endY"] == 37.4979
+  assert payload["reqCoordType"] == "WGS84GEO"
+  assert payload["resCoordType"] == "WGS84GEO"
+  assert payload["searchOption"] == "0"
+  assert payload["trafficInfo"] == "Y"
+
+
+def test_overpass_hazard_filtering_keeps_only_hazards_near_route():
+  route = [
+    [126.9780, 37.5665],
+    [126.9790, 37.5665],
+  ]
+  hazards = [
+    {"id": "near-camera", "longitude": 126.9785, "latitude": 37.56655, "type": "speed_camera"},
+    {"id": "far-signal", "longitude": 126.9900, "latitude": 37.5800, "type": "traffic_signal"},
+  ]
+
+  filtered = the_galaxy._filter_hazards_near_route(hazards, route)
+
+  assert [hazard["id"] for hazard in filtered] == ["near-camera"]
+  assert filtered[0]["distanceToRouteMeters"] >= 0.0
+
+
+def test_fetch_navigation_hazards_returns_cached_result(monkeypatch):
+  route = [[126.9780, 37.5665], [126.9790, 37.5665]]
+  expected = [{"id": "camera-1", "longitude": 126.9785, "latitude": 37.5665, "type": "speed_camera"}]
+  monkeypatch.setattr(the_galaxy, "_navigation_hazard_cache", {})
+  monkeypatch.setattr(the_galaxy, "_load_overpass_request_state", lambda: {"day": "2026-08-31", "total_requests": 0, "total_bytes": 0, "max_requests": 10, "max_bytes": 1000})
+  monkeypatch.setattr(the_galaxy, "_parse_overpass_hazards", lambda payload: expected)
+  monkeypatch.setattr(the_galaxy, "_filter_hazards_near_route", lambda hazards, route_points: hazards)
+
+  class FakeResponse:
+    content = b"{}"
+
+    def raise_for_status(self):
+      return None
+
+    def json(self):
+      return {"elements": []}
+
+  calls = []
+  monkeypatch.setattr(the_galaxy.requests, "get", lambda *args, **kwargs: calls.append((args, kwargs)) or FakeResponse())
+  monkeypatch.setattr(the_galaxy, "_update_overpass_request_tracking", lambda content_length=0: None)
+
+  first = the_galaxy._fetch_navigation_hazards_from_overpass(route)
+  second = the_galaxy._fetch_navigation_hazards_from_overpass(route)
+
+  assert first == expected
+  assert second == expected
+  assert len(calls) == 1
+
+
+def test_fetch_navigation_hazards_respects_overpass_budget(monkeypatch):
+  route = [[126.9780, 37.5665], [126.9790, 37.5665]]
+  monkeypatch.setattr(the_galaxy, "_navigation_hazard_cache", {})
+  monkeypatch.setattr(the_galaxy, "_load_overpass_request_state", lambda: {"day": "2026-08-31", "total_requests": 10, "total_bytes": 0, "max_requests": 10, "max_bytes": 1000})
+
+  called = {"value": False}
+
+  def _unexpected_request(*args, **kwargs):
+    called["value"] = True
+    raise AssertionError("Overpass should not be called when budget is exhausted")
+
+  monkeypatch.setattr(the_galaxy.requests, "get", _unexpected_request)
+
+  assert the_galaxy._fetch_navigation_hazards_from_overpass(route) == []
+  assert called["value"] is False
+
+
 def test_save_longitudinal_maneuver_status_writes_json_param_as_dict(monkeypatch):
   fake_params = WritableFakeParams()
   monkeypatch.setattr(the_galaxy, "params", fake_params)

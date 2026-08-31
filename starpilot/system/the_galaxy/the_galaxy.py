@@ -1132,6 +1132,7 @@ except TypeError:
 KEYS = {
   "amap1": ("amap1", "", "AMapKey1", "AMap / Gaode key #1", 39),
   "amap2": ("amap2", "", "AMapKey2", "AMap / Gaode key #2", 39),
+  "tmap": ("tmap", "", "TMapApiKey", "TMAP key", 10),
   "public": ("public", "pk.", "MapboxPublicKey", "Public key", 80),
   "secret": ("secret", "sk.", "MapboxSecretKey", "Secret key", 80),
 }
@@ -1254,6 +1255,911 @@ def _get_navigation_last_position():
     return persisted_position
 
   return None
+
+
+_TMAP_POIS_URL = "https://apis.openapi.sk.com/tmap/pois"
+_TMAP_ROUTES_URL = "https://apis.openapi.sk.com/tmap/routes"
+_NAVIGATION_OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+
+
+def _get_navigation_provider_name(provider_value) -> str:
+  return str(provider_value or "").strip().lower()
+
+
+def _is_likely_korean_position(position) -> bool:
+  if not isinstance(position, dict):
+    return False
+
+  try:
+    latitude = float(position.get("latitude", 0.0) or 0.0)
+    longitude = float(position.get("longitude", 0.0) or 0.0)
+  except (TypeError, ValueError):
+    return False
+
+  mainland = 33.0 <= latitude <= 38.9 and 124.5 <= longitude <= 131.0
+  jeju = 32.5 <= latitude <= 34.4 and 126.0 <= longitude <= 127.5
+  ulleungdo = 37.2 <= latitude <= 37.7 and 130.7 <= longitude <= 131.2
+  return mainland or jeju or ulleungdo
+
+
+def _tmap_request_headers(app_key: str) -> dict[str, str]:
+  return {
+    "accept": "application/json",
+    "appKey": app_key,
+  }
+
+
+def _build_tmap_search_address(poi: dict) -> str:
+  parts = [poi.get("upperAddrName"), poi.get("middleAddrName"), poi.get("lowerAddrName"), poi.get("detailAddrName")]
+  number_parts = [str(part).strip() for part in (poi.get("firstNo"), poi.get("secondNo")) if str(part or "").strip()]
+  if number_parts:
+    parts.append("-".join(number_parts))
+  return " ".join(str(part).strip() for part in parts if str(part or "").strip())
+
+
+def _build_tmap_secondary_label(poi: dict, address: str) -> str:
+  parts = [
+    poi.get("bizCatName"),
+    poi.get("roadName"),
+    address,
+  ]
+  seen = set()
+  unique = []
+  for part in parts:
+    text = str(part or "").strip()
+    if not text:
+      continue
+    lowered = text.casefold()
+    if lowered in seen:
+      continue
+    seen.add(lowered)
+    unique.append(text)
+  return " · ".join(unique)
+
+
+def _normalize_tmap_poi_results(payload) -> list[dict]:
+  if not isinstance(payload, dict):
+    return []
+
+  poi_container = (((payload.get("searchPoiInfo") or {}).get("pois") or {}).get("poi"))
+  if isinstance(poi_container, dict):
+    poi_items = [poi_container]
+  elif isinstance(poi_container, list):
+    poi_items = poi_container
+  else:
+    poi_items = []
+
+  results = []
+  for poi in poi_items:
+    if not isinstance(poi, dict):
+      continue
+
+    name = str(poi.get("name") or poi.get("upperBizName") or "").strip()
+    longitude = poi.get("frontLon") or poi.get("noorLon") or poi.get("lon")
+    latitude = poi.get("frontLat") or poi.get("noorLat") or poi.get("lat")
+    if not name or longitude in (None, "") or latitude in (None, ""):
+      continue
+
+    try:
+      normalized_longitude = float(longitude)
+      normalized_latitude = float(latitude)
+    except (TypeError, ValueError):
+      continue
+
+    full_address = _build_tmap_search_address(poi)
+    secondary = _build_tmap_secondary_label(poi, full_address)
+    results.append({
+      "name": name,
+      "full_address": full_address,
+      "address": full_address,
+      "secondary": secondary,
+      "latitude": normalized_latitude,
+      "longitude": normalized_longitude,
+      "provider": "tmap",
+      "poiId": poi.get("id") or poi.get("poiId") or "",
+      "roadName": poi.get("roadName") or "",
+      "bizCategory": poi.get("bizCatName") or poi.get("upperBizName") or "",
+    })
+
+  return results
+
+
+def _normalize_tmap_route_response(payload) -> list[dict]:
+  if not isinstance(payload, dict):
+    return []
+
+  features = payload.get("features")
+  if not isinstance(features, list) or not features:
+    return []
+
+  route_distance = 0.0
+  route_duration = 0.0
+  coordinates = []
+  steps = []
+
+  for feature in features:
+    if not isinstance(feature, dict):
+      continue
+
+    geometry = feature.get("geometry") or {}
+    properties = feature.get("properties") or {}
+    geometry_type = geometry.get("type")
+
+    if not route_distance:
+      route_distance = _safe_float(properties.get("totalDistance"), 0.0)
+    if not route_duration:
+      route_duration = _safe_float(properties.get("totalTime"), 0.0)
+
+    if geometry_type == "LineString":
+      for point in geometry.get("coordinates") or []:
+        if not isinstance(point, (list, tuple)) or len(point) < 2:
+          continue
+        try:
+          longitude = float(point[0])
+          latitude = float(point[1])
+        except (TypeError, ValueError):
+          continue
+        if not coordinates or coordinates[-1] != [longitude, latitude]:
+          coordinates.append([longitude, latitude])
+
+    elif geometry_type == "Point":
+      turn_text = str(properties.get("description") or properties.get("name") or "").strip()
+      point = geometry.get("coordinates") or []
+      if turn_text and isinstance(point, (list, tuple)) and len(point) >= 2:
+        steps.append({
+          "maneuver": {
+            "instruction": turn_text,
+            "location": [point[0], point[1]],
+          }
+        })
+
+  if len(coordinates) < 2:
+    return []
+
+  congestion = ["unknown"] * max(len(coordinates) - 1, 1)
+  return [{
+    "distance": route_distance,
+    "duration": route_duration,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": coordinates,
+    },
+    "legs": [{
+      "annotation": {"congestion": congestion},
+      "steps": steps,
+    }],
+    "provider": "tmap",
+  }]
+
+
+def _update_overpass_request_tracking(content_length: int = 0) -> None:
+  try:
+    request_state = json.loads(params.get("OverpassRequests", encoding="utf-8") or "{}")
+  except Exception:
+    request_state = {}
+
+  current_day = datetime.now(timezone.utc).day
+  if int(request_state.get("day", current_day) or current_day) != current_day:
+    request_state = {}
+
+  request_state.setdefault("day", current_day)
+  request_state["total_requests"] = int(request_state.get("total_requests", 0) or 0) + 1
+  request_state["total_bytes"] = int(request_state.get("total_bytes", 0) or 0) + max(0, int(content_length or 0))
+  request_state.setdefault("max_requests", 10000)
+  request_state.setdefault("max_bytes", 100_000_000)
+  params.put("OverpassRequests", request_state)
+
+
+def _route_geometry_bounds(points: list[list[float]]) -> tuple[float, float, float, float] | None:
+  normalized = []
+  for point in points:
+    if not isinstance(point, (list, tuple)) or len(point) < 2:
+      continue
+    try:
+      longitude = float(point[0])
+      latitude = float(point[1])
+    except (TypeError, ValueError):
+      continue
+    normalized.append((longitude, latitude))
+
+  if len(normalized) < 2:
+    return None
+
+  longitudes = [point[0] for point in normalized]
+  latitudes = [point[1] for point in normalized]
+  padding = 0.01
+  return (
+    min(latitudes) - padding,
+    min(longitudes) - padding,
+    max(latitudes) + padding,
+    max(longitudes) + padding,
+  )
+
+
+def _fetch_navigation_hazards_from_overpass(route_points: list[list[float]]) -> list[dict]:
+  bounds = _route_geometry_bounds(route_points)
+  if bounds is None:
+    return []
+
+  south, west, north, east = bounds
+  query = f"""
+[out:json][timeout:12];
+(
+  node["highway"="speed_camera"]({south},{west},{north},{east});
+  node["enforcement"="maxspeed"]({south},{west},{north},{east});
+  node["crossing"="traffic_signals"]({south},{west},{north},{east});
+);
+out body;
+"""
+  response = requests.get(_NAVIGATION_OVERPASS_URL, params={"data": query}, timeout=15)
+  response.raise_for_status()
+  _update_overpass_request_tracking(len(response.content))
+
+  try:
+    payload = response.json()
+  except ValueError:
+    return []
+
+  hazards = []
+  for element in payload.get("elements", []):
+    if not isinstance(element, dict):
+      continue
+    latitude = element.get("lat")
+    longitude = element.get("lon")
+    tags = element.get("tags") or {}
+    if latitude in (None, "") or longitude in (None, ""):
+      continue
+
+    highway = str(tags.get("highway") or "")
+    enforcement = str(tags.get("enforcement") or "")
+    crossing = str(tags.get("crossing") or "")
+    if highway == "speed_camera" or enforcement == "maxspeed":
+      hazard_type = "speed_camera"
+      title = "Speed camera"
+    elif crossing == "traffic_signals":
+      hazard_type = "traffic_signal"
+      title = "Traffic signal"
+    else:
+      hazard_type = "hazard"
+      title = "Road alert"
+
+    hazards.append({
+      "id": str(element.get("id") or f"{longitude},{latitude}"),
+      "latitude": float(latitude),
+      "longitude": float(longitude),
+      "type": hazard_type,
+      "title": title,
+      "tags": tags,
+    })
+
+  return hazards
+
+
+def _perform_tmap_poi_search(query: str, last_position: dict | None = None, count: int = 5) -> list[dict]:
+  app_key = params.get("TMapApiKey", encoding="utf8") or ""
+  if not app_key:
+    return []
+
+  request_params = {
+    "version": "1",
+    "searchKeyword": query,
+    "searchType": "all",
+    "searchtypCd": "A",
+    "reqCoordType": "WGS84GEO",
+    "resCoordType": "WGS84GEO",
+    "count": max(1, min(int(count), 10)),
+  }
+
+  if _is_likely_korean_position(last_position or {}):
+    request_params.update({
+      "searchtypCd": "R",
+      "centerLon": str(last_position["longitude"]),
+      "centerLat": str(last_position["latitude"]),
+      "radius": "10",
+    })
+
+  response = requests.get(_TMAP_POIS_URL, params=request_params, headers=_tmap_request_headers(app_key), timeout=10)
+  response.raise_for_status()
+  return _normalize_tmap_poi_results(response.json())
+
+
+def _perform_tmap_route(start: dict, destination: dict) -> list[dict]:
+  app_key = params.get("TMapApiKey", encoding="utf8") or ""
+  if not app_key:
+    return []
+
+  payload = {
+    "startX": start["longitude"],
+    "startY": start["latitude"],
+    "endX": destination["longitude"],
+    "endY": destination["latitude"],
+    "reqCoordType": "WGS84GEO",
+    "resCoordType": "WGS84GEO",
+    "searchOption": "0",
+    "trafficInfo": "Y",
+    "startName": start.get("name") or "Current Location",
+    "endName": destination.get("name") or "Destination",
+  }
+
+  response = requests.post(
+    _TMAP_ROUTES_URL,
+    params={"version": "1", "format": "json"},
+    headers={**_tmap_request_headers(app_key), "content-type": "application/json"},
+    json=payload,
+    timeout=15,
+  )
+  response.raise_for_status()
+  return _normalize_tmap_route_response(response.json())
+
+_NAVIGATION_HAZARD_MAX_ROUTE_POINTS = 1200
+_NAVIGATION_HAZARD_MAX_QUERY_BOXES = 12
+_NAVIGATION_HAZARD_QUERY_CHUNK_POINTS = 48
+_NAVIGATION_HAZARD_BOX_PADDING_METERS = 220.0
+_NAVIGATION_HAZARD_MATCH_METERS = 120.0
+_NAVIGATION_HAZARD_CACHE_TTL_SECONDS = 300
+_NAVIGATION_OVERPASS_DEFAULT_MAX_REQUESTS = 10000
+_NAVIGATION_OVERPASS_DEFAULT_MAX_BYTES = 100_000_000
+_navigation_hazard_cache = {}
+_navigation_hazard_cache_lock = threading.Lock()
+
+
+def _is_valid_latitude(latitude) -> bool:
+  try:
+    value = float(latitude)
+  except (TypeError, ValueError):
+    return False
+  return -90.0 <= value <= 90.0
+
+
+def _is_valid_longitude(longitude) -> bool:
+  try:
+    value = float(longitude)
+  except (TypeError, ValueError):
+    return False
+  return -180.0 <= value <= 180.0
+
+
+def _normalize_navigation_coordinates(longitude, latitude) -> tuple[float, float] | None:
+  if not _is_valid_longitude(longitude) or not _is_valid_latitude(latitude):
+    return None
+  return float(longitude), float(latitude)
+
+
+def _is_likely_korean_position(position) -> bool:
+  if not isinstance(position, dict):
+    return False
+
+  coordinates = _normalize_navigation_coordinates(position.get("longitude"), position.get("latitude"))
+  if coordinates is None:
+    return False
+  longitude, latitude = coordinates
+
+  mainland = 33.0 <= latitude <= 38.9 and 124.5 <= longitude <= 131.0
+  jeju = 32.5 <= latitude <= 34.4 and 126.0 <= longitude <= 127.5
+  ulleungdo = 37.2 <= latitude <= 37.7 and 130.7 <= longitude <= 131.2
+  return mainland or jeju or ulleungdo
+
+
+def _join_tmap_address_parts(parts: list) -> str:
+  return " ".join(str(part).strip() for part in parts if str(part or "").strip())
+
+
+def _build_tmap_lot_address(poi: dict) -> str:
+  parts = [poi.get("upperAddrName"), poi.get("middleAddrName"), poi.get("lowerAddrName"), poi.get("detailAddrName")]
+  number_parts = [str(part).strip() for part in (poi.get("firstNo"), poi.get("secondNo")) if str(part or "").strip()]
+  if number_parts:
+    parts.append("-".join(number_parts))
+  return _join_tmap_address_parts(parts)
+
+
+def _build_tmap_road_address(poi: dict) -> str:
+  road_name = str(poi.get("roadName") or "").strip()
+  if not road_name:
+    return ""
+
+  number_parts = [str(part).strip() for part in (poi.get("firstNo"), poi.get("secondNo")) if str(part or "").strip()]
+  if number_parts:
+    return _join_tmap_address_parts([road_name, "-".join(number_parts)])
+  return road_name
+
+
+def _build_tmap_secondary_label(poi: dict, road_address: str, lot_address: str) -> str:
+  parts = [
+    poi.get("bizCatName"),
+    road_address,
+    lot_address,
+  ]
+  seen = set()
+  unique = []
+  for part in parts:
+    text = str(part or "").strip()
+    if not text:
+      continue
+    lowered = text.casefold()
+    if lowered in seen:
+      continue
+    seen.add(lowered)
+    unique.append(text)
+  return " | ".join(unique)
+
+
+def _normalize_tmap_poi_results(payload) -> list[dict]:
+  if not isinstance(payload, dict):
+    return []
+
+  poi_container = (((payload.get("searchPoiInfo") or {}).get("pois") or {}).get("poi"))
+  if isinstance(poi_container, dict):
+    poi_items = [poi_container]
+  elif isinstance(poi_container, list):
+    poi_items = poi_container
+  else:
+    poi_items = []
+
+  results = []
+  for poi in poi_items:
+    if not isinstance(poi, dict):
+      continue
+
+    name = str(poi.get("name") or poi.get("upperBizName") or "").strip()
+    longitude = poi.get("frontLon") or poi.get("noorLon") or poi.get("lon")
+    latitude = poi.get("frontLat") or poi.get("noorLat") or poi.get("lat")
+    if not name or longitude in (None, "") or latitude in (None, ""):
+      continue
+
+    coordinates = _normalize_navigation_coordinates(longitude, latitude)
+    if coordinates is None:
+      continue
+    normalized_longitude, normalized_latitude = coordinates
+
+    lot_address = _build_tmap_lot_address(poi)
+    road_address = _build_tmap_road_address(poi)
+    full_address = road_address or lot_address
+    secondary = _build_tmap_secondary_label(poi, road_address, lot_address)
+    results.append({
+      "name": name,
+      "full_address": full_address,
+      "address": lot_address or full_address,
+      "roadAddress": road_address,
+      "secondary": secondary,
+      "latitude": normalized_latitude,
+      "longitude": normalized_longitude,
+      "provider": "tmap",
+      "poiId": poi.get("id") or poi.get("poiId") or "",
+      "roadName": poi.get("roadName") or "",
+      "bizCategory": poi.get("bizCatName") or poi.get("upperBizName") or "",
+    })
+
+  return results
+
+
+def _normalize_tmap_route_response(payload) -> list[dict]:
+  if not isinstance(payload, dict):
+    return []
+
+  features = payload.get("features")
+  if not isinstance(features, list) or not features:
+    return []
+
+  route_distance = 0.0
+  route_duration = 0.0
+  coordinates = []
+  steps = []
+
+  for feature in features:
+    if not isinstance(feature, dict):
+      continue
+
+    geometry = feature.get("geometry") or {}
+    properties = feature.get("properties") or {}
+    geometry_type = geometry.get("type")
+
+    if not route_distance:
+      route_distance = _safe_float(properties.get("totalDistance"), 0.0)
+    if not route_duration:
+      route_duration = _safe_float(properties.get("totalTime"), 0.0)
+
+    if geometry_type == "LineString":
+      for point in geometry.get("coordinates") or []:
+        if not isinstance(point, (list, tuple)) or len(point) < 2:
+          continue
+        point_coordinates = _normalize_navigation_coordinates(point[0], point[1])
+        if point_coordinates is None:
+          continue
+        longitude, latitude = point_coordinates
+        if not coordinates or coordinates[-1] != [longitude, latitude]:
+          coordinates.append([longitude, latitude])
+
+    elif geometry_type == "Point":
+      turn_text = str(properties.get("description") or properties.get("name") or "").strip()
+      point = geometry.get("coordinates") or []
+      point_coordinates = None
+      if isinstance(point, (list, tuple)) and len(point) >= 2:
+        point_coordinates = _normalize_navigation_coordinates(point[0], point[1])
+      if turn_text and point_coordinates is not None:
+        steps.append({
+          "maneuver": {
+            "instruction": turn_text,
+            "location": [point_coordinates[0], point_coordinates[1]],
+          }
+        })
+
+  if len(coordinates) < 2:
+    return []
+
+  congestion = ["unknown"] * max(len(coordinates) - 1, 1)
+  return [{
+    "distance": route_distance,
+    "duration": route_duration,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": coordinates,
+    },
+    "legs": [{
+      "annotation": {"congestion": congestion},
+      "steps": steps,
+    }],
+    "provider": "tmap",
+  }]
+
+
+def _current_overpass_utc_date() -> str:
+  return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+
+def _load_overpass_request_state() -> dict:
+  try:
+    request_state = json.loads(params.get("OverpassRequests", encoding="utf-8") or "{}")
+  except Exception:
+    request_state = {}
+
+  current_day = _current_overpass_utc_date()
+  if str(request_state.get("day") or "") != current_day:
+    request_state = {}
+
+  request_state.setdefault("day", current_day)
+  request_state.setdefault("total_requests", 0)
+  request_state.setdefault("total_bytes", 0)
+  request_state.setdefault("max_requests", _NAVIGATION_OVERPASS_DEFAULT_MAX_REQUESTS)
+  request_state.setdefault("max_bytes", _NAVIGATION_OVERPASS_DEFAULT_MAX_BYTES)
+  return request_state
+
+
+def _overpass_budget_available(request_state: dict) -> bool:
+  total_requests = int(request_state.get("total_requests", 0) or 0)
+  total_bytes = int(request_state.get("total_bytes", 0) or 0)
+  max_requests = int(request_state.get("max_requests", _NAVIGATION_OVERPASS_DEFAULT_MAX_REQUESTS) or _NAVIGATION_OVERPASS_DEFAULT_MAX_REQUESTS)
+  max_bytes = int(request_state.get("max_bytes", _NAVIGATION_OVERPASS_DEFAULT_MAX_BYTES) or _NAVIGATION_OVERPASS_DEFAULT_MAX_BYTES)
+  return total_requests < max_requests and total_bytes < max_bytes
+
+
+def _update_overpass_request_tracking(content_length: int = 0) -> None:
+  request_state = _load_overpass_request_state()
+  request_state["total_requests"] = int(request_state.get("total_requests", 0) or 0) + 1
+  request_state["total_bytes"] = int(request_state.get("total_bytes", 0) or 0) + max(0, int(content_length or 0))
+  params.put("OverpassRequests", request_state)
+
+
+def _meters_to_latitude_delta(meters: float) -> float:
+  return float(meters) / 111_320.0
+
+
+def _meters_to_longitude_delta(meters: float, latitude: float) -> float:
+  cosine = math.cos(math.radians(latitude))
+  if abs(cosine) < 1e-6:
+    cosine = 1e-6
+  return float(meters) / (111_320.0 * cosine)
+
+
+def _normalize_route_geometry(points: list[list[float]], max_points: int = _NAVIGATION_HAZARD_MAX_ROUTE_POINTS) -> list[list[float]]:
+  normalized = []
+  for point in points:
+    if not isinstance(point, (list, tuple)) or len(point) < 2:
+      continue
+    coordinates = _normalize_navigation_coordinates(point[0], point[1])
+    if coordinates is None:
+      continue
+    longitude, latitude = coordinates
+    if normalized and normalized[-1] == [longitude, latitude]:
+      continue
+    normalized.append([longitude, latitude])
+
+  if len(normalized) > max_points:
+    raise ValueError(f"Route geometry exceeds limit of {max_points} points.")
+  return normalized
+
+
+def _route_geometry_bounds(points: list[list[float]]) -> tuple[float, float, float, float] | None:
+  normalized = _normalize_route_geometry(points)
+  if len(normalized) < 2:
+    return None
+
+  longitudes = [point[0] for point in normalized]
+  latitudes = [point[1] for point in normalized]
+  padding = 0.01
+  return (
+    min(latitudes) - padding,
+    min(longitudes) - padding,
+    max(latitudes) + padding,
+    max(longitudes) + padding,
+  )
+
+
+def _build_navigation_hazard_query_boxes(route_points: list[list[float]]) -> list[tuple[float, float, float, float]]:
+  if len(route_points) < 2:
+    return []
+
+  sampled_points = route_points
+  max_sample_points = _NAVIGATION_HAZARD_QUERY_CHUNK_POINTS * _NAVIGATION_HAZARD_MAX_QUERY_BOXES
+  if len(sampled_points) > max_sample_points:
+    stride = max(1, int(math.ceil(len(sampled_points) / max_sample_points)))
+    sampled_points = sampled_points[::stride]
+    if sampled_points[-1] != route_points[-1]:
+      sampled_points.append(route_points[-1])
+
+  boxes = []
+  for start_index in range(0, len(sampled_points) - 1, _NAVIGATION_HAZARD_QUERY_CHUNK_POINTS - 1):
+    chunk = sampled_points[start_index:start_index + _NAVIGATION_HAZARD_QUERY_CHUNK_POINTS]
+    if len(chunk) < 2:
+      continue
+    latitudes = [point[1] for point in chunk]
+    longitudes = [point[0] for point in chunk]
+    center_latitude = sum(latitudes) / len(latitudes)
+    lat_padding = _meters_to_latitude_delta(_NAVIGATION_HAZARD_BOX_PADDING_METERS)
+    lon_padding = _meters_to_longitude_delta(_NAVIGATION_HAZARD_BOX_PADDING_METERS, center_latitude)
+    boxes.append((
+      min(latitudes) - lat_padding,
+      min(longitudes) - lon_padding,
+      max(latitudes) + lat_padding,
+      max(longitudes) + lon_padding,
+    ))
+
+  merged_boxes = []
+  for box in boxes:
+    if not merged_boxes:
+      merged_boxes.append(box)
+      continue
+
+    prev_south, prev_west, prev_north, prev_east = merged_boxes[-1]
+    south, west, north, east = box
+    overlaps = not (south > prev_north or north < prev_south or west > prev_east or east < prev_west)
+    if overlaps:
+      merged_boxes[-1] = (
+        min(prev_south, south),
+        min(prev_west, west),
+        max(prev_north, north),
+        max(prev_east, east),
+      )
+    else:
+      merged_boxes.append(box)
+
+  return merged_boxes[:_NAVIGATION_HAZARD_MAX_QUERY_BOXES]
+
+
+def _build_navigation_hazard_cache_key(route_points: list[list[float]]) -> str:
+  return hashlib.sha1(json.dumps(route_points, separators=(",", ":"), ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def _load_navigation_hazard_cache(cache_key: str):
+  now = time.time()
+  with _navigation_hazard_cache_lock:
+    cached = _navigation_hazard_cache.get(cache_key)
+    if cached is None:
+      return None
+    expires_at, hazards = cached
+    if expires_at <= now:
+      _navigation_hazard_cache.pop(cache_key, None)
+      return None
+    return hazards
+
+
+def _store_navigation_hazard_cache(cache_key: str, hazards: list[dict]) -> None:
+  with _navigation_hazard_cache_lock:
+    _navigation_hazard_cache[cache_key] = (time.time() + _NAVIGATION_HAZARD_CACHE_TTL_SECONDS, hazards)
+
+
+def _point_to_segment_distance_meters(point: list[float], start: list[float], end: list[float]) -> float:
+  mean_latitude = math.radians((point[1] + start[1] + end[1]) / 3.0)
+
+  def project(coords):
+    longitude, latitude = coords
+    x_value = math.radians(longitude) * 6_371_000.0 * math.cos(mean_latitude)
+    y_value = math.radians(latitude) * 6_371_000.0
+    return x_value, y_value
+
+  px, py = project(point)
+  sx, sy = project(start)
+  ex, ey = project(end)
+  dx = ex - sx
+  dy = ey - sy
+  length_squared = dx * dx + dy * dy
+  if length_squared <= 1e-6:
+    return math.hypot(px - sx, py - sy)
+
+  projection = ((px - sx) * dx + (py - sy) * dy) / length_squared
+  projection = max(0.0, min(1.0, projection))
+  closest_x = sx + projection * dx
+  closest_y = sy + projection * dy
+  return math.hypot(px - closest_x, py - closest_y)
+
+
+def _hazard_distance_to_route_meters(hazard_point: list[float], route_points: list[list[float]]) -> float:
+  return min(
+    _point_to_segment_distance_meters(hazard_point, route_points[index], route_points[index + 1])
+    for index in range(len(route_points) - 1)
+  )
+
+
+def _filter_hazards_near_route(hazards: list[dict], route_points: list[list[float]], max_distance_meters: float = _NAVIGATION_HAZARD_MATCH_METERS) -> list[dict]:
+  filtered = []
+  seen = set()
+  for hazard in hazards:
+    coordinates = _normalize_navigation_coordinates(hazard.get("longitude"), hazard.get("latitude"))
+    if coordinates is None:
+      continue
+    distance_meters = _hazard_distance_to_route_meters([coordinates[0], coordinates[1]], route_points)
+    if distance_meters > max_distance_meters:
+      continue
+    hazard_id = str(hazard.get("id") or f"{coordinates[0]:.6f},{coordinates[1]:.6f}")
+    if hazard_id in seen:
+      continue
+    seen.add(hazard_id)
+    filtered.append({
+      **hazard,
+      "distanceToRouteMeters": round(distance_meters, 1),
+    })
+
+  filtered.sort(key=lambda item: item.get("distanceToRouteMeters", 0.0))
+  return filtered
+
+
+def _build_overpass_hazard_query(boxes: list[tuple[float, float, float, float]]) -> str:
+  clauses = []
+  for south, west, north, east in boxes:
+    clauses.extend([
+      f'  node["highway"="speed_camera"]({south},{west},{north},{east});',
+      f'  node["enforcement"="maxspeed"]({south},{west},{north},{east});',
+      f'  node["crossing"="traffic_signals"]({south},{west},{north},{east});',
+    ])
+  return "\n".join([
+    "[out:json][timeout:12];",
+    "(",
+    *clauses,
+    ");",
+    "out body;",
+  ])
+
+
+def _parse_overpass_hazards(payload) -> list[dict]:
+  if not isinstance(payload, dict):
+    return []
+
+  hazards = []
+  for element in payload.get("elements", []):
+    if not isinstance(element, dict):
+      continue
+    coordinates = _normalize_navigation_coordinates(element.get("lon"), element.get("lat"))
+    if coordinates is None:
+      continue
+    longitude, latitude = coordinates
+    tags = element.get("tags") or {}
+    highway = str(tags.get("highway") or "")
+    enforcement = str(tags.get("enforcement") or "")
+    crossing = str(tags.get("crossing") or "")
+
+    if highway == "speed_camera" or enforcement == "maxspeed":
+      hazard_type = "speed_camera"
+      title = "OSM speed camera"
+    elif crossing == "traffic_signals":
+      hazard_type = "traffic_signal"
+      title = "OSM traffic signal"
+    else:
+      continue
+
+    hazards.append({
+      "id": str(element.get("id") or f"{longitude},{latitude}"),
+      "latitude": latitude,
+      "longitude": longitude,
+      "type": hazard_type,
+      "title": title,
+      "source": "osm_overpass",
+      "isSupplemental": True,
+      "tags": tags,
+    })
+
+  return hazards
+
+
+def _fetch_navigation_hazards_from_overpass(route_points: list[list[float]]) -> list[dict]:
+  normalized_route_points = _normalize_route_geometry(route_points)
+  if len(normalized_route_points) < 2:
+    return []
+
+  cache_key = _build_navigation_hazard_cache_key(normalized_route_points)
+  cached_hazards = _load_navigation_hazard_cache(cache_key)
+  if cached_hazards is not None:
+    return cached_hazards
+
+  if not _overpass_budget_available(_load_overpass_request_state()):
+    return []
+
+  boxes = _build_navigation_hazard_query_boxes(normalized_route_points)
+  if not boxes:
+    return []
+
+  query = _build_overpass_hazard_query(boxes)
+  if len(query.encode("utf-8")) > 32_000:
+    raise ValueError("Hazard query is too large.")
+
+  response = requests.get(_NAVIGATION_OVERPASS_URL, params={"data": query}, timeout=15)
+  response.raise_for_status()
+  _update_overpass_request_tracking(len(response.content))
+
+  try:
+    payload = response.json()
+  except ValueError:
+    return []
+
+  hazards = _filter_hazards_near_route(_parse_overpass_hazards(payload), normalized_route_points)
+  _store_navigation_hazard_cache(cache_key, hazards)
+  return hazards
+
+
+def _build_tmap_poi_request_params(query: str, count: int = 5) -> dict[str, object]:
+  return {
+    "version": "1",
+    "searchKeyword": query,
+    "searchType": "all",
+    "reqCoordType": "WGS84GEO",
+    "resCoordType": "WGS84GEO",
+    "count": max(1, min(int(count), 10)),
+  }
+
+
+def _build_tmap_route_payload(start: dict, destination: dict) -> dict[str, object]:
+  return {
+    "startX": start["longitude"],
+    "startY": start["latitude"],
+    "endX": destination["longitude"],
+    "endY": destination["latitude"],
+    "reqCoordType": "WGS84GEO",
+    "resCoordType": "WGS84GEO",
+    "searchOption": "0",
+    "trafficInfo": "Y",
+    "startName": start.get("name") or "Current Location",
+    "endName": destination.get("name") or "Destination",
+  }
+
+
+def _perform_tmap_poi_search(query: str, last_position: dict | None = None, count: int = 5) -> list[dict]:
+  del last_position
+  app_key = params.get("TMapApiKey", encoding="utf8") or ""
+  if not app_key:
+    return []
+
+  response = requests.get(
+    _TMAP_POIS_URL,
+    params=_build_tmap_poi_request_params(query, count=count),
+    headers=_tmap_request_headers(app_key),
+    timeout=10,
+  )
+  response.raise_for_status()
+  return _normalize_tmap_poi_results(response.json())
+
+
+def _perform_tmap_route(start: dict, destination: dict) -> list[dict]:
+  app_key = params.get("TMapApiKey", encoding="utf8") or ""
+  if not app_key:
+    return []
+
+  response = requests.post(
+    _TMAP_ROUTES_URL,
+    params={"version": "1", "format": "json"},
+    headers={**_tmap_request_headers(app_key), "content-type": "application/json"},
+    json=_build_tmap_route_payload(start, destination),
+    timeout=15,
+  )
+  response.raise_for_status()
+  return _normalize_tmap_route_response(response.json())
 
 FINGERPRINT_MAKE_LABELS = [
   "Acura",
@@ -4712,6 +5618,7 @@ def setup(app):
       },
       "mapboxPublic": params.get("MapboxPublicKey", encoding="utf8") or "",
       "mapboxSecret": params.get("MapboxSecretKey", encoding="utf8") or "",
+      "hasTmapKey": bool(params.get("TMapApiKey", encoding="utf8") or ""),
       "previousDestinations": params.get("ApiCache_NavDestinations", encoding="utf8") or "",
     }
 
@@ -4728,6 +5635,78 @@ def setup(app):
     params.put("NavDestination", json.dumps(destination))
     params.put("ApiCache_NavDestinations", recent_destinations)
     return {"message": "Destination set"}
+
+  @app.route("/api/navigation/search", methods=["GET"])
+  def navigation_search():
+    query = str(request.args.get("q") or "").strip()
+    provider = _get_navigation_provider_name(request.args.get("provider"))
+    if len(query) < 2:
+      return jsonify({"suggestions": []})
+
+    if provider == "tmap":
+      try:
+        suggestions = _perform_tmap_poi_search(query, _get_navigation_last_position(), count=5)
+      except requests.RequestException as exc:
+        return jsonify({"error": f"TMAP search failed: {exc}", "suggestions": []}), 502
+      return jsonify({"suggestions": suggestions})
+
+    return jsonify({"suggestions": []})
+
+  @app.route("/api/navigation/route", methods=["POST"])
+  def navigation_route():
+    payload = request.get_json(silent=True) or {}
+    provider = _get_navigation_provider_name(payload.get("provider"))
+    start = payload.get("start")
+    destination = payload.get("destination")
+
+    if provider != "tmap":
+      return jsonify({"routes": []})
+
+    if not isinstance(start, dict) or not isinstance(destination, dict):
+      return jsonify({"error": "Missing start or destination coordinates.", "routes": []}), 400
+
+    try:
+      normalized_start = {
+        "longitude": float(start["longitude"]),
+        "latitude": float(start["latitude"]),
+        "name": str(start.get("name") or "Current Location"),
+      }
+      normalized_destination = {
+        "longitude": float(destination["longitude"]),
+        "latitude": float(destination["latitude"]),
+        "name": str(destination.get("name") or "Destination"),
+      }
+    except (KeyError, TypeError, ValueError):
+      return jsonify({"error": "Invalid route coordinates.", "routes": []}), 400
+
+    if _normalize_navigation_coordinates(normalized_start["longitude"], normalized_start["latitude"]) is None:
+      return jsonify({"error": "Invalid start coordinates.", "routes": []}), 400
+    if _normalize_navigation_coordinates(normalized_destination["longitude"], normalized_destination["latitude"]) is None:
+      return jsonify({"error": "Invalid destination coordinates.", "routes": []}), 400
+
+    try:
+      routes = _perform_tmap_route(normalized_start, normalized_destination)
+    except requests.RequestException as exc:
+      return jsonify({"error": f"TMAP routing failed: {exc}", "routes": []}), 502
+    return jsonify({"routes": routes})
+
+  @app.route("/api/navigation/hazards", methods=["POST"])
+  def navigation_hazards():
+    payload = request.get_json(silent=True) or {}
+    route = payload.get("route") or {}
+    geometry = route.get("geometry") or {}
+    route_points = geometry.get("coordinates") or []
+    if not isinstance(route_points, list):
+      return jsonify({"hazards": []}), 400
+
+    try:
+      hazards = _fetch_navigation_hazards_from_overpass(route_points)
+    except ValueError as exc:
+      return jsonify({"error": str(exc), "hazards": []}), 400
+    except requests.RequestException as exc:
+      return jsonify({"error": f"Navigation hazard lookup failed: {exc}", "hazards": []}), 502
+
+    return jsonify({"hazards": hazards})
 
   @app.route("/api/navigation/favorite", methods=["DELETE"])
   def remove_favorite_destination():
@@ -6404,8 +7383,8 @@ def setup(app):
     except Exception:
       pass
 
-    current_day = datetime.now(timezone.utc).day
-    saved_day = int(overpass_requests.get("day", current_day) or current_day)
+    current_day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    saved_day = str(overpass_requests.get("day") or "")
     total_requests = int(overpass_requests.get("total_requests", 0) or 0)
     max_requests = int(overpass_requests.get("max_requests", 10000) or 10000)
     if saved_day != current_day:
