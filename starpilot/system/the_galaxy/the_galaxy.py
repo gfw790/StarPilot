@@ -1680,7 +1680,7 @@ def _build_tmap_secondary_label(poi: dict, road_address: str, lot_address: str) 
       continue
     seen.add(lowered)
     unique.append(text)
-  return " | ".join(unique)
+  return " · ".join(unique)
 
 
 def _normalize_tmap_poi_results(payload) -> list[dict]:
@@ -1713,7 +1713,7 @@ def _normalize_tmap_poi_results(payload) -> list[dict]:
 
     lot_address = _build_tmap_lot_address(poi)
     road_address = _build_tmap_road_address(poi)
-    full_address = road_address or lot_address
+    full_address = lot_address or road_address
     secondary = _build_tmap_secondary_label(poi, road_address, lot_address)
     results.append({
       "name": name,
@@ -1740,8 +1740,8 @@ def _normalize_tmap_route_response(payload) -> list[dict]:
   if not isinstance(features, list) or not features:
     return []
 
-  route_distance = 0.0
-  route_duration = 0.0
+  route_distance = None
+  route_duration = None
   coordinates = []
   steps = []
 
@@ -1753,9 +1753,9 @@ def _normalize_tmap_route_response(payload) -> list[dict]:
     properties = feature.get("properties") or {}
     geometry_type = geometry.get("type")
 
-    if not route_distance:
+    if route_distance is None and properties.get("totalDistance") is not None:
       route_distance = _safe_float(properties.get("totalDistance"), 0.0)
-    if not route_duration:
+    if route_duration is None and properties.get("totalTime") is not None:
       route_duration = _safe_float(properties.get("totalTime"), 0.0)
 
     if geometry_type == "LineString":
@@ -1788,8 +1788,8 @@ def _normalize_tmap_route_response(payload) -> list[dict]:
 
   congestion = ["unknown"] * max(len(coordinates) - 1, 1)
   return [{
-    "distance": route_distance,
-    "duration": route_duration,
+    "distance": route_distance if route_distance is not None else 0.0,
+    "duration": route_duration if route_duration is not None else 0.0,
     "geometry": {
       "type": "LineString",
       "coordinates": coordinates,

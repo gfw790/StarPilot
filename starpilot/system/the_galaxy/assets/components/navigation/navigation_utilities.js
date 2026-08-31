@@ -218,6 +218,10 @@ function buildGradientExpression(coords, congestion) {
   if (count === 0 || coords.length < 2) {
     return ['interpolate', ['linear'], ['line-progress'], 0, '#ccc', 1, '#ccc'];
   }
+  if (count === 1) {
+    const color = congestionToColor(congestion[0] || 'unknown');
+    return ['interpolate', ['linear'], ['line-progress'], 0, color, 1, color];
+  }
   const stops = [];
   for (let i = 0; i < count; i++) {
     stops.push(i / (count - 1), congestionToColor(congestion[i] || 'unknown'));

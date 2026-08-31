@@ -159,8 +159,8 @@ export function NavKeys() {
       state.savedA1 = !!state.amap1Key
       state.savedA2 = !!state.amap2Key
 
-      state.tmapKey = data.tmapKey ?? ""
-      state.savedTmap = !!state.tmapKey
+      state.savedTmap = !!data.hasTmapKey
+      state.tmapKey = state.savedTmap ? "configured" : ""
 
       state.publicKey = data.mapboxPublic ?? ""
       state.secretKey = data.mapboxSecret ?? ""

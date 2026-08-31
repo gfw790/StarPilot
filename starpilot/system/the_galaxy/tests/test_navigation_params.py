@@ -539,6 +539,108 @@ def test_fetch_navigation_hazards_respects_overpass_budget(monkeypatch):
   assert called["value"] is False
 
 
+def test_navigation_endpoint_exposes_only_tmap_key_presence(monkeypatch):
+  client, _ = _params_client(monkeypatch, {
+    "AMapKey1": "",
+    "AMapKey2": "",
+    "MapboxPublicKey": "pk.test",
+    "MapboxSecretKey": "sk.test",
+    "TMapApiKey": "tmap-test-key",
+    "ApiCache_NavDestinations": "[]",
+    "LanguageSetting": "main_ko",
+    "IsMetric": True,
+  }, "tici")
+  monkeypatch.setattr(the_galaxy, "_get_navigation_last_position", lambda: {"latitude": 37.76516161, "longitude": 128.90139644})
+
+  response = client.get("/api/navigation")
+  payload = response.get_json()
+
+  assert response.status_code == 200
+  assert payload["hasTmapKey"] is True
+  assert "tmapKey" not in payload
+
+
+def test_normalize_tmap_poi_results_matches_verified_gangneung_station_shape():
+  payload = {
+    "searchPoiInfo": {
+      "pois": {
+        "poi": [{
+          "name": "강릉역",
+          "frontLat": "37.76516161",
+          "frontLon": "128.90139644",
+          "upperAddrName": "강원",
+          "middleAddrName": "강릉시",
+          "lowerAddrName": "교동",
+          "roadName": "강릉대로",
+          "id": "poi-gangneung-station",
+        }]
+      }
+    }
+  }
+
+  results = the_galaxy._normalize_tmap_poi_results(payload)
+
+  assert results == [{
+    "name": "강릉역",
+    "full_address": "강원 강릉시 교동",
+    "address": "강원 강릉시 교동",
+    "roadAddress": "강릉대로",
+    "secondary": "강릉대로 · 강원 강릉시 교동",
+    "latitude": 37.76516161,
+    "longitude": 128.90139644,
+    "provider": "tmap",
+    "poiId": "poi-gangneung-station",
+    "roadName": "강릉대로",
+    "bizCategory": "",
+  }]
+
+
+def test_normalize_tmap_route_response_matches_verified_vehicle_route_shape():
+  payload = {
+    "features": [
+      {
+        "geometry": {"type": "Point", "coordinates": [128.90139644, 37.76516161]},
+        "properties": {
+          "totalDistance": 3034,
+          "totalTime": 559,
+          "description": "일반도로를 따라 20m 이동",
+        },
+      },
+      {
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [128.90139644, 37.76516161],
+            [128.90090000, 37.76470000],
+            [128.89980000, 37.76360000],
+          ],
+        },
+        "properties": {},
+      },
+      {
+        "geometry": {"type": "Point", "coordinates": [128.90070000, 37.76440000]},
+        "properties": {"description": "교차로에서 우회전 후 강릉대로를 따라 187m 이동"},
+      },
+      {
+        "geometry": {"type": "Point", "coordinates": [128.87689904, 37.75244038]},
+        "properties": {"description": "도착"},
+      },
+    ]
+  }
+
+  routes = the_galaxy._normalize_tmap_route_response(payload)
+
+  assert len(routes) == 1
+  assert routes[0]["distance"] == 3034
+  assert routes[0]["duration"] == 559
+  assert routes[0]["geometry"]["type"] == "LineString"
+  assert routes[0]["geometry"]["coordinates"][0] == [128.90139644, 37.76516161]
+  assert routes[0]["geometry"]["coordinates"][-1] == [128.8998, 37.7636]
+  assert routes[0]["legs"][0]["steps"][0]["maneuver"]["instruction"] == "일반도로를 따라 20m 이동"
+  assert routes[0]["legs"][0]["steps"][-1]["maneuver"]["instruction"] == "도착"
+  assert len(routes[0]["legs"][0]["annotation"]["congestion"]) == len(routes[0]["geometry"]["coordinates"]) - 1
+
+
 def test_save_longitudinal_maneuver_status_writes_json_param_as_dict(monkeypatch):
   fake_params = WritableFakeParams()
   monkeypatch.setattr(the_galaxy, "params", fake_params)
