@@ -10,8 +10,9 @@ from openpilot.common.params import Params
 from openpilot.common.realtime import Ratekeeper
 from openpilot.common.swaglog import cloudlog
 
-from openpilot.starpilot.navigation.destination_store import parse_destination_json
+from openpilot.starpilot.navigation.destination_store import normalize_navigation_provider, parse_destination_json
 from openpilot.starpilot.navigation.route_engine import Coordinate, MapboxRouteEngine, NavigationRoute, RouteProgress
+from openpilot.starpilot.navigation.tmap_route_engine import TMapRouteEngine
 
 NAVIGATIOND_HZ = 1
 REROUTE_TRIGGER_SECONDS = 2.0
@@ -20,10 +21,11 @@ LOCATION_STATE_STALE_SECONDS = 2.5
 
 
 class Navigationd:
-  def __init__(self, route_engine: MapboxRouteEngine | None = None):
+  def __init__(self, route_engine: MapboxRouteEngine | None = None, tmap_route_engine: TMapRouteEngine | None = None):
     self.params = Params()
     self.params_memory = Params(memory=True)
-    self.route_engine = route_engine or MapboxRouteEngine()
+    self.mapbox_route_engine = route_engine or MapboxRouteEngine()
+    self.tmap_route_engine = tmap_route_engine or TMapRouteEngine()
 
     self.pm = messaging.PubMaster(["navInstruction", "navRoute"])
     self.rk = Ratekeeper(NAVIGATIOND_HZ)
@@ -60,6 +62,21 @@ class Navigationd:
   def _route_token(self) -> str:
     return self.params.get("MapboxSecretKey", encoding="utf-8") or ""
 
+  def _route_token_for_provider(self, provider: str) -> str:
+    if provider == "tmap":
+      return self.params.get("TMapApiKey", encoding="utf-8") or ""
+    return self._route_token()
+
+  @staticmethod
+  def _route_provider(destination: dict[str, object] | None) -> str:
+    provider = normalize_navigation_provider(destination.get("provider") if destination else None)
+    return provider or "mapbox"
+
+  def _route_engine_for_provider(self, provider: str) -> MapboxRouteEngine | TMapRouteEngine:
+    if provider == "tmap":
+      return self.tmap_route_engine
+    return self.mapbox_route_engine
+
   def _clear_route(self, *, remove_destination: bool = False) -> None:
     with self._route_lock:
       self._route = None
@@ -80,12 +97,14 @@ class Navigationd:
     if self._last_position is None or self._route_fetch_inflight:
       return
 
-    token = self._route_token()
+    provider = self._route_provider(destination)
+    token = self._route_token_for_provider(provider)
     if not token:
       return
 
     position = self._last_position
     bearing = self._last_bearing
+    route_engine = self._route_engine_for_provider(provider)
     destination_key = self._destination_key(destination)
     if destination_key is None:
       return
@@ -95,7 +114,7 @@ class Navigationd:
       self._requested_destination_key = destination_key
 
     def worker():
-      route = self.route_engine.fetch_route(token, position, destination, bearing)
+      route = route_engine.fetch_route(token, position, destination, bearing)
       with self._route_lock:
         still_current = self._requested_destination_key == destination_key
         self._route_fetch_inflight = False

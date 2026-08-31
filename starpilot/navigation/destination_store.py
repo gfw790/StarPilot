@@ -51,6 +51,15 @@ def _text(value: Any) -> str:
   return str(value or "")
 
 
+def normalize_navigation_provider(provider: Any) -> str | None:
+  normalized = _text(provider).strip().casefold()
+  if normalized in ("", "mapbox"):
+    return "mapbox" if normalized else None
+  if normalized == "tmap":
+    return "tmap"
+  return None
+
+
 def normalize_destination_payload(payload: Any) -> dict[str, Any] | None:
   if not isinstance(payload, dict):
     return None
@@ -58,16 +67,20 @@ def normalize_destination_payload(payload: Any) -> dict[str, Any] | None:
   name = str(payload.get("place_name") or payload.get("name") or "").strip()
   latitude = _coerce_float(payload.get("latitude"))
   longitude = _coerce_float(payload.get("longitude"))
+  provider = normalize_navigation_provider(payload.get("provider"))
 
   if not name or latitude is None or longitude is None:
     return None
 
-  return {
+  normalized = {
     "name": name,
     "place_name": name,
     "latitude": latitude,
     "longitude": longitude,
   }
+  if provider is not None:
+    normalized["provider"] = provider
+  return normalized
 
 
 def parse_destination_json(raw_value: str | bytes | dict[str, Any] | None) -> dict[str, Any] | None:
@@ -284,6 +297,10 @@ def normalize_recent_destination_entry(entry: Any) -> dict[str, Any] | None:
     normalized["latitude"] = latitude
     normalized["longitude"] = longitude
     normalized["name"] = place_name
+
+  provider = normalize_navigation_provider(entry.get("provider"))
+  if provider is not None:
+    normalized["provider"] = provider
 
   return normalized
 

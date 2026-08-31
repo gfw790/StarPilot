@@ -47,6 +47,13 @@ function getActiveSearchProvider(state) {
   return state.mapboxPublic ? "mapbox" : "";
 }
 
+function normalizeDestinationProvider(provider) {
+  const normalized = String(provider || "").trim().toLowerCase();
+  if (normalized === "tmap") return "tmap";
+  if (normalized === "mapbox") return "mapbox";
+  return "";
+}
+
 export function getDefaultSearchProvider(state) {
   if (state.hasTmapKey && isLikelyKoreanEnvironment(state)) return "tmap";
   if (state.mapboxPublic) return "mapbox";
@@ -96,18 +103,20 @@ export async function fetchSuggestionsForProvider(state, query, sessionToken) {
 }
 
 export async function resolveSuggestionToDestination(state, suggestion, sessionToken) {
-  const provider = getActiveSearchProvider(state);
+  const provider = normalizeDestinationProvider(suggestion?.provider) || getActiveSearchProvider(state);
   const label = suggestion.full_address || suggestion.name || suggestion.address || "Unnamed Location";
 
   const savedLatitude = Number(suggestion.latitude);
   const savedLongitude = Number(suggestion.longitude);
   if (Number.isFinite(savedLatitude) && Number.isFinite(savedLongitude)) {
-    return {
+    const destination = {
       latitude: savedLatitude,
       longitude: savedLongitude,
       name: suggestion.name || label,
       routeId: suggestion.routeId || null,
     };
+    if (provider) destination.provider = provider;
+    return destination;
   }
 
   if (provider === "amap" && suggestion.location) {
@@ -141,12 +150,14 @@ export async function resolveSuggestionToDestination(state, suggestion, sessionT
     throw new Error("Could not determine location.");
   }
 
-  return {
+  const destination = {
     latitude: coordinates[1],
     longitude: coordinates[0],
     name: label,
     routeId: null,
   };
+  if (provider === "tmap" || provider === "mapbox") destination.provider = provider;
+  return destination;
 }
 
 export async function fetchRoutesForDestination(state, destination) {
@@ -154,7 +165,7 @@ export async function fetchRoutesForDestination(state, destination) {
     throw new Error("Current location unavailable.");
   }
 
-  const provider = getActiveSearchProvider(state);
+  const provider = normalizeDestinationProvider(destination?.provider) || getActiveSearchProvider(state);
 
   if (provider === "tmap" && state.hasTmapKey) {
     try {

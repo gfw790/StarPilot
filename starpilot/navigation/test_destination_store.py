@@ -9,6 +9,7 @@ from openpilot.starpilot.navigation.destination_store import (
   load_favorite_destinations,
   normalize_destination_payload,
   normalize_favorite_destination,
+  normalize_navigation_provider,
   ordered_favorite_destinations,
   routing_configured,
   same_destination,
@@ -31,6 +32,46 @@ def test_normalize_destination_payload_requires_name_and_coordinates():
     "longitude": -87.623177,
   }
   assert normalize_destination_payload({"name": "Missing coords"}) is None
+
+
+def test_normalize_destination_payload_preserves_supported_provider():
+  payload = {
+    "name": "Seoul Station",
+    "latitude": "37.5547",
+    "longitude": "126.9706",
+    "provider": "TMAP",
+  }
+
+  assert normalize_destination_payload(payload) == {
+    "name": "Seoul Station",
+    "place_name": "Seoul Station",
+    "latitude": 37.5547,
+    "longitude": 126.9706,
+    "provider": "tmap",
+  }
+
+
+def test_normalize_destination_payload_drops_unknown_provider_and_keeps_legacy_shape():
+  payload = {
+    "name": "Legacy Destination",
+    "latitude": "1.0",
+    "longitude": "2.0",
+    "provider": "unknown-provider",
+  }
+
+  assert normalize_destination_payload(payload) == {
+    "name": "Legacy Destination",
+    "place_name": "Legacy Destination",
+    "latitude": 1.0,
+    "longitude": 2.0,
+  }
+
+
+def test_normalize_navigation_provider_accepts_supported_values_and_rejects_unknowns():
+  assert normalize_navigation_provider(None) is None
+  assert normalize_navigation_provider("mapbox") == "mapbox"
+  assert normalize_navigation_provider("TMAP") == "tmap"
+  assert normalize_navigation_provider("other") is None
 
 
 def test_recent_destinations_dedupe_and_cap():
@@ -64,6 +105,7 @@ def test_recent_destinations_retain_coordinates_for_saved_name():
     "name": "Renamed favorite",
     "latitude": 41.881832,
     "longitude": -87.623177,
+    "provider": "tmap",
   })
 
   assert updated[0] == {
@@ -71,6 +113,7 @@ def test_recent_destinations_retain_coordinates_for_saved_name():
     "name": "Renamed favorite",
     "latitude": 41.881832,
     "longitude": -87.623177,
+    "provider": "tmap",
   }
 
 
@@ -148,11 +191,12 @@ class FakeParams:
 def test_destination_write_updates_active_destination_and_recents():
   params = FakeParams({RECENT_DESTINATIONS_KEY: "[]"})
 
-  destination = set_navigation_destination(params, {"name": "Home", "latitude": 1, "longitude": 2})
+  destination = set_navigation_destination(params, {"name": "Home", "latitude": 1, "longitude": 2, "provider": "tmap"})
 
-  assert destination == {"name": "Home", "place_name": "Home", "latitude": 1.0, "longitude": 2.0}
+  assert destination == {"name": "Home", "place_name": "Home", "latitude": 1.0, "longitude": 2.0, "provider": "tmap"}
   assert json.loads(params.values[NAVIGATION_DESTINATION_KEY]) == destination
   assert params.values[RECENT_DESTINATIONS_KEY][0]["place_name"] == "Home"
+  assert params.values[RECENT_DESTINATIONS_KEY][0]["provider"] == "tmap"
 
 
 def test_same_destination_write_is_idempotent_and_does_not_touch_recents():

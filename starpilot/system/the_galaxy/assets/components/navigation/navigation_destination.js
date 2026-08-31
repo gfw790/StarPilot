@@ -315,7 +315,7 @@ export function NavDestination() {
     state.loadingRoute = true;
     clearHazardMarkers();
     try {
-      const { name, longitude, latitude } = destination;
+      const { name, longitude, latitude, provider = null } = destination;
       const coords = [longitude, latitude];
       if (!state.lastPosition) {
         throw new Error("Current location unavailable.");
@@ -340,6 +340,7 @@ export function NavDestination() {
         const routeHash = await geometryHashFromRoute(selectedRouteData);
         const selected = {
           name,
+          provider,
           duration: selectedRouteData.duration,
           distance: selectedRouteData.distance,
           destinationCoordinates: coords,
@@ -871,6 +872,7 @@ function SearchSuggestions({ suggestions, selectSuggestion, removeFavorite, rena
 
 function NavigationDestination({
   name,
+  provider = null,
   duration,
   distance,
   routeId,
@@ -910,6 +912,7 @@ function NavigationDestination({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name,
+        ...(provider ? { provider } : {}),
         longitude: destinationCoordinates[0],
         latitude: destinationCoordinates[1]
       })

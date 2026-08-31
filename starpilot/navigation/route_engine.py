@@ -216,7 +216,7 @@ class NavigationRoute:
   total_duration: float
 
   @classmethod
-  def from_mapbox_route(cls, route_data: dict[str, Any]) -> "NavigationRoute" | None:
+  def from_route_data(cls, route_data: dict[str, Any]) -> "NavigationRoute" | None:
     geometry_data = route_data.get("geometry") or []
     steps_data = route_data.get("steps") or []
     if not geometry_data or not steps_data:
@@ -255,6 +255,10 @@ class NavigationRoute:
       total_distance=float(route_data.get("totalDistance", 0.0)),
       total_duration=float(route_data.get("totalDuration", 0.0)),
     )
+
+  @classmethod
+  def from_mapbox_route(cls, route_data: dict[str, Any]) -> "NavigationRoute" | None:
+    return cls.from_route_data(route_data)
 
   def route_bearing_misaligned(self, closest_segment_index: int, current_bearing: float | None, v_ego: float) -> bool:
     if current_bearing is None or v_ego < 2.5 or closest_segment_index < 0 or closest_segment_index >= len(self.bearings):
