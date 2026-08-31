@@ -2,8 +2,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from openpilot.starpilot.navigation.route_engine import Coordinate, bearing_between_two_points
-
+from openpilot.starpilot.navigation.route_engine import Coordinate, bearing_between_two_points, minimum_distance
 @dataclass(frozen=True)
 class CameraMatch:
   id: str
@@ -83,4 +82,17 @@ class CameraMatcher:
       location=str(nearest["location"]),
       speed_limit=int(nearest["speed_limit"]),
       distance_m=nearest_distance,
+    )
+  def distance_from_route(self, camera: dict, geometry: list[Coordinate]) -> float:
+    if len(geometry) < 2:
+      return float("inf")
+
+    camera_position = Coordinate(
+      float(camera["lat"]),
+      float(camera["lon"]),
+    )
+
+    return min(
+      minimum_distance(geometry[i], geometry[i + 1], camera_position)
+      for i in range(len(geometry) - 1)
     )
