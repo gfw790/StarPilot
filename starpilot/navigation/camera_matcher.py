@@ -10,6 +10,13 @@ class CameraMatch:
   location: str
   speed_limit: int
   distance_m: float
+  osm_way_id: int | None = None
+  osm_distance_m: float | None = None
+  osm_name: str | None = None
+  osm_highway: str | None = None
+  osm_maxspeed: str | None = None
+  osm_oneway: str | None = None
+  osm_match_confidence: str | None = None
 
 
 class CameraMatcher:
@@ -47,6 +54,13 @@ class CameraMatcher:
       location=str(nearest["location"]),
       speed_limit=int(nearest["speed_limit"]),
       distance_m=nearest_distance,
+      osm_way_id=nearest.get("osm_way_id"),
+      osm_distance_m=nearest.get("osm_distance_m"),
+      osm_name=nearest.get("osm_name"),
+      osm_highway=nearest.get("osm_highway"),
+      osm_maxspeed=nearest.get("osm_maxspeed"),
+      osm_oneway=nearest.get("osm_oneway"),
+      osm_match_confidence=nearest.get("osm_match_confidence"),
     )
   def find_ahead(
     self,
@@ -97,6 +111,13 @@ class CameraMatcher:
       location=str(nearest["location"]),
       speed_limit=int(nearest["speed_limit"]),
       distance_m=nearest_distance,
+      osm_way_id=nearest.get("osm_way_id"),
+      osm_distance_m=nearest.get("osm_distance_m"),
+      osm_name=nearest.get("osm_name"),
+      osm_highway=nearest.get("osm_highway"),
+      osm_maxspeed=nearest.get("osm_maxspeed"),
+      osm_oneway=nearest.get("osm_oneway"),
+      osm_match_confidence=nearest.get("osm_match_confidence"),
     )
   def distance_from_route(self, camera: dict, geometry: list[Coordinate]) -> float:
     if len(geometry) < 2:
