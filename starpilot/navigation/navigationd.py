@@ -6,6 +6,7 @@ from math import isfinite
 from time import monotonic
 
 import cereal.messaging as messaging
+from openpilot.starpilot.navigation.camera_matcher import CameraMatcher
 from openpilot.common.params import Params
 from openpilot.common.realtime import Ratekeeper
 from openpilot.common.swaglog import cloudlog
@@ -26,6 +27,7 @@ class Navigationd:
     self.params_memory = Params(memory=True)
     self.mapbox_route_engine = route_engine or MapboxRouteEngine()
     self.tmap_route_engine = tmap_route_engine or TMapRouteEngine()
+    self.camera_matcher = CameraMatcher()
 
     self.pm = messaging.PubMaster(["navInstruction", "navRoute"])
     self.rk = Ratekeeper(NAVIGATIOND_HZ)
@@ -197,6 +199,18 @@ class Navigationd:
     progress = route.get_progress(self._last_position)
     if progress is None:
       return None, None
+    if self._last_bearing is not None:
+      camera_match = self.camera_matcher.find_ahead(
+        self._last_position,
+        self._last_bearing,
+        route.geometry,
+      )
+
+      if camera_match is not None:
+        cloudlog.info(
+          f"CAMERA MATCH: {camera_match.id} / {camera_match.location} / "
+          f"{camera_match.distance_m:.0f}m / {camera_match.speed_limit}km/h"
+        )
 
     now = monotonic()
     off_route = route.off_route_distance_exceeded(progress, v_ego)
