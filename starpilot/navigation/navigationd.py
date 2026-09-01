@@ -209,7 +209,8 @@ class Navigationd:
       if camera_match is not None:
         cloudlog.warning(
           f"CAMERA MATCH: {camera_match.id} / {camera_match.location} / "
-          f"{camera_match.distance_m:.0f}m / {camera_match.speed_limit}km/h"
+          f"{camera_match.distance_m:.0f}m / {camera_match.speed_limit}km/h / "
+          f"way={camera_match.osm_way_id} / confidence={camera_match.osm_match_confidence}"
         )
 
     now = monotonic()
