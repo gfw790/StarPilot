@@ -48,7 +48,14 @@ class CameraMatcher:
       speed_limit=int(nearest["speed_limit"]),
       distance_m=nearest_distance,
     )
-  def find_ahead(self, position: Coordinate, bearing: float, max_angle_diff: float = 75.0) -> CameraMatch | None:
+  def find_ahead(
+    self,
+    position: Coordinate,
+    bearing: float,
+    geometry: list[Coordinate],
+    max_angle_diff: float = 75.0,
+    max_route_distance: float = 50.0,
+  ) -> CameraMatch | None:
     nearest = None
     nearest_distance = float("inf")
 
@@ -60,6 +67,7 @@ class CameraMatcher:
         float(camera["lon"]),
       )
 
+      # 1. 차량 진행방향 앞쪽인지 확인
       camera_bearing = bearing_between_two_points(position, camera_position)
       bearing_diff = abs(normalized_bearing - camera_bearing)
       bearing_diff = min(bearing_diff, 360.0 - bearing_diff)
@@ -67,6 +75,13 @@ class CameraMatcher:
       if bearing_diff > max_angle_diff:
         continue
 
+      # 2. 실제 TMAP 주행경로 근처에 있는 카메라인지 확인
+      route_distance = self.distance_from_route(camera, geometry)
+
+      if route_distance > max_route_distance:
+        continue
+
+      # 3. 조건을 통과한 카메라 중 가장 가까운 카메라 선택
       distance = position.distance_to(camera_position)
 
       if distance < nearest_distance:
