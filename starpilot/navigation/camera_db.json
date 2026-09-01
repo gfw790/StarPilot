@@ -8,7 +8,14 @@
         "lon":  129.1133369,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  1352277529,
+        "osm_distance_m":  18.8,
+        "osm_name":  "동해대로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  "60",
+        "osm_oneway":  "yes",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-49",
@@ -19,7 +26,14 @@
         "lon":  129.0203938,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  577327556,
+        "osm_distance_m":  2.1,
+        "osm_name":  "서동로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-48",
@@ -30,7 +44,14 @@
         "lon":  129.1107523,
         "speed_limit":  50,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  697669870,
+        "osm_distance_m":  5.5,
+        "osm_name":  null,
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "MEDIUM"
     },
     {
         "id":  "동해-단속-47",
@@ -41,7 +62,14 @@
         "lon":  129.1021948,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  476287397,
+        "osm_distance_m":  4.0,
+        "osm_name":  "서동로",
+        "osm_highway":  "trunk",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "yes",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-46",
@@ -52,7 +80,14 @@
         "lon":  129.1304704,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  60253988,
+        "osm_distance_m":  2.2,
+        "osm_name":  "대동로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-45",
@@ -63,7 +98,14 @@
         "lon":  129.1154576,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  469892566,
+        "osm_distance_m":  10.2,
+        "osm_name":  "용정로",
+        "osm_highway":  "residential",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-44",
@@ -74,7 +116,14 @@
         "lon":  129.1154576,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  469892566,
+        "osm_distance_m":  10.2,
+        "osm_name":  "용정로",
+        "osm_highway":  "residential",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-43",
@@ -85,7 +134,14 @@
         "lon":  129.1023277,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  469843926,
+        "osm_distance_m":  1.0,
+        "osm_name":  "지양길",
+        "osm_highway":  "residential",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-42",
@@ -96,7 +152,14 @@
         "lon":  129.1023277,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  469843926,
+        "osm_distance_m":  1.0,
+        "osm_name":  "지양길",
+        "osm_highway":  "residential",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-41",
@@ -107,7 +170,14 @@
         "lon":  129.1055576,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  469843935,
+        "osm_distance_m":  1.0,
+        "osm_name":  "청운1길",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "NEEDS_CHECK"
     },
     {
         "id":  "동해-단속-40",
@@ -118,7 +188,14 @@
         "lon":  129.1233097,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  697669875,
+        "osm_distance_m":  18.9,
+        "osm_name":  "동해역길",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-39",
@@ -129,7 +206,14 @@
         "lon":  129.1233097,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  697669875,
+        "osm_distance_m":  18.9,
+        "osm_name":  "동해역길",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-38",
@@ -140,7 +224,14 @@
         "lon":  129.1132174,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  32056848,
+        "osm_distance_m":  9.0,
+        "osm_name":  "동굴로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "no",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-37",
@@ -151,7 +242,14 @@
         "lon":  129.1089373,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  220119592,
+        "osm_distance_m":  8.5,
+        "osm_name":  "천곡로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  "60",
+        "osm_oneway":  "no",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-36",
@@ -162,7 +260,14 @@
         "lon":  129.1122966,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  471368761,
+        "osm_distance_m":  94.5,
+        "osm_name":  "평원로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "NEEDS_CHECK"
     },
     {
         "id":  "동해-단속-35",
@@ -173,7 +278,14 @@
         "lon":  129.1054096,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  472297320,
+        "osm_distance_m":  2.7,
+        "osm_name":  "해안로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-34",
@@ -184,7 +296,14 @@
         "lon":  129.0900286,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  856524813,
+        "osm_distance_m":  1.1,
+        "osm_name":  "동해대로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "yes",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-33",
@@ -195,7 +314,14 @@
         "lon":  129.1401446,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  1352291989,
+        "osm_distance_m":  12.6,
+        "osm_name":  "동해대로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  "60",
+        "osm_oneway":  "yes",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-32",
@@ -206,7 +332,14 @@
         "lon":  129.1047882,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  970277073,
+        "osm_distance_m":  3.2,
+        "osm_name":  "동해대로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "yes",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-30",
@@ -217,7 +350,14 @@
         "lon":  129.1202989,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  183554288,
+        "osm_distance_m":  32.4,
+        "osm_name":  "해안로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "no",
+        "osm_match_confidence":  "MEDIUM"
     },
     {
         "id":  "동해-단속-29",
@@ -228,7 +368,14 @@
         "lon":  129.1038146,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  1304005689,
+        "osm_distance_m":  10.1,
+        "osm_name":  "동해대로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "yes",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-28",
@@ -239,7 +386,14 @@
         "lon":  129.1311082,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  32057908,
+        "osm_distance_m":  5.7,
+        "osm_name":  "대동로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-27",
@@ -250,7 +404,14 @@
         "lon":  129.0669596,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  469845957,
+        "osm_distance_m":  8.7,
+        "osm_name":  "삼화로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-26",
@@ -261,7 +422,14 @@
         "lon":  129.0669596,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  469845957,
+        "osm_distance_m":  8.7,
+        "osm_name":  "삼화로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-25",
@@ -272,7 +440,14 @@
         "lon":  129.1251037,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  839991317,
+        "osm_distance_m":  14.9,
+        "osm_name":  null,
+        "osm_highway":  "footway",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "NEEDS_CHECK"
     },
     {
         "id":  "동해-단속-24",
@@ -283,7 +458,14 @@
         "lon":  129.1251037,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  839991317,
+        "osm_distance_m":  14.9,
+        "osm_name":  null,
+        "osm_highway":  "footway",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "NEEDS_CHECK"
     },
     {
         "id":  "동해-단속-23",
@@ -294,7 +476,14 @@
         "lon":  129.1192245,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  469894027,
+        "osm_distance_m":  80.3,
+        "osm_name":  "봉오주택길",
+        "osm_highway":  "residential",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "NEEDS_CHECK"
     },
     {
         "id":  "동해-단속-22",
@@ -305,7 +494,14 @@
         "lon":  129.1132174,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  32056848,
+        "osm_distance_m":  9.0,
+        "osm_name":  "동굴로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "no",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-21",
@@ -316,7 +512,14 @@
         "lon":  129.1122966,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  471368761,
+        "osm_distance_m":  94.5,
+        "osm_name":  "평원로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "NEEDS_CHECK"
     },
     {
         "id":  "동해-단속-20",
@@ -327,7 +530,14 @@
         "lon":  129.1021142,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  1304005637,
+        "osm_distance_m":  6.7,
+        "osm_name":  "발한로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "yes",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-19",
@@ -338,7 +548,14 @@
         "lon":  129.1055576,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  469843935,
+        "osm_distance_m":  1.0,
+        "osm_name":  "청운1길",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "NEEDS_CHECK"
     },
     {
         "id":  "동해-단속-18",
@@ -349,7 +566,14 @@
         "lon":  129.1089373,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  220119592,
+        "osm_distance_m":  8.5,
+        "osm_name":  "천곡로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  "60",
+        "osm_oneway":  "no",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-17",
@@ -360,7 +584,14 @@
         "lon":  129.1054096,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  472297320,
+        "osm_distance_m":  2.7,
+        "osm_name":  "해안로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "동해-단속-16",
@@ -371,7 +602,14 @@
         "lon":  129.1242829,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-29"
+        "updated":  "2026-04-29",
+        "osm_way_id":  183554288,
+        "osm_distance_m":  97.3,
+        "osm_name":  "해안로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "no",
+        "osm_match_confidence":  "NEEDS_CHECK"
     },
     {
         "id":  "F9562",
@@ -382,7 +620,14 @@
         "lon":  129.1193421,
         "speed_limit":  70,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  582042544,
+        "osm_distance_m":  1.7,
+        "osm_name":  null,
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "MEDIUM"
     },
     {
         "id":  "G1070",
@@ -393,7 +638,14 @@
         "lon":  129.1050281,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  1304005684,
+        "osm_distance_m":  9.9,
+        "osm_name":  "동해대로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "yes",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "G2167",
@@ -404,7 +656,14 @@
         "lon":  129.0984984,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  377009957,
+        "osm_distance_m":  35.6,
+        "osm_name":  "동해대로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  "60",
+        "osm_oneway":  "no",
+        "osm_match_confidence":  "MEDIUM"
     },
     {
         "id":  "G2166",
@@ -415,7 +674,14 @@
         "lon":  129.1131421,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  1352277529,
+        "osm_distance_m":  6.9,
+        "osm_name":  "동해대로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  "60",
+        "osm_oneway":  "yes",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "G3882",
@@ -426,7 +692,14 @@
         "lon":  129.0849661,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  856524813,
+        "osm_distance_m":  7.6,
+        "osm_name":  "동해대로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "yes",
+        "osm_match_confidence":  "NEEDS_CHECK"
     },
     {
         "id":  "G9509",
@@ -437,7 +710,14 @@
         "lon":  129.0146201,
         "speed_limit":  50,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  577327557,
+        "osm_distance_m":  13.1,
+        "osm_name":  "서동로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "G9508",
@@ -448,7 +728,14 @@
         "lon":  129.1157101,
         "speed_limit":  40,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  363852968,
+        "osm_distance_m":  2.4,
+        "osm_name":  "강원남부로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "H1231",
@@ -459,7 +746,14 @@
         "lon":  129.1232821,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  839991317,
+        "osm_distance_m":  0.5,
+        "osm_name":  null,
+        "osm_highway":  "footway",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "NEEDS_CHECK"
     },
     {
         "id":  "H1225",
@@ -470,7 +764,14 @@
         "lon":  129.1022771,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  1304005639,
+        "osm_distance_m":  0.0,
+        "osm_name":  "발한로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  "yes",
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "H5200",
@@ -481,7 +782,14 @@
         "lon":  129.1304931,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  32057908,
+        "osm_distance_m":  14.3,
+        "osm_name":  "대동로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "H5199",
@@ -492,7 +800,14 @@
         "lon":  129.1294561,
         "speed_limit":  60,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  32057908,
+        "osm_distance_m":  10.0,
+        "osm_name":  "대동로",
+        "osm_highway":  "tertiary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     },
     {
         "id":  "J7616",
@@ -503,6 +818,13 @@
         "lon":  129.0206151,
         "speed_limit":  30,
         "type":  1,
-        "updated":  "2026-04-06"
+        "updated":  "2026-04-06",
+        "osm_way_id":  577327556,
+        "osm_distance_m":  10.0,
+        "osm_name":  "서동로",
+        "osm_highway":  "primary",
+        "osm_maxspeed":  null,
+        "osm_oneway":  null,
+        "osm_match_confidence":  "HIGH"
     }
 ]
